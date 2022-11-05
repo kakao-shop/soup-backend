@@ -1,5 +1,6 @@
 package com.example.soup.member.dto;
 
+import com.example.soup.common.Exception.PasswordConfirmException;
 import com.example.soup.domain.Gender;
 import com.example.soup.domain.Member;
 import com.example.soup.domain.Oauth;
@@ -34,9 +35,12 @@ public class MemberCreateRequest {
 
     private String oauth;
 
+    public void confirmPassword(){
+        if(!password.equals(confirmPassword))
+            throw new PasswordConfirmException();
+    }
 
     public Member toEntity(){
-
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         return Member.builder()
                 .id(id)

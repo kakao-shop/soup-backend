@@ -21,6 +21,7 @@ public class MemberController {
     @PostMapping("/signup")
     public ResponseEntity<BaseResponse> signup(
             @Valid @RequestBody MemberCreateRequest memberCreateRequest) {
+        memberCreateRequest.confirmPassword();
         memberService.createMember(memberCreateRequest);
         return ResponseEntity.ok().body(new BaseResponse(200,"회원 가입에 성공했습니다."));
     }

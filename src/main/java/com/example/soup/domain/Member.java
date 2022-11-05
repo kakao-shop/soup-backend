@@ -53,6 +53,4 @@ public class Member extends BaseTImeEntity{
         this.role = role;
         this.oauth = oauth;
     }
-
-
 }
