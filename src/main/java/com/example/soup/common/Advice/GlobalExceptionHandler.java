@@ -1,6 +1,7 @@
 package com.example.soup.common.Advice;
 
 import com.example.soup.common.Exception.IdAlreadyExistException;
+import com.example.soup.common.Exception.PasswordConfirmException;
 import com.example.soup.common.dto.ErrorCode;
 import com.example.soup.common.dto.BaseResponse;
 import com.example.soup.domain.Member;
@@ -35,5 +36,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DateTimeException.class)
     public ResponseEntity<BaseResponse> handleIllegalBirthday(){
         return ResponseEntity.badRequest().body(new BaseResponse(ErrorCode.IllegalBirthday));
+    }
+
+    @ExceptionHandler(PasswordConfirmException.class)
+    public ResponseEntity<BaseResponse> handlePasswordConfirm(){
+        return ResponseEntity.badRequest().body(new BaseResponse(ErrorCode.PasswordConfirm));
     }
 }
