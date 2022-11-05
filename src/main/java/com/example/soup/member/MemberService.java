@@ -15,15 +15,15 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    public Member createMember(MemberCreateRequest memberCreateRequest){
-        validateDuplicateId(memberCreateRequest.getId());
+    public Member createMember(MemberCreateRequest memberCreateRequest) {
+        validateDuplicatedId(memberCreateRequest.getId());
         memberCreateRequest.setPassword(encoder.encode(memberCreateRequest.getPassword()));
         return memberRepository.save(memberCreateRequest.toEntity());
     }
 
-    public void validateDuplicateId(String id){
+    public void validateDuplicatedId(String id) {
         Member findMember = memberRepository.findById(id);
-        if(findMember != null){
+        if (findMember != null) {
             throw new IdAlreadyExistException();
         }
     }
