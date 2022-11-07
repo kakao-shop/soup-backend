@@ -1,12 +1,11 @@
-package com.example.soup.common.Advice;
+package com.example.soup.common.advice;
 
-import com.example.soup.common.Exception.IdAlreadyExistException;
-import com.example.soup.common.Exception.PasswordConfirmException;
+import com.example.soup.common.exceptions.IdAlreadyExistException;
+import com.example.soup.common.exceptions.NoSuchMemberExistException;
+import com.example.soup.common.exceptions.PasswordConfirmException;
 import com.example.soup.common.dto.ErrorCode;
 import com.example.soup.common.dto.BaseResponse;
-import com.example.soup.domain.Member;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -41,5 +40,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(PasswordConfirmException.class)
     public ResponseEntity<BaseResponse> handlePasswordConfirm(){
         return ResponseEntity.badRequest().body(new BaseResponse(ErrorCode.PasswordConfirm));
+    }
+
+    @ExceptionHandler(NoSuchMemberExistException.class)
+    public ResponseEntity<BaseResponse> handleNoSuchMemberExist(){
+        return ResponseEntity.badRequest().body(new BaseResponse(ErrorCode.NoSuchMemberExist));
     }
 }

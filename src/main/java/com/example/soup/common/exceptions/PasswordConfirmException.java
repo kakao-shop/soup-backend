@@ -1,4 +1,4 @@
-package com.example.soup.common.Exception;
+package com.example.soup.common.exceptions;
 
 public class PasswordConfirmException extends RuntimeException{
 }
