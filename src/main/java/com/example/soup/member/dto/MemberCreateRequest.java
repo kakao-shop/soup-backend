@@ -1,14 +1,14 @@
 package com.example.soup.member.dto;
 
-import com.example.soup.common.Exception.PasswordConfirmException;
+import com.example.soup.common.exceptions.PasswordConfirmException;
 import com.example.soup.domain.Gender;
 import com.example.soup.domain.Member;
 import com.example.soup.domain.Oauth;
 import com.example.soup.domain.Role;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -16,13 +16,13 @@ import java.time.format.DateTimeFormatter;
 @Setter
 public class MemberCreateRequest {
 
-    @Length(min=5,max=12,message = "ID 입력(5~12자)")
+    @Size(min = 5, max = 12, message = "ID 입력(5~12자)")
     private String id;
 
-    @Length(min=2,max=10, message = "닉네임 입력(2~10자)")
+    @Size(min = 2, max = 10, message = "닉네임 입력(2~10자)")
     private String nickname;
 
-    @Length(min=6,max=15, message = "비밀번호 입력(6~15자)")
+    @Size(min = 6, max = 15, message = "비밀번호 입력(6~15자)")
     private String password;
 
     private String confirmPassword;
@@ -35,18 +35,18 @@ public class MemberCreateRequest {
 
     private String oauth;
 
-    public void confirmPassword(){
-        if(!password.equals(confirmPassword))
+    public void confirmPassword() {
+        if (!password.equals(confirmPassword))
             throw new PasswordConfirmException();
     }
 
-    public Member toEntity(){
+    public Member toEntity() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         return Member.builder()
                 .id(id)
                 .nickname(nickname)
                 .password(password)
-                .birthday(LocalDate.parse(birthday,formatter))
+                .birthday(LocalDate.parse(birthday, formatter))
                 .gender(Gender.valueOf(gender))
                 .role(Role.valueOf(role))
                 .oauth(Oauth.valueOf(oauth))
