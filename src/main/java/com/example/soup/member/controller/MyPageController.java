@@ -36,7 +36,7 @@ public class MyPageController {
     }
 
     @PatchMapping("/mypage")
-    public ResponseEntity<BaseResponse> updateMyInfo(@TokenMemberIdx Long memberIdx, @RequestBody MyInfoUpdateRequest myInfoUpdateRequest) {
+    public ResponseEntity<BaseResponse> updateMyInfo(@TokenMemberIdx Long memberIdx, @Valid @RequestBody MyInfoUpdateRequest myInfoUpdateRequest) {
         myPageService.updateMyInfo(memberIdx, myInfoUpdateRequest);
         return ResponseEntity.ok(new BaseResponse<>(200, "회원 정보가 수정되었습니다."));
     }
