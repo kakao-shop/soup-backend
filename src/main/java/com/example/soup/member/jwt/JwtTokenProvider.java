@@ -1,11 +1,13 @@
 package com.example.soup.member.jwt;
 
+import com.example.soup.common.exceptions.NoAccessTokenException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -43,6 +45,9 @@ public class JwtTokenProvider {
     // token으로부터 memberIdx 추출
     public Long getMemberIdx() {
         String token = getJwt();
+        if (token == null){
+            throw new NoAccessTokenException();
+        }
         Claims claims = Jwts.parserBuilder().setSigningKey(key).build()
                 .parseClaimsJws(token)
                 .getBody();
@@ -73,5 +78,6 @@ public class JwtTokenProvider {
         System.out.println("Date: " + new Date());
         return isValid;
     }
+
 }
 

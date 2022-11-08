@@ -1,7 +1,6 @@
 package com.example.soup.admin;
 
-import com.example.soup.admin.dto.MemberDto;
-import com.example.soup.domain.Member;
+import com.example.soup.domain.entity.Member;
 import com.example.soup.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

@@ -2,6 +2,10 @@ package com.example.soup.member.controller;
 
 import com.example.soup.common.dto.BaseResponse;
 import com.example.soup.common.exceptions.NoAccessTokenException;
+import com.example.soup.member.dto.request.LoginRequest;
+import com.example.soup.member.dto.request.MemberCreateRequest;
+import com.example.soup.member.dto.response.LoginResponse;
+import com.example.soup.member.dto.response.TokenResponse;
 import com.example.soup.member.jwt.JwtTokenProvider;
 import com.example.soup.member.dto.*;
 import com.example.soup.member.service.CookieTokenProvider;
@@ -64,8 +68,8 @@ public class MemberController {
             throw new NoAccessTokenException();
         TokenDto tokenDto = memberAuthService.createToken(cookie, accessToken);
         cookieTokenProvider.set(response, tokenDto.getRefreshToken());
-        RefreshAccessTokenResponse refreshAccessTokenResponse = new RefreshAccessTokenResponse(tokenDto.getAccessToken());
-        return ResponseEntity.ok(new BaseResponse(200, "토큰 재발급에 성공했습니다.", refreshAccessTokenResponse));
+        TokenResponse tokenResponse = new TokenResponse(tokenDto.getAccessToken());
+        return ResponseEntity.ok(new BaseResponse(200, "토큰 재발급에 성공했습니다.", tokenResponse));
     }
 
     // logout

@@ -1,4 +1,4 @@
-package com.example.soup.domain;
+package com.example.soup.domain.entity;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;

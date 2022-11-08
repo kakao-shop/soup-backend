@@ -1,12 +1,11 @@
-package com.example.soup.member.dto;
+package com.example.soup.member.dto.request;
 
 import com.example.soup.common.exceptions.PasswordConfirmException;
-import com.example.soup.domain.Gender;
-import com.example.soup.domain.Member;
-import com.example.soup.domain.Oauth;
-import com.example.soup.domain.Role;
-import lombok.Getter;
-import lombok.Setter;
+import com.example.soup.domain.constant.Gender;
+import com.example.soup.domain.entity.Member;
+import com.example.soup.domain.constant.Oauth;
+import com.example.soup.domain.constant.Role;
+import lombok.*;
 
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
@@ -51,7 +50,6 @@ public class MemberCreateRequest {
                 .role(Role.valueOf(role))
                 .oauth(Oauth.valueOf(oauth))
                 .build();
-
     }
 
 }

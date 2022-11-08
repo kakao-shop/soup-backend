@@ -2,7 +2,7 @@ package com.example.soup.member.service;
 
 import com.example.soup.common.exceptions.InvalidTokenException;
 import com.example.soup.common.exceptions.NoRefreshTokenException;
-import com.example.soup.domain.MemberTokenInfo;
+import com.example.soup.domain.entity.MemberTokenInfo;
 import com.example.soup.member.repository.MemberAuthRepository;
 import com.example.soup.member.dto.TokenDto;
 import com.example.soup.member.jwt.JwtTokenProvider;
@@ -53,13 +53,9 @@ public class MemberAuthService {
         Map<String, Object> claims = Map.of("memberIdx", memberTokenInfo.getMemberIdx(), "nickname", memberTokenInfo.getNickname(), "role", memberTokenInfo.getRole());
         String newAccessToken = jwtTokenProvider.createToken(claims);
         String newRefreshToken = UUID.randomUUID().toString();
-        return MemberTokenInfo.builder()
-                .refreshToken(newRefreshToken)
-                .accessToken(newAccessToken)
-                .memberIdx(memberTokenInfo.getMemberIdx())
-                .nickname(memberTokenInfo.getNickname())
-                .role(memberTokenInfo.getRole())
-                .build();
+        memberTokenInfo.setAccessToken(newAccessToken);
+        memberTokenInfo.setRefreshToken(newRefreshToken);
+        return memberTokenInfo;
     }
 
     public void deleteToken(Cookie cookie) {
