@@ -12,7 +12,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 @Getter
-@Setter
 public class MemberCreateRequest {
 
     @Size(min = 5, max = 12, message = "ID 입력(5~12자)")
@@ -33,6 +32,10 @@ public class MemberCreateRequest {
     private String role;
 
     private String oauth;
+
+    public void encryptPassword(String BCryptpassword) {
+        this.password = BCryptpassword;
+    }
 
     public void confirmPassword() {
         if (!password.equals(confirmPassword))

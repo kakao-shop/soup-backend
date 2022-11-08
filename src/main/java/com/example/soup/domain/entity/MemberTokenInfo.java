@@ -22,12 +22,6 @@ public class MemberTokenInfo {
     private String nickname;
     private Role role;
 
-
-    public boolean isSameToken(String refreshToken, String accessToken) {
-        return this.refreshToken.equals(refreshToken)
-                && this.accessToken.equals(accessToken);
-    }
-
     public LoginResponse toLoginResponseDto(){
         return LoginResponse.builder()
                 .accessToken(accessToken)

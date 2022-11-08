@@ -9,8 +9,11 @@ import com.example.soup.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MyPageService {
 
@@ -25,9 +28,8 @@ public class MyPageService {
     }
 
     public Member findMemberByMemberIdx(Long memberIdx) {
-        Member findMember = memberRepository.findByMemberIdx(memberIdx)
+        return memberRepository.findByMemberIdx(memberIdx)
                 .orElseThrow(NoSuchMemberExistException::new);
-        return findMember;
     }
 
     public MyInfoFindResponse findMyInfo(Long memberIdx) {
@@ -35,7 +37,9 @@ public class MyPageService {
         return findMember.toMyInfoFindResponseDto();
     }
 
+    @Transactional
     public void updateMyInfo(Long memberIdx, MyInfoUpdateRequest myInfoUpdateRequest) {
+        myInfoUpdateRequest.encryptPassword(encoder.encode(myInfoUpdateRequest.getPassword()));
         Member findMember = findMemberByMemberIdx(memberIdx);
         findMember.updateMember(myInfoUpdateRequest);
     }

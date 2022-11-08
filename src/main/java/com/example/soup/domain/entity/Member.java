@@ -13,7 +13,6 @@ import java.time.format.DateTimeFormatter;
 
 @Entity
 @Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Member extends BaseTImeEntity {
