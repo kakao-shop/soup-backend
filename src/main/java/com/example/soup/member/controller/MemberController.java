@@ -46,7 +46,6 @@ public class MemberController {
     @PostMapping("/login")
     public ResponseEntity<BaseResponse> login(@Valid @RequestBody LoginRequest request,
                                                  HttpServletResponse response) {
-        System.out.println(request.getId());
         LoginResponse loginResponse = memberService.login(request);
         cookieTokenProvider.set(response, loginResponse.getRefreshToken());
         loginResponse.setRefreshTokenNull();
