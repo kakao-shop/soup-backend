@@ -8,28 +8,30 @@ import com.example.soup.member.dto.TokenDto;
 import com.example.soup.member.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.Cookie;
 import java.util.Map;
 import java.util.UUID;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MemberAuthService {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final MemberAuthRepository memberAuthRepository;
 
-
     public void saveToken(MemberTokenInfo memberTokenInfo) {
         memberAuthRepository.save(memberTokenInfo);
     }
 
+    @Transactional
     public TokenDto createToken(Cookie cookie, String accessToken) {
         String refreshToken = getRefreshToken(cookie);
         MemberTokenInfo memberTokenInfo = memberAuthRepository.findById(refreshToken)
                 .orElseThrow(InvalidTokenException::new);
-        validateMemberAuthInfo(memberTokenInfo, refreshToken, accessToken);
+        validateMemberAuthInfo(memberTokenInfo.getRefreshToken(), refreshToken);
         memberAuthRepository.delete(memberTokenInfo);
         MemberTokenInfo newMemberTokenInfo = createNewToken(memberTokenInfo);
         saveToken(newMemberTokenInfo);
@@ -43,13 +45,14 @@ public class MemberAuthService {
         return cookie.getValue();
     }
 
-    private void validateMemberAuthInfo(MemberTokenInfo memberTokenInfo, String refreshToken, String accessToken) {
-        if (!memberTokenInfo.isSameToken(refreshToken, accessToken)) {
+    private void validateMemberAuthInfo(String refreshTokenFromCookie, String refreshTokenFromDB) {
+        if (!refreshTokenFromCookie.equals(refreshTokenFromDB)) {
             throw new InvalidTokenException();
         }
     }
 
-    private MemberTokenInfo createNewToken(MemberTokenInfo memberTokenInfo) {
+    @Transactional
+    public MemberTokenInfo createNewToken(MemberTokenInfo memberTokenInfo) {
         Map<String, Object> claims = Map.of("memberIdx", memberTokenInfo.getMemberIdx(), "nickname", memberTokenInfo.getNickname(), "role", memberTokenInfo.getRole());
         String newAccessToken = jwtTokenProvider.createToken(claims);
         String newRefreshToken = UUID.randomUUID().toString();
@@ -58,6 +61,7 @@ public class MemberAuthService {
         return memberTokenInfo;
     }
 
+    @Transactional
     public void deleteToken(Cookie cookie) {
         String refreshToken = getRefreshToken(cookie);
         memberAuthRepository.deleteById(refreshToken);

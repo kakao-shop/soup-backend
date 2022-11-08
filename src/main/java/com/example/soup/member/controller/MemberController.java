@@ -2,12 +2,12 @@ package com.example.soup.member.controller;
 
 import com.example.soup.common.dto.BaseResponse;
 import com.example.soup.common.exceptions.NoAccessTokenException;
+import com.example.soup.member.dto.TokenDto;
 import com.example.soup.member.dto.request.LoginRequest;
 import com.example.soup.member.dto.request.MemberCreateRequest;
 import com.example.soup.member.dto.response.LoginResponse;
 import com.example.soup.member.dto.response.TokenResponse;
 import com.example.soup.member.jwt.JwtTokenProvider;
-import com.example.soup.member.dto.*;
 import com.example.soup.member.service.CookieTokenProvider;
 import com.example.soup.member.service.MemberAuthService;
 import com.example.soup.member.service.MemberService;
@@ -50,11 +50,11 @@ public class MemberController {
 
     @PostMapping("/login")
     public ResponseEntity<BaseResponse> login(@Valid @RequestBody LoginRequest request,
-                                                 HttpServletResponse response) {
+                                              HttpServletResponse response) {
         LoginResponse loginResponse = memberService.login(request);
         cookieTokenProvider.set(response, loginResponse.getRefreshToken());
         loginResponse.setRefreshTokenNull();
-        return ResponseEntity.ok(new BaseResponse(200,"로그인에 성공했습니다.",loginResponse));
+        return ResponseEntity.ok(new BaseResponse<>(200, "로그인에 성공했습니다.", loginResponse));
     }
 
     // token 재발급
@@ -69,7 +69,7 @@ public class MemberController {
         TokenDto tokenDto = memberAuthService.createToken(cookie, accessToken);
         cookieTokenProvider.set(response, tokenDto.getRefreshToken());
         TokenResponse tokenResponse = new TokenResponse(tokenDto.getAccessToken());
-        return ResponseEntity.ok(new BaseResponse(200, "토큰 재발급에 성공했습니다.", tokenResponse));
+        return ResponseEntity.ok(new BaseResponse<>(200, "토큰 재발급에 성공했습니다.", tokenResponse));
     }
 
     // logout
@@ -78,7 +78,8 @@ public class MemberController {
             @CookieValue(value = "refreshToken", required = false) Cookie cookie,
             HttpServletResponse response) {
         memberAuthService.deleteToken(cookie);
-        cookieTokenProvider.delete(response, memberAuthService.getRefreshToken(cookie));
+        String refreshToken = memberAuthService.getRefreshToken(cookie);
+        cookieTokenProvider.delete(response, refreshToken);
         return ResponseEntity.ok(new BaseResponse(200, "로그아웃에 성공했습니다."));
     }
 

@@ -4,20 +4,22 @@ import com.example.soup.common.exceptions.IdAlreadyExistException;
 import com.example.soup.common.exceptions.NoSuchMemberExistException;
 import com.example.soup.domain.entity.Member;
 import com.example.soup.domain.entity.MemberTokenInfo;
-import com.example.soup.member.repository.MemberRepository;
 import com.example.soup.member.dto.request.LoginRequest;
-import com.example.soup.member.dto.response.LoginResponse;
 import com.example.soup.member.dto.request.MemberCreateRequest;
+import com.example.soup.member.dto.response.LoginResponse;
 import com.example.soup.member.jwt.JwtTokenProvider;
+import com.example.soup.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MemberService {
 
@@ -29,10 +31,11 @@ public class MemberService {
 
     private final MemberAuthService memberAuthService;
 
-    public Member createMember(MemberCreateRequest memberCreateRequest) {
+    @Transactional
+    public void createMember(MemberCreateRequest memberCreateRequest) {
         validateDuplicatedId(memberCreateRequest.getId());
-        memberCreateRequest.setPassword(encoder.encode(memberCreateRequest.getPassword()));
-        return memberRepository.save(memberCreateRequest.toEntity());
+        memberCreateRequest.encryptPassword(encoder.encode(memberCreateRequest.getPassword()));
+        memberRepository.save(memberCreateRequest.toEntity());
     }
 
     public void validateDuplicatedId(String id) {
@@ -42,24 +45,24 @@ public class MemberService {
         }
     }
 
+    @Transactional
     public LoginResponse login(LoginRequest request) {
         Member findMember = validateMemberExist(request.getId());
         if (!encoder.matches(request.getPassword(), findMember.getPassword())) {
             throw new NoSuchMemberExistException();
         }
 
-        Map<String, Object> claims = Map.of("memberIdx", findMember.getMemberIdx(), "nickname", findMember.getNickname(), "role", findMember.getRole());
+        Map<String, Object> claims = Map.of("memberIdx", findMember.getMemberIdx(), "role", findMember.getRole());
         String accessToken = jwtTokenProvider.createToken(claims);
         String refreshToken = UUID.randomUUID().toString();
-        MemberTokenInfo memberTokenInfo = findMember.toMemberTokenInfoEntity(accessToken,refreshToken);
+        MemberTokenInfo memberTokenInfo = findMember.toMemberTokenInfoEntity(accessToken, refreshToken);
         memberAuthService.saveToken(memberTokenInfo);
         return memberTokenInfo.toLoginResponseDto();
     }
 
     private Member validateMemberExist(String id) {
-        Member findMember = memberRepository.findById(id)
+        return memberRepository.findById(id)
                 .orElseThrow(NoSuchMemberExistException::new);
-        return findMember;
     }
 
 }
