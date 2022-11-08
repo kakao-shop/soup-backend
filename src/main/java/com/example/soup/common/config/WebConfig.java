@@ -2,7 +2,6 @@ package com.example.soup.common.config;
 
 import com.example.soup.member.support.LoginInterceptor;
 import com.example.soup.member.support.MemberIdxDecodeResolver;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -37,12 +36,12 @@ public class WebConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedMethods("*")
-                .exposedHeaders(HttpHeaders.LOCATION)
+                .exposedHeaders(HttpHeaders.SET_COOKIE)
                 .allowedOriginPatterns(allowOriginUrlPatterns.toArray(new String[0]));
     }
 
     @Override
-    public void addInterceptors(InterceptorRegistry registry){
+    public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginInterceptor)
                 .addPathPatterns("/**/*");
 

@@ -6,8 +6,6 @@ import com.example.soup.member.dto.response.LoginResponse;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
-import org.springframework.stereotype.Service;
-
 
 @Getter
 @Setter
@@ -37,5 +35,10 @@ public class MemberTokenInfo {
                 .refreshToken(refreshToken)
                 .accessToken(accessToken)
                 .build();
+    }
+
+    public boolean isSameToken(String refreshToken, String accessToken) {
+        return this.refreshToken.equals(refreshToken)
+                && this.accessToken.equals(accessToken);
     }
 }

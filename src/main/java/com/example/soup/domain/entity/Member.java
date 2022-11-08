@@ -6,6 +6,7 @@ import com.example.soup.domain.constant.Role;
 import com.example.soup.member.dto.request.MyInfoUpdateRequest;
 import com.example.soup.member.dto.response.MyInfoFindResponse;
 import lombok.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -59,6 +60,11 @@ public class Member extends BaseTImeEntity {
         this.nickname = myInfoUpdateRequest.getNickname();
     }
 
+    public boolean isSamePassword(String password){
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        return !encoder.matches(password, this.password);
+    }
+
     public MyInfoFindResponse toMyInfoFindResponseDto(){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         return MyInfoFindResponse.builder()
@@ -68,7 +74,6 @@ public class Member extends BaseTImeEntity {
                 .gender(gender)
                 .build();
     }
-
 
     public MemberTokenInfo toMemberTokenInfoEntity(String accessToken, String refreshToken) {
         return MemberTokenInfo.builder()

@@ -1,11 +1,13 @@
 package com.example.soup.common.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
+@JsonPropertyOrder({"code", "message", "result"})
 public class BaseResponse<T> {
     private int code;
     private String message;
