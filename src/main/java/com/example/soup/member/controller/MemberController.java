@@ -1,6 +1,7 @@
 package com.example.soup.member.controller;
 
 import com.example.soup.common.dto.BaseResponse;
+import com.example.soup.common.exceptions.NoAccessTokenException;
 import com.example.soup.member.jwt.JwtTokenProvider;
 import com.example.soup.member.dto.*;
 import com.example.soup.member.service.CookieTokenProvider;
@@ -59,6 +60,8 @@ public class MemberController {
             HttpServletRequest request,
             HttpServletResponse response) {
         String accessToken = jwtTokenProvider.getJwt();
+        if (accessToken == null)
+            throw new NoAccessTokenException();
         TokenDto tokenDto = memberAuthService.createToken(cookie, accessToken);
         cookieTokenProvider.set(response, tokenDto.getRefreshToken());
         RefreshAccessTokenResponse refreshAccessTokenResponse = new RefreshAccessTokenResponse(tokenDto.getAccessToken());

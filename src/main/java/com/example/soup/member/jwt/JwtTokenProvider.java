@@ -1,12 +1,11 @@
 package com.example.soup.member.jwt;
 
-import com.example.soup.common.exceptions.NoAccessTokenException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -17,7 +16,7 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.Map;
 
-@Service
+@Component
 public class JwtTokenProvider {
     private final SecretKey key;
     private final long validityInMilliseconds;
@@ -63,15 +62,15 @@ public class JwtTokenProvider {
     public String getJwt() {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
         String accessToken = request.getHeader("X-ACCESS-TOKEN");
-        if (accessToken == null)
-            throw new NoAccessTokenException();
         return accessToken;
     }
 
-    // JWT 유효성 검증
+    // 토큰이 만료되었는지 검증
     public boolean validateToken(String token) {
         Claims claims = getClaims();
         boolean isValid = !claims.getExpiration().before(new Date());
+        System.out.println("expire: " + claims.getExpiration());
+        System.out.println("Date: " + new Date());
         return isValid;
     }
 }

@@ -18,7 +18,9 @@ public enum ErrorCode {
     NoAccessToken(4002,"jwt access token 값이 없습니다."),
     NoRefreshToken(4002, "jwt refresh token 값이 없습니다."),
     JwtValidation(4002, "jwt token이 유효하지 않습니다."),
-    ExpiredJwt(4002,"jwt token이 만료되었습니다." );
+    ExpiredJwt(4002,"jwt access token이 만료되었습니다." ),
+    UnAuthorized(4003, "jwt token이 유효하지 않습니다.");
+
 
     private final int code;
     private final String message;
