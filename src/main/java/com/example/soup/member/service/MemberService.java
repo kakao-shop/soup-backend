@@ -2,12 +2,12 @@ package com.example.soup.member.service;
 
 import com.example.soup.common.exceptions.IdAlreadyExistException;
 import com.example.soup.common.exceptions.NoSuchMemberExistException;
-import com.example.soup.domain.Member;
-import com.example.soup.domain.MemberTokenInfo;
+import com.example.soup.domain.entity.Member;
+import com.example.soup.domain.entity.MemberTokenInfo;
 import com.example.soup.member.repository.MemberRepository;
-import com.example.soup.member.dto.LoginRequest;
-import com.example.soup.member.dto.LoginResponse;
-import com.example.soup.member.dto.MemberCreateRequest;
+import com.example.soup.member.dto.request.LoginRequest;
+import com.example.soup.member.dto.response.LoginResponse;
+import com.example.soup.member.dto.request.MemberCreateRequest;
 import com.example.soup.member.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -51,21 +51,9 @@ public class MemberService {
         Map<String, Object> claims = Map.of("memberIdx", findMember.getMemberIdx(), "nickname", findMember.getNickname(), "role", findMember.getRole());
         String accessToken = jwtTokenProvider.createToken(claims);
         String refreshToken = UUID.randomUUID().toString();
-        MemberTokenInfo memberTokenInfo = MemberTokenInfo.builder()
-                .refreshToken(refreshToken)
-                .accessToken(accessToken)
-                .memberIdx(findMember.getMemberIdx())
-                .nickname(findMember.getNickname())
-                .role(findMember.getRole().toString())
-                .build();
+        MemberTokenInfo memberTokenInfo = findMember.toMemberTokenInfoEntity(accessToken,refreshToken);
         memberAuthService.saveToken(memberTokenInfo);
-        return LoginResponse.builder()
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
-                .memberIdx(findMember.getMemberIdx())
-                .nickname(findMember.getNickname())
-                .role(findMember.getRole())
-                .build();
+        return memberTokenInfo.toLoginResponseDto();
     }
 
     private Member validateMemberExist(String id) {

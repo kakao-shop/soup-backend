@@ -1,6 +1,6 @@
-package com.example.soup.member.dto;
+package com.example.soup.member.dto.request;
 
-import lombok.Getter;
+import lombok.*;
 
 import javax.validation.constraints.Size;
 

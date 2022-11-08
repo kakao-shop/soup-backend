@@ -1,9 +1,9 @@
 package com.example.soup.member.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.*;
 
 @Getter
+@Builder
 @AllArgsConstructor
 public class TokenDto {
     private String accessToken;

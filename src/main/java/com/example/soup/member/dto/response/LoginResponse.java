@@ -1,13 +1,13 @@
-package com.example.soup.member.dto;
+package com.example.soup.member.dto.response;
 
-import com.example.soup.domain.Role;
+import com.example.soup.domain.constant.Role;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
 
-@Getter
+import lombok.*;
+
+
 @Builder
+@Getter
 @AllArgsConstructor
 public class LoginResponse {
     private String accessToken;
