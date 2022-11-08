@@ -2,10 +2,15 @@ package com.example.soup.member.service;
 
 import com.example.soup.common.exceptions.InvalidTokenException;
 import com.example.soup.common.exceptions.NoRefreshTokenException;
+import com.example.soup.common.exceptions.NoSuchMemberExistException;
+import com.example.soup.domain.entity.Member;
 import com.example.soup.domain.entity.MemberTokenInfo;
-import com.example.soup.member.repository.MemberAuthRepository;
 import com.example.soup.member.dto.TokenDto;
+import com.example.soup.member.dto.request.LoginRequest;
+import com.example.soup.member.dto.response.LoginResponse;
 import com.example.soup.member.jwt.JwtTokenProvider;
+import com.example.soup.member.repository.MemberAuthRepository;
+import com.example.soup.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +25,9 @@ import java.util.UUID;
 public class MemberAuthService {
 
     private final JwtTokenProvider jwtTokenProvider;
+
+    private final MemberRepository memberRepository;
+
     private final MemberAuthRepository memberAuthRepository;
 
     public void saveToken(MemberTokenInfo memberTokenInfo) {
@@ -27,26 +35,47 @@ public class MemberAuthService {
     }
 
     @Transactional
+    public LoginResponse login(LoginRequest request) {
+        Member findMember = validateMemberExist(request.getId());
+        if (findMember.isSamePassword(request.getPassword())) {
+            throw new NoSuchMemberExistException();
+        }
+
+        Map<String, Object> claims = Map.of("memberIdx", findMember.getMemberIdx(), "role", findMember.getRole());
+        String accessToken = jwtTokenProvider.createToken(claims);
+        String refreshToken = UUID.randomUUID().toString();
+        MemberTokenInfo memberTokenInfo = findMember.toMemberTokenInfoEntity(accessToken, refreshToken);
+        saveToken(memberTokenInfo);
+        return memberTokenInfo.toLoginResponseDto();
+    }
+
+    private Member validateMemberExist(String id) {
+        return memberRepository.findById(id)
+                .orElseThrow(NoSuchMemberExistException::new);
+    }
+
+
+    @Transactional
     public TokenDto createToken(Cookie cookie, String accessToken) {
         String refreshToken = getRefreshToken(cookie);
         MemberTokenInfo memberTokenInfo = memberAuthRepository.findById(refreshToken)
                 .orElseThrow(InvalidTokenException::new);
-        validateMemberAuthInfo(memberTokenInfo.getRefreshToken(), refreshToken);
+        validateMemberAuthInfo(memberTokenInfo, refreshToken, accessToken);
         memberAuthRepository.delete(memberTokenInfo);
         MemberTokenInfo newMemberTokenInfo = createNewToken(memberTokenInfo);
         saveToken(newMemberTokenInfo);
         return new TokenDto(newMemberTokenInfo.getAccessToken(), newMemberTokenInfo.getRefreshToken());
     }
 
-    public String getRefreshToken(Cookie cookie) {
+    private String getRefreshToken(Cookie cookie) {
         if (cookie == null) {
             throw new NoRefreshTokenException();
         }
         return cookie.getValue();
     }
 
-    private void validateMemberAuthInfo(String refreshTokenFromCookie, String refreshTokenFromDB) {
-        if (!refreshTokenFromCookie.equals(refreshTokenFromDB)) {
+    private void validateMemberAuthInfo(MemberTokenInfo memberTokenInfo, String refreshToken, String accessToken) {
+        if (!memberTokenInfo.isSameToken(refreshToken, accessToken)) {
             throw new InvalidTokenException();
         }
     }

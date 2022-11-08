@@ -6,6 +6,7 @@ import com.example.soup.domain.entity.Member;
 import com.example.soup.domain.constant.Oauth;
 import com.example.soup.domain.constant.Role;
 import lombok.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
@@ -33,8 +34,9 @@ public class MemberCreateRequest {
 
     private String oauth;
 
-    public void encryptPassword(String BCryptpassword) {
-        this.password = BCryptpassword;
+    public void encryptPassword(String password) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        this.password = encoder.encode(password);
     }
 
     public void confirmPassword() {

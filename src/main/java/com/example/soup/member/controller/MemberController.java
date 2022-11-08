@@ -16,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -36,7 +35,7 @@ public class MemberController {
             @Valid @RequestBody MemberCreateRequest memberCreateRequest) {
         memberCreateRequest.confirmPassword();
         memberService.createMember(memberCreateRequest);
-        return ResponseEntity.ok(new BaseResponse(200, "회원 가입에 성공했습니다."));
+        return ResponseEntity.ok(new BaseResponse<>(200, "회원 가입에 성공했습니다."));
     }
 
     @GetMapping("id-check")
@@ -45,13 +44,13 @@ public class MemberController {
         if (id.isBlank())
             throw new IllegalArgumentException();
         memberService.validateDuplicatedId(id);
-        return ResponseEntity.ok(new BaseResponse(200, "아이디가 중복되지 않습니다."));
+        return ResponseEntity.ok(new BaseResponse<>(200, "아이디가 중복되지 않습니다."));
     }
 
     @PostMapping("/login")
     public ResponseEntity<BaseResponse> login(@Valid @RequestBody LoginRequest request,
                                               HttpServletResponse response) {
-        LoginResponse loginResponse = memberService.login(request);
+        LoginResponse loginResponse = memberAuthService.login(request);
         cookieTokenProvider.set(response, loginResponse.getRefreshToken());
         loginResponse.setRefreshTokenNull();
         return ResponseEntity.ok(new BaseResponse<>(200, "로그인에 성공했습니다.", loginResponse));
@@ -61,7 +60,6 @@ public class MemberController {
     @GetMapping("/refresh-token")
     public ResponseEntity<BaseResponse> generateToken(
             @CookieValue(value = "refreshToken", required = false) Cookie cookie,
-            HttpServletRequest request,
             HttpServletResponse response) {
         String accessToken = jwtTokenProvider.getJwt();
         if (accessToken == null)
@@ -75,12 +73,9 @@ public class MemberController {
     // logout
     @DeleteMapping("/logout")
     public ResponseEntity<BaseResponse> logout(
-            @CookieValue(value = "refreshToken", required = false) Cookie cookie,
-            HttpServletResponse response) {
+            @CookieValue(value = "refreshToken", required = false) Cookie cookie) {
         memberAuthService.deleteToken(cookie);
-        String refreshToken = memberAuthService.getRefreshToken(cookie);
-        cookieTokenProvider.delete(response, refreshToken);
-        return ResponseEntity.ok(new BaseResponse(200, "로그아웃에 성공했습니다."));
+        return ResponseEntity.ok(new BaseResponse<>(200, "로그아웃에 성공했습니다."));
     }
 
 }

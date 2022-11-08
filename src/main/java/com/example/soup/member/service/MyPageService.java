@@ -7,22 +7,18 @@ import com.example.soup.member.dto.request.MyInfoUpdateRequest;
 import com.example.soup.member.dto.response.MyInfoFindResponse;
 import com.example.soup.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MyPageService {
-
     private final MemberRepository memberRepository;
-    private final BCryptPasswordEncoder encoder;
 
     public void checkPassword(long memberIdx, String password) {
         Member findMember = findMemberByMemberIdx(memberIdx);
-        if (!encoder.matches(password, findMember.getPassword())) {
+        if (findMember.isSamePassword(password)) {
             throw new PasswordConfirmException();
         }
     }
@@ -39,8 +35,13 @@ public class MyPageService {
 
     @Transactional
     public void updateMyInfo(Long memberIdx, MyInfoUpdateRequest myInfoUpdateRequest) {
-        myInfoUpdateRequest.encryptPassword(encoder.encode(myInfoUpdateRequest.getPassword()));
+        myInfoUpdateRequest.encryptPassword(myInfoUpdateRequest.getPassword());
         Member findMember = findMemberByMemberIdx(memberIdx);
         findMember.updateMember(myInfoUpdateRequest);
+    }
+
+    @Transactional
+    public void deleteMyInfo(Long memberIdx) {
+        memberRepository.deleteByMemberIdx(memberIdx);
     }
 }

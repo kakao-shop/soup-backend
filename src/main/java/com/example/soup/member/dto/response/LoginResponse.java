@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.*;
 
-
 @Builder
 @Getter
 @AllArgsConstructor

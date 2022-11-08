@@ -7,7 +7,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -45,29 +44,26 @@ public class JwtTokenProvider {
     // token으로부터 memberIdx 추출
     public Long getMemberIdx() {
         String token = getJwt();
-        if (token == null){
+        if (token == null) {
             throw new NoAccessTokenException();
         }
         Claims claims = Jwts.parserBuilder().setSigningKey(key).build()
                 .parseClaimsJws(token)
                 .getBody();
-        Long memberIdx = claims.get("memberIdx", Long.class);
-        return memberIdx;
+        return claims.get("memberIdx", Long.class);
     }
 
     public Claims getClaims() {
         String token = getJwt();
-        Claims claims = Jwts.parserBuilder().setSigningKey(key).build()
+        return Jwts.parserBuilder().setSigningKey(key).build()
                 .parseClaimsJws(token)
                 .getBody();
-        return claims;
     }
 
     // 헤더로부터 Access Token 값 가져오기
     public String getJwt() {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-        String accessToken = request.getHeader("X-ACCESS-TOKEN");
-        return accessToken;
+        return request.getHeader("X-ACCESS-TOKEN");
     }
 
     // 토큰이 만료되었는지 검증
