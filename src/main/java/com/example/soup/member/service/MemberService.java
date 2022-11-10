@@ -1,7 +1,7 @@
 package com.example.soup.member.service;
 
 import com.example.soup.common.exceptions.IdAlreadyExistException;
-import com.example.soup.domain.entity.Member;
+import com.example.soup.domain.entity.mariadb.Member;
 import com.example.soup.member.dto.request.MemberCreateRequest;
 import com.example.soup.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;

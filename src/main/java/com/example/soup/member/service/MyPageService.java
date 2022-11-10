@@ -2,7 +2,7 @@ package com.example.soup.member.service;
 
 import com.example.soup.common.exceptions.NoSuchMemberExistException;
 import com.example.soup.common.exceptions.PasswordConfirmException;
-import com.example.soup.domain.entity.Member;
+import com.example.soup.domain.entity.mariadb.Member;
 import com.example.soup.member.dto.request.MyInfoUpdateRequest;
 import com.example.soup.member.dto.response.MyInfoFindResponse;
 import com.example.soup.member.repository.MemberRepository;
