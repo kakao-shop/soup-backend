@@ -34,16 +34,15 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
+        registry.addMapping("**")
                 .allowedMethods("*")
-                .allowedOrigins(allowOriginUrlPatterns.toArray(new String[0]))
-                .exposedHeaders(HttpHeaders.LOCATION,HttpHeaders.SET_COOKIE);
+                .allowedOrigins("*");
     }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginInterceptor)
-                .addPathPatterns("/**/*");
+                .addPathPatterns("/**/*","/**/**/*");
 
     }
 
