@@ -1,9 +1,11 @@
 package com.example.soup.search;
 
 import com.example.soup.common.exceptions.ElasticSearchException;
+import com.example.soup.domain.entity.mariadb.ThemeCategory;
 import com.example.soup.elasticsearch.Product;
 import com.example.soup.search.dto.SearchDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -14,20 +16,30 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SearchService {
 
-    private final ProductRepository productRepository;
+    private final SearchRepository searchRepository;
+
+    private final ThemeCatRepository themeCatRepository;
 
     public String searchWebURL(String productId) {
-        Product findProduct = productRepository.findById(productId)
+        Product findProduct = searchRepository.findById(productId)
                 .orElseThrow(ElasticSearchException::new);
         return findProduct.getWebUrl();
     }
 
-    public List<SearchDto> searchSubcat(String subcat, Pageable pageable) {
-        return productRepository.findBySubcat(subcat, pageable)
+
+    public Page<Product> searchSubcat(String subcat, Pageable pageable) {
+        return searchRepository.findBySubcat(subcat, pageable);
+    }
+
+    public List<String> findByThemeIdx(Long themeIdx) {
+        return themeCatRepository.findByThemeIdx(themeIdx)
                 .stream()
-                .map(SearchDto::from)
+                .map(ThemeCategory::getSubCategory)
                 .collect(Collectors.toList());
     }
 
 
+    public Page<Product> searchAll(Pageable pageable) {
+        return searchRepository.findAll(pageable);
+    }
 }
