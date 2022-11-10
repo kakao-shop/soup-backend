@@ -1,8 +1,10 @@
-package com.example.soup.domain.entity;
+package com.example.soup.domain.entity.mariadb;
 
 import com.example.soup.domain.constant.Gender;
 import com.example.soup.domain.constant.Oauth;
 import com.example.soup.domain.constant.Role;
+import com.example.soup.domain.entity.BaseTImeEntity;
+import com.example.soup.domain.entity.redis.MemberTokenInfo;
 import com.example.soup.member.dto.request.MyInfoUpdateRequest;
 import com.example.soup.member.dto.response.MyInfoFindResponse;
 import lombok.*;

@@ -2,7 +2,7 @@ package com.example.soup.member.dto.request;
 
 import com.example.soup.common.exceptions.PasswordConfirmException;
 import com.example.soup.domain.constant.Gender;
-import com.example.soup.domain.entity.Member;
+import com.example.soup.domain.entity.mariadb.Member;
 import com.example.soup.domain.constant.Oauth;
 import com.example.soup.domain.constant.Role;
 import lombok.*;

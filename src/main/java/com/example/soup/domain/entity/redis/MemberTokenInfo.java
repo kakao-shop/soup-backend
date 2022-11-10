@@ -1,4 +1,4 @@
-package com.example.soup.domain.entity;
+package com.example.soup.domain.entity.redis;
 
 import com.example.soup.domain.constant.Role;
 import com.example.soup.member.dto.TokenDto;
