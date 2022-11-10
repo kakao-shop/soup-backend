@@ -18,7 +18,7 @@ public class AdminController {
     private final AdminService adminService;
 
     @GetMapping("/members")
-    public ResponseEntity<BaseResponse> findMembers(@PageableDefault(value = 20) Pageable pageable){
+    public ResponseEntity<BaseResponse> findMembers(@PageableDefault(value = 30) Pageable pageable){
         Page<Member> members = adminService.findMembers(pageable);
         return ResponseEntity.ok(new BaseResponse(200,"회원 목록입니다.",members));
     }

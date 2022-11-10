@@ -11,7 +11,7 @@ import javax.persistence.Id;
 
 @Getter
 @AllArgsConstructor
-@Document(indexName = "product-2022-11-10-01-41")
+@Document(indexName = "product-2022-11-10-21-30")
 public class Product {
     @Id
     private String id;
@@ -28,7 +28,7 @@ public class Product {
     @Field(type = FieldType.Text)
     private String webUrl;
 
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Long)
     private Long price;
 
     @Field(type = FieldType.Text)
