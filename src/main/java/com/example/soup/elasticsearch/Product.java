@@ -1,5 +1,6 @@
-package com.example.soup.elastic.elasticsearch;
+package com.example.soup.elasticsearch;
 
+import com.example.soup.search.dto.SearchDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -28,7 +29,7 @@ public class Product {
     private String webUrl;
 
     @Field(type = FieldType.Text)
-    private String price;
+    private Long price;
 
     @Field(type = FieldType.Text)
     private String cat;
@@ -41,4 +42,5 @@ public class Product {
 
     @Field(type = FieldType.Text)
     private String imgSrc;
+
 }

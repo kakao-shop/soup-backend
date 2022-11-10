@@ -14,8 +14,8 @@ import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 
 @Configuration
+@EnableElasticsearchRepositories
 @Slf4j
-
 public class ElasitcConfig {
     @Value("${elasticsearch.host}")
     private String hostname; //localhost

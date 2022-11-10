@@ -1,4 +1,4 @@
-package com.example.soup.elastic.elasticsearch;
+package com.example.soup.elasticsearch;
 
 import com.example.soup.domain.entity.BaseCreatedTimeEntity;
 import com.example.soup.domain.entity.mariadb.Member;
