@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,14 +21,14 @@ public class SearchService {
 
     private final ThemeCatRepository themeCatRepository;
 
-    public String searchWebURL(String productId) {
+    public String searchByWebURL(String productId) {
         Product findProduct = searchRepository.findById(productId)
                 .orElseThrow(ElasticSearchException::new);
         return findProduct.getWebUrl();
     }
 
 
-    public Page<Product> searchSubcat(String subcat, Pageable pageable) {
+    public Page<Product> searchBySubcat(String subcat, Pageable pageable) {
         return searchRepository.findBySubcat(subcat, pageable);
     }
 
@@ -41,5 +42,9 @@ public class SearchService {
 
     public Page<Product> searchAll(Pageable pageable) {
         return searchRepository.findAll(pageable);
+    }
+
+    public List<Product> searchAllBySubcat(String subcat) {
+        return searchRepository.findBySubcat(subcat);
     }
 }
