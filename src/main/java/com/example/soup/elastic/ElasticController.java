@@ -16,15 +16,17 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@RequestMapping("/kjh")
+@RequestMapping("/search")
 @RestController
 @RequiredArgsConstructor
 public class ElasticController {
     private final ProductRepository BaseElasticSearchRepo;
     private final SearchService searchService;
     private final JwtTokenProvider jwtTokenProvider;
-    @GetMapping("/test")
-    public ResponseEntity<BaseResponse> testControl(@RequestParam(name ="prdname") String prdname, @PageableDefault(size = 10, sort = "purchase", direction = Sort.Direction.DESC) Pageable pageable) {
+    @GetMapping()
+    public ResponseEntity<BaseResponse> testControl(
+            @RequestParam(name ="q") String prdname,
+            @PageableDefault(size = 10, sort = "purchase", direction = Sort.Direction.DESC) Pageable pageable) {
         List<Product> productList = new ArrayList<>();
         Long memberIDX = jwtTokenProvider.getMemberIdx();
         Page<Product> result = searchService.getProductPage(prdname, pageable, memberIDX);
@@ -35,9 +37,9 @@ public class ElasticController {
         return ResponseEntity.ok(new BaseResponse(200, "성공", new SearchResponse(prdname, result)));
     }
 
-    @GetMapping("/recommend")
+    @GetMapping("/user-best")
     public ResponseEntity<BaseResponse> getRecommendItemList() {
-        List<KeywordLog> productList = searchService.getRecommendItemByMemberid(jwtTokenProvider.getMemberIdx());
+        List<Product> productList = searchService.getRecommendItemByMemberid(jwtTokenProvider.getMemberIdx());
         return ResponseEntity.ok(new BaseResponse(200, "성공", new RecommendResponse("recommend", productList)));
     }
 }

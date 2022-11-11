@@ -12,5 +12,5 @@ import java.util.List;
 @AllArgsConstructor
 public class RecommendResponse {
     private String recommend;
-    private List<KeywordLog> result;
+    private List<Product> result;
 }
