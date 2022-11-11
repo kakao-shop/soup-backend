@@ -22,17 +22,17 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class ElasticController {
-    private final ProductRepository BaseElasticSearchRepo;
     private final SearchService searchService;
     private final JwtTokenProvider jwtTokenProvider;
-    @GetMapping()
+    @GetMapping("")
     public ResponseEntity<BaseResponse> testControl(
             @RequestParam(name ="q") String prdname,
             @PageableDefault(size = 10, sort = "purchase", direction = Sort.Direction.DESC) Pageable pageable) {
-        List<Product> productList = new ArrayList<>();
-        Long memberIDX = jwtTokenProvider.getMemberIdx();
-        Page<Product> result = searchService.getProductPage(prdname, pageable, memberIDX);
 
+        Long memberIDX = jwtTokenProvider.getMemberIdx();
+        System.out.println(memberIDX);
+        Page<Product> result = searchService.getProductPage(prdname, pageable, memberIDX);
+        System.out.println("???");
         for (Product prod: result) {
             System.out.println(prod.getPrdName());
         }
