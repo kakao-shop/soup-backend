@@ -1,8 +1,10 @@
 package com.example.soup.elastic;
 
 import com.example.soup.domain.common.dto.BaseResponse;
+import com.example.soup.elastic.dto.RecommendResponse;
 import com.example.soup.elastic.dto.SearchResponse;
 import com.example.soup.domain.member.jwt.JwtTokenProvider;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,4 +35,9 @@ public class ElasticController {
         return ResponseEntity.ok(new BaseResponse(200, "성공", new SearchResponse(prdname, result)));
     }
 
+    @GetMapping("/recommend")
+    public ResponseEntity<BaseResponse> getRecommendItemList() {
+        List<KeywordLog> productList = searchService.getRecommendItemByMemberid(jwtTokenProvider.getMemberIdx());
+        return ResponseEntity.ok(new BaseResponse(200, "성공", new RecommendResponse("recommend", productList)));
+    }
 }
