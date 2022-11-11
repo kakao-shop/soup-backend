@@ -1,6 +1,5 @@
-package com.example.soup.elasticsearch;
+package com.example.soup.domain.entity.elasticsearch;
 
-import com.example.soup.search.dto.SearchDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;

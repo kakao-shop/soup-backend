@@ -4,6 +4,7 @@ import com.example.soup.domain.member.support.LoginInterceptor;
 import com.example.soup.domain.member.support.MemberIdxDecodeResolver;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -31,11 +32,19 @@ public class WebConfig implements WebMvcConfigurer {
         this.memberIdxDecodeResolver = memberIdxDecodeResolver;
     }
 
+//    @Override
+//    public void addCorsMappings(CorsRegistry registry) {
+//        registry.addMapping("**")
+//                .allowedMethods("*")
+//                .allowedOrigins("*");
+//    }
+
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("**")
+        registry.addMapping("/**")
                 .allowedMethods("*")
-                .allowedOrigins("*");
+                .exposedHeaders(HttpHeaders.SET_COOKIE)
+                .allowedOriginPatterns(allowOriginUrlPatterns.toArray(new String[0]));
     }
 
     @Override

@@ -57,5 +57,4 @@ public class AdminController {
         return ResponseEntity.ok(new BaseResponse(200, "성공"));
     }
 
-
 }
