@@ -2,6 +2,7 @@ package com.example.soup.common.config;
 
 import com.example.soup.api.member.support.LoginInterceptor;
 import com.example.soup.api.member.support.MemberIdxDecodeResolver;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -15,29 +16,19 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Configuration
+@RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
-
-    private final List<String> allowOriginUrlPatterns;
     private final LoginInterceptor loginInterceptor;
 
     private final MemberIdxDecodeResolver memberIdxDecodeResolver;
 
 
-    public WebConfig(@Value("${cors.allow-origin.urls}") String allowOriginUrlPatterns,
-                     LoginInterceptor loginInterceptor, MemberIdxDecodeResolver memberIdxDecodeResolver) {
-        this.allowOriginUrlPatterns = Stream.of(allowOriginUrlPatterns.split(","))
-                .map(String::strip)
-                .collect(Collectors.toList());
-        this.loginInterceptor = loginInterceptor;
-        this.memberIdxDecodeResolver = memberIdxDecodeResolver;
-    }
-
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("**")
+        registry.addMapping("/**")
                 .allowedMethods("*")
                 .exposedHeaders(HttpHeaders.SET_COOKIE)
-                .allowedOriginPatterns(allowOriginUrlPatterns.toArray(new String[0]));
+                .allowedOriginPatterns("http://localhost:3000","http://localhost:8000");
     }
 
     @Override

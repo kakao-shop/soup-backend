@@ -19,7 +19,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-
+//@CrossOrigin(origins = "*")
 @RequestMapping("/members")
 @RestController
 @RequiredArgsConstructor

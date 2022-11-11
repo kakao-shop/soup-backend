@@ -7,6 +7,7 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 
 import java.util.List;
 
+@EnableElasticsearchRepositories
 public interface KeywordRepository extends
         ElasticsearchRepository<KeywordLog, String>,
         BaseElasticSearchRepository<KeywordLog> {

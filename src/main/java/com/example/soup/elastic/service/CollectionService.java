@@ -53,4 +53,8 @@ public class CollectionService {
     public List<Product> findAll(Pageable pageable) {
         return productRepository.findAll(pageable).toList();
     }
+
+    public Page<Product> searchByMaincat(String maincat, Pageable pageable) {
+        return productRepository.findByCat(maincat, pageable);
+    }
 }
