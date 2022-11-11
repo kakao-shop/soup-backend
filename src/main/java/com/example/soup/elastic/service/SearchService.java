@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 public class SearchService {
     private final ProductRepository productRepository;
     private final KeywordRepository keywordRepository;
+
     public Page<Product> getProductPage(String prdname, Pageable pageable, Long memberidx) {
 
         KeywordLog keywordObject = keywordRepository.findByMemberidxAndKeyword(memberidx, prdname);
@@ -58,44 +59,31 @@ public class SearchService {
         }
 
         List<Product> productList = getProductList(data);
-
-//        List<Product> productList = getProductList2(subCatList, weigthList);
-        // subcat에서 상품 정보 가져오기
-
-
-        System.out.println(productList);
-
         return productList;
     }
 
     private List<Product> getProductList(HashMap<String, Integer> data) {
         List<Product> productList = new ArrayList<>();
-        data.forEach((k, v) ->{
-                Pageable pageable = PageRequest.of(1, v, Sort.by(Sort.Direction.DESC, "purchase"));
-                Page<Product> products = productRepository.findBySubcat(k, pageable);
-                for (Product product : products) {
-                    productList.add(product);
-
+        data.forEach((k, v) -> {
+            Pageable pageable = PageRequest.of(1, v, Sort.by(Sort.Direction.DESC, "purchase"));
+            Page<Product> products = productRepository.findBySubcat(k, pageable);
+            for (Product product : products) {
+                productList.add(product);
             }
         });
 
         return productList;
     }
 
-
     private List<String> getSubcat(String[] keyList) {
         List<String> subCatList = new ArrayList<>();
-        for (String key: keyList) {
+        for (String key : keyList) {
             Pageable pageable = PageRequest.of(1, 1, Sort.by(Sort.Direction.DESC, "purchase"));
             Product product = productRepository.findByPrdName(key, pageable).get().collect(Collectors.toList()).get(0);
             subCatList.add(product.getSubcat());
         }
         return subCatList;
     }
-
-//    private List<Product> getRecommendItem(String[] keyList, List<Integer> weigthList) {
-//
-//    }
 
     private List<Integer> getWeight(String[] keyList, int[] countList) {
         Integer tmp = Arrays.stream(countList).sum();
@@ -104,9 +92,9 @@ public class SearchService {
         while (true) {
             Integer re = 0;
             weightList = new ArrayList<>();
-            for (int i=0; i < countList.length; i++) {
-                re += Integer.valueOf(countList[i] / tmp);
-                weightList.add(Integer.valueOf((countList[i] / tmp)));
+            for (int i : countList) {
+                re += Integer.valueOf(i / tmp);
+                weightList.add(Integer.valueOf((i / tmp)));
             }
             if (re == 10) {
                 break;
@@ -117,15 +105,12 @@ public class SearchService {
         }
         System.out.println(weightList);
 
-
         return weightList;
     }
 
     private Sort sortByCount() {
         return Sort.by(Sort.Direction.DESC, "count");
     }
-
-
 
     private void saveKeywordLog(String prdname, Long memberidx, KeywordLog keywordObject) {
         if (keywordObject != null) {
@@ -139,9 +124,4 @@ public class SearchService {
             keywordRepository.save(keywordLog);
         }
     }
-
-
-
-
-
 }

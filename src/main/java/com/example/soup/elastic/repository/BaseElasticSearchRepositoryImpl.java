@@ -1,6 +1,5 @@
 package com.example.soup.elastic.repository;
 
-import com.example.soup.elastic.repository.BaseElasticSearchRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.IndexOperations;

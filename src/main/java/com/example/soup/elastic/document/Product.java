@@ -1,5 +1,6 @@
 package com.example.soup.elastic.document;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,9 +14,11 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Document(indexName = "product", createIndex = false)
 @Setter
 @Getter
+@AllArgsConstructor
 @Builder
-public class Product {
-    @Id @GeneratedValue(strategy = IDENTITY)
+public class Product implements Comparable<Product> {
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
     private String id;
     private String prdName;
     private Long price;
@@ -26,4 +29,14 @@ public class Product {
     private String imgSrc;
     private String site;
     private String webUrl;
+
+    @Override
+    public int compareTo(Product product) {
+        if (product.purchase < purchase) {
+            return 1;
+        } else if (product.purchase > purchase) {
+            return -1;
+        }
+        return 0;
+    }
 }

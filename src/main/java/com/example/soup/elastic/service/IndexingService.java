@@ -1,6 +1,6 @@
 package com.example.soup.elastic.service;
 
-import com.example.soup.domain.common.config.ElasitcConfig;
+import com.example.soup.common.config.ElasitcConfig;
 import com.example.soup.elastic.repository.ProductRepository;
 import com.example.soup.elastic.utils.IndexUtil;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ import java.util.Date;
 public class IndexingService {
     private final ProductRepository baseElasticSearchRepo;
     private final ElasitcConfig elasitcConfig;
-    private static final String INDEX_PREFIX_NAME ="product";
+    private static final String INDEX_PREFIX_NAME = "product";
     private static final String ALIAS_NAME = "product";
 
 

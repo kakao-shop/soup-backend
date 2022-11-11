@@ -1,6 +1,6 @@
 package com.example.soup.elastic.document;
 
-import com.example.soup.domain.entity.BaseCreatedTimeEntity;
+import com.example.soup.api.entity.BaseCreatedTimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,7 +12,7 @@ import javax.persistence.Id;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
-@Document(indexName = "keywordlogs",createIndex = true)
+@Document(indexName = "keywordlogs", createIndex = true)
 @Setter
 @Getter
 @Builder
