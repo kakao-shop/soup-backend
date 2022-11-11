@@ -53,7 +53,7 @@ public class SearchService {
             }
         }
 
-        List<Product> productList = getProductList2(data);
+        List<Product> productList = getProductList(data);
 
 //        List<Product> productList = getProductList2(subCatList, weigthList);
         // subcat에서 상품 정보 가져오기
@@ -64,7 +64,7 @@ public class SearchService {
         return productList;
     }
 
-    private List<Product> getProductList2(HashMap<String, Integer> data) {
+    private List<Product> getProductList(HashMap<String, Integer> data) {
         List<Product> productList = new ArrayList<>();
         data.forEach((k, v) ->{
                 Pageable pageable = PageRequest.of(1, v, Sort.by(Sort.Direction.DESC, "purchase"));
@@ -78,20 +78,6 @@ public class SearchService {
         return productList;
     }
 
-
-    private List<Product> getProductList(List<String> subCatList, List<Integer> weigthList) {
-        List<Product> productList = new ArrayList<>();
-
-        for (int i = 0; i < subCatList.size(); i++) {
-            Pageable pageable = PageRequest.of(1, weigthList.get(i), Sort.by(Sort.Direction.DESC, "purchase"));
-            Page<Product> products = productRepository.findBySubcat(subCatList.get(i), pageable);
-            for (Product product : products) {
-                productList.add(product);
-            }
-        }
-
-        return productList;
-    }
 
     private List<String> getSubcat(String[] keyList) {
         List<String> subCatList = new ArrayList<>();
