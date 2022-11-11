@@ -26,14 +26,16 @@ public class MyPageController {
     @PostMapping("/mypage/password-check")
     public ResponseEntity<BaseResponse> checkPassword(@TokenMemberIdx Long memberIdx, @Valid @RequestBody MemberCreateRequest memberCreateRequest) {
         myPageService.checkPassword(memberIdx, memberCreateRequest.getPassword());
-        return ResponseEntity.ok(new BaseResponse<>(200, "비밀번호가 일치합니다."));
+        // 조회 합치기
+        MyInfoFindResponse myInfoFindResponse = myPageService.findMyInfo(memberIdx);
+        return ResponseEntity.ok(new BaseResponse<>(200, "비밀번호가 일치합니다.", myInfoFindResponse));
     }
 
-    @GetMapping("/mypage")
-    public ResponseEntity<BaseResponse> findMyInfo(@TokenMemberIdx Long memberIdx) {
-        MyInfoFindResponse myInfoFindResponse = myPageService.findMyInfo(memberIdx);
-        return ResponseEntity.ok(new BaseResponse<>(200, "나의 정보를 성공적으로 조회했습니다.", myInfoFindResponse));
-    }
+//    @GetMapping("/mypage")
+//    public ResponseEntity<BaseResponse> findMyInfo(@TokenMemberIdx Long memberIdx) {
+//        MyInfoFindResponse myInfoFindResponse = myPageService.findMyInfo(memberIdx);
+//        return ResponseEntity.ok(new BaseResponse<>(200, "나의 정보를 성공적으로 조회했습니다.", myInfoFindResponse));
+//    }
 
     @PatchMapping("/mypage")
     public ResponseEntity<BaseResponse> updateMyInfo(@TokenMemberIdx Long memberIdx, @Valid @RequestBody MyInfoUpdateRequest myInfoUpdateRequest) {

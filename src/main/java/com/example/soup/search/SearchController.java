@@ -2,6 +2,7 @@ package com.example.soup.search;
 
 import com.example.soup.common.dto.BaseResponse;
 import com.example.soup.elasticsearch.Product;
+import com.example.soup.search.dto.SearchResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -34,13 +35,14 @@ public class SearchController {
     public ResponseEntity<BaseResponse> searchBySubcat(@RequestParam(name = "category") String subcat,
                                                        @PageableDefault(size = 10, sort = "purchase", direction = Sort.Direction.DESC) Pageable pageable) {
         Page<Product> result = searchService.searchBySubcat(subcat, pageable);
-        return ResponseEntity.ok(new BaseResponse(200, "성공", result));
+        return ResponseEntity.ok(new BaseResponse(200, "성공", new SearchResponse(subcat,result)));
     }
 
     // 테마별 상품 추천
     @GetMapping("/collections/{themeIdx}")
     public ResponseEntity<BaseResponse> searchTheme(@PathVariable("themeIdx") Long themeIdx,
                                                     @PageableDefault(size = 10, sort = "purchase", direction = Sort.Direction.DESC) Pageable defaultPageable) {
+        String themeTitle = searchService.findTitleByIdx(themeIdx);
         List<String> catList = searchService.findByThemeIdx(themeIdx);
         List<Product> prdList = new ArrayList<>();
         for (int i = 0; i < catList.size(); i++) {
@@ -50,6 +52,6 @@ public class SearchController {
         final int start = (int) defaultPageable.getOffset();
         final int end = Math.min((start + defaultPageable.getPageSize()), prdList.size());
         final Page<Product> result = new PageImpl<>(prdList.subList(start, end), defaultPageable, prdList.size());
-        return ResponseEntity.ok(new BaseResponse(200, "성공", result));
+        return ResponseEntity.ok(new BaseResponse(200, "성공", new SearchResponse(themeTitle,result)));
     }
 }
