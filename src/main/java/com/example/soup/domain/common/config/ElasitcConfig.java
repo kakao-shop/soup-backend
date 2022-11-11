@@ -1,4 +1,4 @@
-package com.example.soup.elastic;
+package com.example.soup.domain.common.config;
 
 
 import lombok.extern.slf4j.Slf4j;

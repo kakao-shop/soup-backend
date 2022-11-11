@@ -1,5 +1,6 @@
-package com.example.soup.elastic;
+package com.example.soup.elastic.repository;
 
+import com.example.soup.elastic.document.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
@@ -9,7 +10,7 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 @EnableElasticsearchRepositories
 public interface ProductRepository
         extends ElasticsearchRepository<Product,String>,
-        BaseElasticSearchRepository<Product>{
+        BaseElasticSearchRepository<Product> {
     Page<Product> findByPrdName(String name, Pageable pageable);
     Page<Product> findBySubcat(String subcat, Pageable pageable);
 

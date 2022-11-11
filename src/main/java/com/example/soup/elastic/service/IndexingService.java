@@ -1,5 +1,8 @@
-package com.example.soup.elastic;
+package com.example.soup.elastic.service;
 
+import com.example.soup.domain.common.config.ElasitcConfig;
+import com.example.soup.elastic.utils.IndexUtil;
+import com.example.soup.elastic.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
 import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;

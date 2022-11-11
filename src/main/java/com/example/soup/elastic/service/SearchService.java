@@ -1,6 +1,10 @@
-package com.example.soup.elastic;
+package com.example.soup.elastic.service;
 
 
+import com.example.soup.elastic.document.KeywordLog;
+import com.example.soup.elastic.document.Product;
+import com.example.soup.elastic.repository.KeywordRepository;
+import com.example.soup.elastic.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,7 +23,7 @@ import java.util.stream.Collectors;
 public class SearchService {
     private final ProductRepository productRepository;
     private final KeywordRepository keywordRepository;
-    public Page<Product> getProductPage(String prdname, Pageable pageable,Long memberidx) {
+    public Page<Product> getProductPage(String prdname, Pageable pageable, Long memberidx) {
 
         KeywordLog keywordObject = keywordRepository.findByMemberidxAndKeyword(memberidx, prdname);
 

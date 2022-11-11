@@ -1,4 +1,4 @@
-package com.example.soup.elastic;
+package com.example.soup.elastic.repository;
 
 import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
 import org.springframework.stereotype.Repository;

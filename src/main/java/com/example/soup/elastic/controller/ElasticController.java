@@ -1,10 +1,12 @@
-package com.example.soup.elastic;
+package com.example.soup.elastic.controller;
 
 import com.example.soup.domain.common.dto.BaseResponse;
+import com.example.soup.elastic.document.Product;
+import com.example.soup.elastic.service.SearchService;
 import com.example.soup.elastic.dto.RecommendResponse;
 import com.example.soup.elastic.dto.SearchResponse;
 import com.example.soup.domain.member.jwt.JwtTokenProvider;
-import lombok.Getter;
+import com.example.soup.elastic.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

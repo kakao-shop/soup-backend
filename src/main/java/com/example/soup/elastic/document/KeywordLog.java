@@ -1,4 +1,4 @@
-package com.example.soup.elastic;
+package com.example.soup.elastic.document;
 
 import com.example.soup.domain.entity.BaseCreatedTimeEntity;
 import lombok.AllArgsConstructor;

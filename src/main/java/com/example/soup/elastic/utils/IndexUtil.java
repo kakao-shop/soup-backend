@@ -1,4 +1,4 @@
-package com.example.soup.elastic;
+package com.example.soup.elastic.utils;
 
 import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
 

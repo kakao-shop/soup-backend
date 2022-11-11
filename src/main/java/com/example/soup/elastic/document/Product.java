@@ -1,4 +1,4 @@
-package com.example.soup.elastic;
+package com.example.soup.elastic.document;
 
 import lombok.Builder;
 import lombok.Getter;
