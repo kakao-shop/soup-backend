@@ -13,7 +13,7 @@ import javax.persistence.Id;
 @ToString
 @Getter
 @AllArgsConstructor
-@Document(indexName = "product-2022-11-10-01-41")
+@Document(indexName = "product-2022-11-10-21-30")
 public class Product implements Comparable<Product>{
     @Id
     private String id;

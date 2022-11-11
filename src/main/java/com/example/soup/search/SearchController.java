@@ -35,7 +35,7 @@ public class SearchController {
     public ResponseEntity<BaseResponse> searchBySubcat(@RequestParam(name = "category") String subcat,
                                                        @PageableDefault(size = 10, sort = "purchase", direction = Sort.Direction.DESC) Pageable pageable) {
         Page<Product> result = searchService.searchBySubcat(subcat, pageable);
-        return ResponseEntity.ok(new BaseResponse(200, "성공", new SearchResponse(subcat,result)));
+        return ResponseEntity.ok(new BaseResponse(200, "성공", new SearchResponse(subcat, result)));
     }
 
     // 테마별 상품 추천
@@ -45,13 +45,18 @@ public class SearchController {
         String themeTitle = searchService.findTitleByIdx(themeIdx);
         List<String> catList = searchService.findByThemeIdx(themeIdx);
         List<Product> prdList = new ArrayList<>();
-        for (int i = 0; i < catList.size(); i++) {
-            prdList.addAll(searchService.searchAllBySubcat(catList.get(i)));
+        for (String category : catList) {
+            prdList.addAll(searchService.searchAllBySubcat(category));
         }
         Collections.sort(prdList, Collections.reverseOrder());
         final int start = (int) defaultPageable.getOffset();
         final int end = Math.min((start + defaultPageable.getPageSize()), prdList.size());
         final Page<Product> result = new PageImpl<>(prdList.subList(start, end), defaultPageable, prdList.size());
-        return ResponseEntity.ok(new BaseResponse(200, "성공", new SearchResponse(themeTitle,result)));
+        return ResponseEntity.ok(new BaseResponse(200, "성공", new SearchResponse(themeTitle, result)));
     }
+
+
+    // 검색 야매로...
+//    @GetMapping()
+//    public ResponseEntity<BaseResponse> searchQuery
 }

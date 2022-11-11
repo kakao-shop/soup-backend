@@ -10,12 +10,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class SearchService {
 
     private final SearchRepository searchRepository;
@@ -42,10 +44,6 @@ public class SearchService {
                 .collect(Collectors.toList());
     }
 
-
-    public Page<Product> searchAll(Pageable pageable) {
-        return searchRepository.findAll(pageable);
-    }
 
     public List<Product> searchAllBySubcat(String subcat) {
         return searchRepository.findBySubcat(subcat);
