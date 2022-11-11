@@ -8,6 +8,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableElasticsearchRepositories(basePackages = "com.example.soup.elastic")
+@EnableJpaRepositories(basePackages = "com.example.soup.domain")
 @EnableScheduling
 public class SoupApplication {
 
