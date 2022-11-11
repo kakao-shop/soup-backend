@@ -32,16 +32,9 @@ public class WebConfig implements WebMvcConfigurer {
         this.memberIdxDecodeResolver = memberIdxDecodeResolver;
     }
 
-//    @Override
-//    public void addCorsMappings(CorsRegistry registry) {
-//        registry.addMapping("**")
-//                .allowedMethods("*")
-//                .allowedOrigins("*");
-//    }
-
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
+        registry.addMapping("**")
                 .allowedMethods("*")
                 .exposedHeaders(HttpHeaders.SET_COOKIE)
                 .allowedOriginPatterns(allowOriginUrlPatterns.toArray(new String[0]));
