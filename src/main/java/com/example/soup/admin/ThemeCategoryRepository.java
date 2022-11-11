@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface ThemeCategoryRepository extends JpaRepository<ThemeCategory, Long> {
     List<ThemeCategory> findByThemeIdx(Long themeIdx);
+
+    void deleteAllByThemeIdx(Long themeIdx);
 }
