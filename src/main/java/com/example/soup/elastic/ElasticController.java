@@ -1,7 +1,14 @@
 package com.example.soup.elastic;
 
-import com.example.soup.elastic.ProductDocs;
+import com.example.soup.domain.common.dto.BaseResponse;
+import com.example.soup.elastic.dto.SearchResponse;
+import com.example.soup.domain.member.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -11,33 +18,19 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class ElasticController {
-    private final com.example.soup.elastic.BaseElasticSearchRepo BaseElasticSearchRepo;
+    private final ProductRepository BaseElasticSearchRepo;
+    private final SearchService searchService;
+    private final JwtTokenProvider jwtTokenProvider;
     @GetMapping("/test")
-    public List<ProductDocs> testControl() {
-        List<ProductDocs> productList = new ArrayList<>();
+    public ResponseEntity<BaseResponse> testControl(@RequestParam(name ="prdname") String prdname, @PageableDefault(size = 10, sort = "purchase", direction = Sort.Direction.DESC) Pageable pageable) {
+        List<Product> productList = new ArrayList<>();
+        Long memberIDX = jwtTokenProvider.getMemberIdx();
+        Page<Product> result = searchService.getProductPage(prdname, pageable, memberIDX);
 
-        for (ProductDocs prod: BaseElasticSearchRepo.findAll() ) {
-            productList.add(prod);
+        for (Product prod: result) {
             System.out.println(prod.getPrdName());
         }
-        System.out.println("???????? : "+productList.size());
-        return productList;
-    }
-    @GetMapping("/test2")
-    public String testControl2() {
-        return "test";
+        return ResponseEntity.ok(new BaseResponse(200, "성공", new SearchResponse(prdname, result)));
     }
 
-    @PostMapping("/put")
-    public String putData(@RequestBody DocsDTO docsDTO) {
-        System.out.println("put : "+ docsDTO.getPrdName());
-        ProductDocs productDocs  = ProductDocs.builder()
-                        .cat(docsDTO.getCat()).imgSrc(docsDTO.getImgSrc()).prdName(docsDTO.getPrdName())
-                        .purchase(docsDTO.getPurchase()).price(docsDTO.getPrice()).subcat(docsDTO.getSubcat())
-                        .site(docsDTO.getSite()).score(docsDTO.getScore()).build();
-
-        BaseElasticSearchRepo.save(productDocs);
-        return "success";
-
-    }
 }

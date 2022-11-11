@@ -15,7 +15,6 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 
 @Configuration
 @Slf4j
-
 public class ElasitcConfig {
     @Value("${elasticsearch.host}")
     private String hostname; //localhost

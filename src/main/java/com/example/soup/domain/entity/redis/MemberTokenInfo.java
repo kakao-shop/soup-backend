@@ -1,8 +1,8 @@
 package com.example.soup.domain.entity.redis;
 
 import com.example.soup.domain.constant.Role;
-import com.example.soup.member.dto.TokenDto;
-import com.example.soup.member.dto.response.LoginResponse;
+import com.example.soup.domain.member.dto.TokenDto;
+import com.example.soup.domain.member.dto.response.LoginResponse;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
