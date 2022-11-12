@@ -1,5 +1,8 @@
 package com.example.soup.api.entity.mariadb;
 
+import com.example.soup.api.admin.dto.ThemeCategoryDto;
+import com.example.soup.elastic.document.Product;
+import com.example.soup.elastic.dto.SearchDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,5 +27,12 @@ public class ThemeCategory {
     @ManyToOne
     @JoinColumn(name = "theme_idx")
     private Theme theme;
+
+    public static ThemeCategoryDto from(ThemeCategory category) {
+        return ThemeCategoryDto.builder()
+                .mainCategory(category.getMainCategory())
+                .subCategory(category.getSubCategory())
+                .build();
+    }
 
 }

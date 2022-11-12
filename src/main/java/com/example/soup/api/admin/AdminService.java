@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -41,8 +42,11 @@ public class AdminService {
         return new ThemesFindResponse(themeRepository.findAll());
     }
 
-    public List<ThemeCategory> findCollection(Long themeIdx) {
-        return themeCategoryRepository.findByThemeIdx(themeIdx);
+    public List<ThemeCategoryDto> findCollection(Long themeIdx) {
+        return themeCategoryRepository.findByThemeIdx(themeIdx)
+                .stream()
+                .map(ThemeCategory::from)
+                .collect(Collectors.toList());
     }
 
     @Transactional

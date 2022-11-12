@@ -8,6 +8,6 @@ import org.springframework.data.domain.Page;
 @Getter
 @AllArgsConstructor
 public class SearchResponse {
-    private String prdname;
+    private String title;
     private Page<Product> result;
 }

@@ -1,6 +1,5 @@
 package com.example.soup.api.admin.dto;
 
-import com.example.soup.api.entity.mariadb.ThemeCategory;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -10,5 +9,5 @@ import java.util.List;
 @Getter
 public class ThemeFindResponse {
     private String themeTitle;
-    private List<ThemeCategory> themeList;
+    private List<ThemeCategoryDto> categoryList;
 }

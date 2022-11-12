@@ -25,16 +25,4 @@ public class SearchDto {
 
     private String imgSrc;
 
-    public static SearchDto from(Product product) {
-        return SearchDto.builder()
-                .id(product.getId())
-                .site(product.getSite())
-                .prdName(product.getPrdName())
-                .price(product.getPrice())
-                .cat(product.getCat())
-                .purchase(product.getPurchase())
-                .subcat(product.getSubcat())
-                .imgSrc(product.getImgSrc())
-                .build();
-    }
 }
