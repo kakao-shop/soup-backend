@@ -31,12 +31,14 @@ public class ElasticController {
             @RequestParam(name = "q") String prdname,
             @PageableDefault(size = 10, sort = "purchase", direction = Sort.Direction.DESC) Pageable pageable) {
 
-        Long memberIDX = jwtTokenProvider.getMemberIdx();
-        System.out.println(memberIDX);
-        Page<Product> result = searchService.getProductPage(prdname, pageable, memberIDX);
-        System.out.println("???");
-        for (Product prod : result) {
-            System.out.println(prod.getPrdName());
+        boolean isUserBest = searchService.isUserLogin();
+        Long memberIDX;
+        Page<Product> result;
+        if (isUserBest) {
+            memberIDX = jwtTokenProvider.getMemberIdx();
+            result = searchService.getProductPage(prdname, pageable, memberIDX);
+        } else {
+            result = searchService.getProductPage(prdname, pageable, null);
         }
         return ResponseEntity.ok(new BaseResponse(200, "성공", new SearchResponse(prdname, result)));
     }

@@ -29,10 +29,13 @@ public class SearchService {
     private final KeywordRepository keywordRepository;
 
     public Page<Product> getProductPage(String prdname, Pageable pageable, Long memberidx) {
+        if (memberidx != null) {
+            System.out.println("로그 저장");
+            KeywordLog keywordObject = keywordRepository.findByMemberidxAndKeyword(memberidx, prdname);
 
-        KeywordLog keywordObject = keywordRepository.findByMemberidxAndKeyword(memberidx, prdname);
+            saveKeywordLog(prdname, memberidx, keywordObject);
+        }
 
-        saveKeywordLog(prdname, memberidx, keywordObject);
         return productRepository.findByPrdName(prdname, pageable);
     }
 
@@ -107,7 +110,6 @@ public class SearchService {
             }
             cnt += 1;
         }
-        System.out.println(weightList);
 
         return weightList;
     }
@@ -128,7 +130,13 @@ public class SearchService {
             keywordRepository.save(keywordLog);
         }
     }
-
+    public boolean isUserLogin() {
+        Long memberIdx = jwtTokenProvider.getMemberIdxIfLogined();
+        if (memberIdx == null) {
+            return false;
+        }
+        return true;
+    }
     public boolean isUserDataExist() {
         Long memberIdx = jwtTokenProvider.getMemberIdxIfLogined();
         if (memberIdx == null) {

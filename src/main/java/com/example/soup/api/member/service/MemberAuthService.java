@@ -50,8 +50,7 @@ public class MemberAuthService {
     }
 
     private Member validateMemberExist(String id) {
-        return memberRepository.findById(id)
-                .orElseThrow(NoSuchMemberExistException::new);
+        return memberRepository.findById(id).orElseThrow(NoSuchMemberExistException::new);
     }
 
 
