@@ -68,7 +68,7 @@ public class ElasticController {
     // 테마별 상품 추천
     @GetMapping("/collections/{themeIdx}")
     public ResponseEntity<BaseResponse> searchTheme(@PathVariable("themeIdx") Long themeIdx,
-                                                    @PageableDefault(size = 10, sort = "purchase", direction = Sort.Direction.DESC) Pageable defaultPageable) {
+                                                    @PageableDefault(size = 10, sort = "score", direction = Sort.Direction.DESC) Pageable defaultPageable) {
         String themeTitle = collectionService.findTitleByIdx(themeIdx);
         List<String> catList = collectionService.findByThemeIdx(themeIdx);
         List<Product> prdList = new ArrayList<>();

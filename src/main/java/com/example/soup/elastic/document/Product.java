@@ -32,9 +32,9 @@ public class Product implements Comparable<Product> {
 
     @Override
     public int compareTo(Product product) {
-        if (product.purchase < purchase) {
+        if (product.score < score) {
             return 1;
-        } else if (product.purchase > purchase) {
+        } else if (product.score > score) {
             return -1;
         }
         return 0;
