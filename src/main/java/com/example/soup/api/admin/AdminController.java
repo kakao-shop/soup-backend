@@ -36,7 +36,7 @@ public class AdminController {
 
     @GetMapping("/collections")
     public ResponseEntity<BaseResponse> findCollections() {
-        ThemesFindResponse result = adminService.findCollections();
+        ThemesFindResponse result = new ThemesFindResponse(adminService.findCollections());
         return ResponseEntity.ok(new BaseResponse(200, "성공", result));
     }
 

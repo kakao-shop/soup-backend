@@ -2,10 +2,10 @@ package com.example.soup.api.admin;
 
 import com.example.soup.api.admin.dto.ThemeCategoryDto;
 import com.example.soup.api.admin.dto.ThemeCreateRequest;
-import com.example.soup.api.admin.dto.ThemesFindResponse;
 import com.example.soup.api.entity.mariadb.Member;
 import com.example.soup.api.entity.mariadb.Theme;
 import com.example.soup.api.entity.mariadb.ThemeCategory;
+import com.example.soup.api.member.jwt.JwtTokenProvider;
 import com.example.soup.api.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -38,8 +38,8 @@ public class AdminService {
         }
     }
 
-    public ThemesFindResponse findCollections() {
-        return new ThemesFindResponse(themeRepository.findAll());
+    public List<Theme> findCollections() {
+        return themeRepository.findAll();
     }
 
     public List<ThemeCategoryDto> findCollection(Long themeIdx) {
@@ -54,4 +54,5 @@ public class AdminService {
         themeCategoryRepository.deleteAllByThemeIdx(themeIdx);
         themeRepository.deleteById(themeIdx);
     }
+
 }

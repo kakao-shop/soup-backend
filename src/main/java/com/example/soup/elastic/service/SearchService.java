@@ -1,6 +1,8 @@
 package com.example.soup.elastic.service;
 
 
+import com.example.soup.api.entity.mariadb.Theme;
+import com.example.soup.api.member.jwt.JwtTokenProvider;
 import com.example.soup.elastic.document.KeywordLog;
 import com.example.soup.elastic.document.Product;
 import com.example.soup.elastic.repository.KeywordRepository;
@@ -21,6 +23,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class SearchService {
+
+    private final JwtTokenProvider jwtTokenProvider;
     private final ProductRepository productRepository;
     private final KeywordRepository keywordRepository;
 
@@ -124,4 +128,13 @@ public class SearchService {
             keywordRepository.save(keywordLog);
         }
     }
+
+    public boolean isUserDataExist() {
+        Long memberIdx = jwtTokenProvider.getMemberIdxIfLogined();
+        if (memberIdx == null) {
+            return false;
+        }
+        return keywordRepository.existsKeywordLogByMemberidx(memberIdx);
+    }
+
 }

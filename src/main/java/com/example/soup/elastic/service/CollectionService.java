@@ -2,13 +2,16 @@ package com.example.soup.elastic.service;
 
 import com.example.soup.api.admin.ThemeCategoryRepository;
 import com.example.soup.api.admin.ThemeRepository;
-import com.example.soup.common.exceptions.NoSuchThemeExistException;
+import com.example.soup.api.entity.mariadb.Theme;
 import com.example.soup.api.entity.mariadb.ThemeCategory;
+import com.example.soup.api.member.jwt.JwtTokenProvider;
+import com.example.soup.common.exceptions.NoSuchThemeExistException;
 import com.example.soup.elastic.document.Product;
 import com.example.soup.elastic.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +28,6 @@ public class CollectionService {
     private final ThemeRepository themeRepository;
 
     private final ThemeCategoryRepository themeCatRepository;
-
 
 
     public Page<Product> searchBySubcat(String subcat, Pageable pageable) {
@@ -57,4 +59,9 @@ public class CollectionService {
     public Page<Product> searchByMaincat(String maincat, Pageable pageable) {
         return productRepository.findByCat(maincat, pageable);
     }
+
+    public List<Theme> findThemeList(Pageable pageable) {
+        return themeRepository.findAll(pageable).toList();
+    }
+
 }
