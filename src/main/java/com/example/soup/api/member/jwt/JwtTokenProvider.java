@@ -54,6 +54,20 @@ public class JwtTokenProvider {
         return claims.get("memberIdx", Long.class);
     }
 
+    public Long getMemberIdxIfLogined() {
+        String token = getJwt();
+        System.out.println(token);
+        if (token == null) {
+            return null;
+        }
+        Claims claims = Jwts.parserBuilder().setSigningKey(key).build()
+                .parseClaimsJws(token)
+                .getBody();
+        return claims.get("memberIdx", Long.class);
+    }
+
+
+
     public Claims getClaims() {
         String token = getJwt();
         return Jwts.parserBuilder().setSigningKey(key).build()

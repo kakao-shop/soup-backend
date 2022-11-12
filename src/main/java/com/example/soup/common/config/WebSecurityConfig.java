@@ -22,8 +22,7 @@ public class WebSecurityConfig {
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeRequests()
-                .antMatchers("/members/**", "/admin/**", "/search/**","/search").permitAll()
-                .anyRequest().authenticated();
+                .antMatchers("/members/**", "/admin/**", "/search/**","/search").permitAll();
         return http.build();
     }
 }

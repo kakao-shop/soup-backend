@@ -28,7 +28,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedMethods("*")
                 .exposedHeaders(HttpHeaders.SET_COOKIE)
-                .allowedOriginPatterns("http://localhost:3000","http://localhost:8000");
+                .allowedOriginPatterns("*");
     }
 
     @Override
