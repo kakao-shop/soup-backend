@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.FieldType;
+import org.springframework.data.elasticsearch.annotations.Mapping;
+import org.springframework.data.elasticsearch.annotations.Setting;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -16,6 +19,8 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Getter
 @AllArgsConstructor
 @Builder
+@Setting(settingPath = "/elasticsearch/settings/settings.json")
+@Mapping(mappingPath = "/elasticsearch/mappings/mappings.json")
 public class Product implements Comparable<Product> {
     @Id
     @GeneratedValue(strategy = IDENTITY)

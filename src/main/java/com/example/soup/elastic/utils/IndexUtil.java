@@ -14,7 +14,7 @@ public class IndexUtil {
         Date now = new Date();
 
         // 현재 날짜/시간 출력
-        System.out.println(now); // Thu May 03 14:43:32 KST 2022
+        System.out.println("test: "+now); // Thu May 03 14:43:32 KST 2022
 
         // 포맷팅 정의
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
