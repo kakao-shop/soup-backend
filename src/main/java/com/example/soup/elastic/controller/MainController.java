@@ -38,7 +38,7 @@ public class MainController {
             Long memberIdx = jwtTokenProvider.getMemberIdx();
             prdList = searchService.getRecommendItemByMemberid(memberIdx);
         } else {
-             pageable = PageRequest.of(0, 10, Sort.by("score").descending());
+            pageable = PageRequest.of(0, 10, Sort.by("score").descending());
             prdList = collectionService.findAll(pageable);
         }
         MainSearchRespsonse result = new MainSearchRespsonse(themeList, isUserBest, prdList);

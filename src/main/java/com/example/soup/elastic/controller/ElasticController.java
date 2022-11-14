@@ -53,7 +53,7 @@ public class ElasticController {
     @GetMapping("/maincat")
     public ResponseEntity<BaseResponse> searchByMaincat(@RequestParam(name = "category") String maincat,
                                                         @PageableDefault(size = 10, sort = "purchase", direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<Product> result = collectionService.searchByMaincat(maincat,pageable);
+        Page<Product> result = collectionService.searchByMaincat(maincat, pageable);
         return ResponseEntity.ok(new BaseResponse(200, "성공", new SearchResponse(maincat, result)));
     }
 

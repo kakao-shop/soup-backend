@@ -56,8 +56,7 @@ public class JwtTokenProvider {
 
     public Long getMemberIdxIfLogined() {
         String token = getJwt();
-        System.out.println(token);
-        if (token == null) {
+        if ((token == null) || token.isBlank()) {
             return null;
         }
         Claims claims = Jwts.parserBuilder().setSigningKey(key).build()
@@ -65,7 +64,6 @@ public class JwtTokenProvider {
                 .getBody();
         return claims.get("memberIdx", Long.class);
     }
-
 
 
     public Claims getClaims() {
