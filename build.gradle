@@ -4,7 +4,7 @@ plugins {
 	id 'java'
 }
 
-group = 'com.example'
+group = 'com.kcs'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
@@ -38,4 +38,8 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+bootJar {
+	mainClass = 'com.kcs.soup.SoupApplication'
 }
