@@ -1,0 +1,8 @@
+{
+  "properties": {
+    "prdName": {
+      "type": "text",
+      "analyzer": "korean"
+    }
+  }
+}

@@ -4,19 +4,27 @@ import com.kcs.soup.common.config.ElasitcConfig;
 import com.kcs.soup.elastic.repository.ProductRepository;
 import com.kcs.soup.elastic.utils.IndexUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
 import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
 import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.common.Strings;
+import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.xcontent.XContentType;
 import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import static org.elasticsearch.xcontent.XContentFactory.jsonBuilder;
 
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class IndexingService {
     private final ProductRepository baseElasticSearchRepo;
     private final ElasitcConfig elasitcConfig;
@@ -36,6 +44,15 @@ public class IndexingService {
         System.out.println("formatedNow : " + formatedNow);
         String indexName = "product-" + formatedNow;
         CreateIndexRequest request = new CreateIndexRequest(indexName);
+
+        try {
+            request = indexSetting(request);
+        } catch (IOException e) {
+            log.error("fail index settings");
+        }
+
+
+        System.out.println("?");
         try {
             CreateIndexResponse createIndexResponse = elasitcConfig.client().indices().create(request, RequestOptions.DEFAULT);
             System.out.println("응답 : " + createIndexResponse.index());
@@ -50,6 +67,28 @@ public class IndexingService {
         baseElasticSearchRepo.setAlias(indexNameWrapper, aliasNameWrapper);
         System.out.println("=============================end");
 
+    }
+
+
+    private CreateIndexRequest indexSetting(CreateIndexRequest request) throws IOException {
+        return request.settings(Settings.builder()
+                .put("index.max_inner_result_window", 1000)
+                .put("index.write.wait_for_active_shards", 1)
+                .put("index.query.default_field", "prdName")
+                .put("index.number_of_shards", 1)
+                .put("index.number_of_replicas", 1)
+                .loadFromSource(Strings.toString(jsonBuilder()
+                        .startObject()
+                        .startObject("analysis")
+                        .startObject("analyzer")
+                        .startObject("default")
+                        .field("type","custom")
+                        .field("tokenizer", "nori_tokenizer")
+                        .endObject()
+                        .endObject()
+                        .endObject()
+                        .endObject()), XContentType.JSON)
+        );
     }
 
 }
