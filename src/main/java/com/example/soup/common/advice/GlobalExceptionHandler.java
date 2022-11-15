@@ -6,6 +6,7 @@ import com.example.soup.common.exceptions.NoSuchThemeExistException;
 import com.example.soup.common.exceptions.PasswordConfirmException;
 import com.example.soup.common.dto.BaseResponse;
 import com.example.soup.common.dto.ErrorCode;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -18,6 +19,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(IdAlreadyExistException.class)
     public ResponseEntity<BaseResponse> handleIdAlreadyExist() {
+
         return ResponseEntity.badRequest().body(new BaseResponse(ErrorCode.IdAlreadyExist));
     }
 
