@@ -1,12 +1,12 @@
 version: "3.8"
 
 services:
-  database:
-    container_name: mariadb
-    image: mariadb:10.9
+  mariadb:
+    container_name: soup-mysql
+    image: mysql:8.0
     volumes:
       - SampleDatabaseData:/var/lib/mysql
-      - ./mariadb/my.cnf:/etc/mysql/my.cnf
+      - ./mysql/my.cnf:/etc/mysql/my.cnf
     networks:
       - backend-db
     ports:
@@ -17,7 +17,7 @@ services:
     restart: always
 
   redis:
-    container_name: redis
+    container_name: soup-redis
     image: redis:alpine3.16
     ports:
       - 6379:6379
@@ -26,7 +26,7 @@ services:
     restart: always
 
   elasticsearch:
-    container_name: elasticsearch
+    container_name: soup-elasticsearch
     image: docker.elastic.co/elasticsearch/elasticsearch:7.9.1
     ports:
       - 9200:9200
@@ -38,7 +38,7 @@ services:
     restart: always
 
   kibana:
-    container_name: kibana
+    container_name: soup-kibana
     image: docker.elastic.co/kibana/kibana:7.9.1
     ports:
       - 5601:5601

@@ -38,4 +38,6 @@ docker-compose -f docker-compose.backend.yaml up -d
 docker ps
 echo "\n\n========== step 5. finish ==========\n\n"
 
+docker run --name front -p 3000:3000 --network ops_backend-db --platform linux/arm64/v8 aramu/soup-frontend
+
 echo "\n\n========== start routine finish! ==========\n\n"

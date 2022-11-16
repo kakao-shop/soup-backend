@@ -3,15 +3,15 @@ version: '3.8'
 services:
   springboot:
     image: 2214yj/soup-backend:1.0
-    container_name: server
+    container_name: soup-backend
     ports:
       - '8000:8000'
     environment:
-      spring.datasource.url: jdbc:mariadb://mariadb:3306/soup?characterEncoding=UTF-8&serverTimezone=UTC
+      spring.datasource.url: jdbc:mariadb://soup-mysql:3306/soup?characterEncoding=UTF-8&serverTimezone=UTC
       spring.datasource.username: root
       spring.datasource.password: pass123#
-      spring.redis.host: redis
-      elasticsearch.host: elasticsearch
+      spring.redis.host: soup-redis
+      elasticsearch.host: soup-elasticsearch
       jwt.access-token.expire-length: 36000000
       jwt.refresh-token.expire-length: 12096000000
     networks:
