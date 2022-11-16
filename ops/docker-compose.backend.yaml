@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  springboot:
+    image: backend:1.0
+    container_name: server
+    ports:
+      - '8000:8000'
+    environment:
+      spring.datasource.url: jdbc:mariadb://mariadb:3306/soup?characterEncoding=UTF-8&serverTimezone=UTC
+      spring.datasource.username: root
+      spring.datasource.password: pass123#
+      spring.redis.host: redis
+      elasticsearch.host: elasticsearch
+      jwt.access-token.expire-length: 36000000
+      jwt.refresh-token.expire-length: 12096000000
+    networks:
+      - soup2_backend-db
+
+networks:
+  soup2_backend-db:
+    external: true

@@ -7,6 +7,8 @@ services:
     volumes:
       - SampleDatabaseData:/var/lib/mysql
       - ./mariadb/my.cnf:/etc/mysql/my.cnf
+    networks:
+      - backend-db
     ports:
       - 3306:3306
     environment:
@@ -19,6 +21,8 @@ services:
     image: redis:alpine3.16
     ports:
       - 6379:6379
+    networks:
+      - backend-db
     restart: always
 
   elasticsearch:
@@ -27,6 +31,8 @@ services:
     ports:
       - 9200:9200
       - 9300:9300
+    networks:
+      - backend-db
     environment:
       - discovery.type=single-node
     restart: always
@@ -36,6 +42,8 @@ services:
     image: docker.elastic.co/kibana/kibana:7.9.1
     ports:
       - 5601:5601
+    networks:
+      - backend-db
     depends_on:
       - elasticsearch
     links:
@@ -44,3 +52,6 @@ services:
 
 volumes:
   SampleDatabaseData:
+
+networks:
+  backend-db: {}
