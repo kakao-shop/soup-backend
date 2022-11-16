@@ -1,12 +1,9 @@
 version: "3.8"
 
 services:
-  mariadb:
+  mysql:
     container_name: soup-mysql
     image: mysql:8.0
-    volumes:
-      - SampleDatabaseData:/var/lib/mysql
-      - ./mysql/my.cnf:/etc/mysql/my.cnf
     networks:
       - backend-db
     ports:
@@ -14,7 +11,9 @@ services:
     environment:
       - MYSQL_DATABASE=soup
       - MYSQL_ROOT_PASSWORD=pass123#
-    restart: always
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
 
   redis:
     container_name: soup-redis
