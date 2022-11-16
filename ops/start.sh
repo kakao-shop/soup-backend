@@ -1,12 +1,14 @@
 echo "\n\n========== start routine start! ==========\n\n"
 
-#echo "\n\n========== step 1. backend image build start! ==========\n\n"
-##docker build . -t backend:1.0
-#echo "\n\n========== step 1. finish ==========\n\n"
-#sleep 2
+echo "\n\n========== step 1. backend image build or pull start! ==========\n\n"
+#docker build . -t backend:1.0
+docker login
+docker pull 2214yj/soup-backend:1.0
+echo "\n\n========== step 1. finish ==========\n\n"
+sleep 2
 
 echo "\n\n========== step 2. run databases! ==========\n\n"
-docker-compose.database.yaml up -d
+docker-compose -f docker-compose.database.yaml up -d
 docker ps
 echo "\n\n========== step 2. finish ==========\n\n"
 sleep 2
@@ -32,7 +34,8 @@ echo "\n\n========== step 4. finish ==========\n\n"
 sleep 2
 
 echo "\n\n========== step 5. backend run! ==========\n\n"
-docker-compose.backend.yaml up -d
+docker-compose -f docker-compose.backend.yaml up -d
+docker ps
 echo "\n\n========== step 5. finish ==========\n\n"
 
 echo "\n\n========== start routine finish! ==========\n\n"
