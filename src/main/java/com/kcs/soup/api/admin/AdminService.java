@@ -49,6 +49,7 @@ public class AdminService {
                 .collect(Collectors.toList());
     }
 
+
     @Transactional(readOnly = false)
     public void deleteCollection(Long themeIdx) {
         themeCategoryRepository.deleteAllByThemeIdx(themeIdx);
