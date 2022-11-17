@@ -3,7 +3,7 @@ echo "\n\n========== start routine start! ==========\n\n"
 echo "\n\n========== step 1. backend image build or pull start! ==========\n\n"
 #docker build . -t backend:1.0
 docker login
-docker pull 2214yj/backend:1.0
+docker pull 2214yj/soup-backend:1.0
 echo "\n\n========== step 1. finish ==========\n\n"
 sleep 2
 
