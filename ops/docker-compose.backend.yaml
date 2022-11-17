@@ -1,8 +1,18 @@
 version: '3.8'
 
 services:
-  springboot:
-    image: 2214yj/soup-backend:1.0
+  frontend:
+    image: aramu/soup-frontend:2.1
+    container_name: soup-frontend
+    ports:
+      - '3000:3000'
+    environment:
+      API_IP: soup-backend
+    networks:
+      - frontend-backend
+
+  backend:
+    image: 2214yj/soup-backend:2.1
     container_name: soup-backend
     ports:
       - '8000:8000'
@@ -16,7 +26,10 @@ services:
       jwt.refresh-token.expire-length: 12096000000
     networks:
       - ops_backend-db
+      - frontend-backend
+
 
 networks:
+  frontend-backend: {}
   ops_backend-db:
     external: true
