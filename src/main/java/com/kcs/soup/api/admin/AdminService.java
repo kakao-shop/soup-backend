@@ -29,6 +29,7 @@ public class AdminService {
         return memberRepository.findAll();
     }
 
+    @Transactional(readOnly = false)
     public void createCollection(ThemeCreateRequest themeCreateRequest) {
         Theme theme = themeRepository.save(themeCreateRequest.toThemeEntity());
         for (ThemeCategoryDto collectionDto :
@@ -48,7 +49,8 @@ public class AdminService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional
+
+    @Transactional(readOnly = false)
     public void deleteCollection(Long themeIdx) {
         themeCategoryRepository.deleteAllByThemeIdx(themeIdx);
         themeRepository.deleteById(themeIdx);
