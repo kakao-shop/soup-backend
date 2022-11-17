@@ -15,7 +15,6 @@ public class SoupApplication {
 
     @PostConstruct
     void started() {
-        // timezone UTC 셋팅
         TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
     }
 
