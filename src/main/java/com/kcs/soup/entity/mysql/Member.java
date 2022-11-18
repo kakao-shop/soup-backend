@@ -1,13 +1,16 @@
-package com.kcs.soup.api.entity.mariadb;
+package com.kcs.soup.entity.mysql;
 
-import com.kcs.soup.api.entity.constant.Gender;
-import com.kcs.soup.api.entity.constant.Oauth;
-import com.kcs.soup.api.entity.constant.Role;
-import com.kcs.soup.api.entity.redis.MemberTokenInfo;
-import com.kcs.soup.api.entity.BaseTImeEntity;
 import com.kcs.soup.api.member.dto.request.MyInfoUpdateRequest;
 import com.kcs.soup.api.member.dto.response.MyInfoFindResponse;
-import lombok.*;
+import com.kcs.soup.entity.BaseTImeEntity;
+import com.kcs.soup.entity.constant.Gender;
+import com.kcs.soup.entity.constant.Oauth;
+import com.kcs.soup.entity.constant.Role;
+import com.kcs.soup.entity.redis.MemberTokenInfo;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
@@ -62,12 +65,12 @@ public class Member extends BaseTImeEntity {
         this.nickname = myInfoUpdateRequest.getNickname();
     }
 
-    public boolean isSamePassword(String password){
+    public boolean isSamePassword(String password) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         return !encoder.matches(password, this.password);
     }
 
-    public MyInfoFindResponse toMyInfoFindResponseDto(){
+    public MyInfoFindResponse toMyInfoFindResponseDto() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         return MyInfoFindResponse.builder()
                 .id(id)
