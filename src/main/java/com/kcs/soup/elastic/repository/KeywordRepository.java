@@ -15,7 +15,7 @@ public interface KeywordRepository extends
 
     KeywordLog findByMemberidxAndKeyword(Long memberidx, String keyword);
 
-    List<KeywordLog> findTop3ByMemberidx(Long memberid, Sort sort);
-
     boolean existsKeywordLogByMemberidx(Long memeberid);
+
+    List<KeywordLog> findTop10ByMemberidx(Long memberidx, Sort sort);
 }
