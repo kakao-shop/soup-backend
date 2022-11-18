@@ -6,6 +6,7 @@ import com.kcs.soup.api.entity.mariadb.Theme;
 import com.kcs.soup.api.entity.mariadb.ThemeCategory;
 import com.kcs.soup.common.exceptions.NoSuchThemeExistException;
 import com.kcs.soup.elastic.document.Product;
+import com.kcs.soup.elastic.dto.BotThemeListResponse;
 import com.kcs.soup.elastic.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -60,6 +61,13 @@ public class CollectionService {
 
     public List<Theme> findThemeList(Pageable pageable) {
         return themeRepository.findAll(pageable).toList();
+    }
+
+    public List<BotThemeListResponse> findBotThemeList(Pageable pageable) {
+        return themeRepository.findAll(pageable)
+                .stream()
+                .map(Theme::toBotThemeListDto)
+                .collect(Collectors.toList());
     }
 
 }
