@@ -26,7 +26,7 @@ public class Theme extends BaseCreatedTimeEntity {
 
     public BotThemeListResponse toBotThemeListDto() {
         return BotThemeListResponse.builder()
-                .value(idx)
+                .value(String.valueOf(idx))
                 .label(title)
                 .trigger("last")
                 .build();

@@ -6,7 +6,7 @@ import lombok.Getter;
 @Builder
 @Getter
 public class BotThemeListResponse {
-    private Long value;
+    private String value;
 
     private String label;
 
