@@ -51,8 +51,7 @@ public class MemberController {
     public ResponseEntity<BaseResponse> login(@Valid @RequestBody LoginRequest request,
                                               HttpServletResponse response) {
         LoginResponse loginResponse = memberAuthService.login(request);
-        cookieTokenProvider.set(response, loginResponse.getRefreshToken());
-        loginResponse.setRefreshTokenNull();
+        loginResponse.setRefreshToken(loginResponse.getRefreshToken());
         return ResponseEntity.ok(new BaseResponse<>(200, "로그인에 성공했습니다.", loginResponse));
     }
 

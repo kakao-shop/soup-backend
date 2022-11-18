@@ -1,9 +1,10 @@
 package com.kcs.soup.api.member.dto.response;
 
-import com.kcs.soup.api.entity.constant.Role;
 import com.fasterxml.jackson.annotation.JsonInclude;
-
-import lombok.*;
+import com.kcs.soup.api.entity.constant.Role;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 
 @Builder
 @Getter
@@ -16,7 +17,7 @@ public class LoginResponse {
     private String nickname;
     private Role role;
 
-    public void setRefreshTokenNull() {
-        this.refreshToken = null;
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
     }
 }
