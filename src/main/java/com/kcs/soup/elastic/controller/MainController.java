@@ -42,7 +42,7 @@ public class MainController {
             pageable = PageRequest.of(0, 10, Sort.by("score").descending());
             prdList = collectionService.findAll(pageable);
         }
-        MainSearchRespsonse result = new MainSearchRespsonse(themeList, isUserBest, prdList);
+        MainSearchRespsonse result = new MainSearchRespsonse( themeList, isUserBest, prdList);
         return ResponseEntity.ok(new BaseResponse(200, "성공", result));
     }
 
