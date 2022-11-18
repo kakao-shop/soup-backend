@@ -14,7 +14,7 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 
 @Configuration
 @Slf4j
-@EnableElasticsearchRepositories(basePackages = "com.kcs.soup.elastic")
+@EnableElasticsearchRepositories(basePackages = "com.kcs.soup.api.search")
 public class ElasitcConfig {
     @Value("${elasticsearch.host}")
     private String hostname; //localhost

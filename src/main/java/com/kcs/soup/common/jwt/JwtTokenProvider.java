@@ -1,6 +1,6 @@
 package com.kcs.soup.common.jwt;
 
-import com.kcs.soup.api.entity.mariadb.Member;
+import com.kcs.soup.entity.mysql.Member;
 import com.kcs.soup.api.member.repository.MemberRepository;
 import com.kcs.soup.common.exceptions.NoAccessTokenException;
 import com.kcs.soup.common.exceptions.NoSuchMemberExistException;

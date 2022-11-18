@@ -8,7 +8,7 @@ import javax.annotation.PostConstruct;
 import java.util.TimeZone;
 
 @SpringBootApplication
-@EnableJpaRepositories(basePackages = "com.kcs.soup.api")
+@EnableJpaRepositories(basePackages = {"com.kcs.soup.api.admin","com.kcs.soup.api.member"})
 @EnableScheduling
 public class SoupApplication {
 

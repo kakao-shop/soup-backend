@@ -1,6 +1,6 @@
 package com.kcs.soup.api.admin.dto;
 
-import com.kcs.soup.api.entity.mariadb.Theme;
+import com.kcs.soup.entity.mysql.Theme;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

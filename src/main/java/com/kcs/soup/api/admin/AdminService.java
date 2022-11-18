@@ -2,10 +2,10 @@ package com.kcs.soup.api.admin;
 
 import com.kcs.soup.api.admin.dto.ThemeCategoryDto;
 import com.kcs.soup.api.admin.dto.ThemeCreateRequest;
-import com.kcs.soup.api.entity.mariadb.Member;
-import com.kcs.soup.api.entity.mariadb.Theme;
-import com.kcs.soup.api.entity.mariadb.ThemeCategory;
 import com.kcs.soup.api.member.repository.MemberRepository;
+import com.kcs.soup.entity.mysql.Member;
+import com.kcs.soup.entity.mysql.Theme;
+import com.kcs.soup.entity.mysql.ThemeCategory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

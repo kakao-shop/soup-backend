@@ -1,7 +1,7 @@
 package com.kcs.soup.api.member.service;
 
 import com.kcs.soup.common.exceptions.IdAlreadyExistException;
-import com.kcs.soup.api.entity.mariadb.Member;
+import com.kcs.soup.entity.mysql.Member;
 import com.kcs.soup.api.member.dto.request.MemberCreateRequest;
 import com.kcs.soup.api.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;

@@ -1,15 +1,15 @@
 package com.kcs.soup.api.member.controller;
 
-import com.kcs.soup.common.dto.BaseResponse;
-import com.kcs.soup.common.exceptions.NoAccessTokenException;
-import com.kcs.soup.api.member.service.CookieTokenProvider;
-import com.kcs.soup.api.member.service.MemberAuthService;
-import com.kcs.soup.api.member.service.MemberService;
 import com.kcs.soup.api.member.dto.TokenDto;
 import com.kcs.soup.api.member.dto.request.LoginRequest;
 import com.kcs.soup.api.member.dto.request.MemberCreateRequest;
 import com.kcs.soup.api.member.dto.response.LoginResponse;
 import com.kcs.soup.api.member.dto.response.TokenResponse;
+import com.kcs.soup.api.member.service.CookieTokenProvider;
+import com.kcs.soup.api.member.service.MemberAuthService;
+import com.kcs.soup.api.member.service.MemberService;
+import com.kcs.soup.common.dto.BaseResponse;
+import com.kcs.soup.common.exceptions.NoAccessTokenException;
 import com.kcs.soup.common.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -55,7 +55,6 @@ public class MemberController {
         return ResponseEntity.ok(new BaseResponse<>(200, "로그인에 성공했습니다.", loginResponse));
     }
 
-    // token 재발급
     @GetMapping("/refresh-token")
     public ResponseEntity<BaseResponse> generateToken(
             @CookieValue(value = "refreshToken", required = false) Cookie cookie,
@@ -64,12 +63,10 @@ public class MemberController {
         if (accessToken == null)
             throw new NoAccessTokenException();
         TokenDto tokenDto = memberAuthService.createToken(cookie, accessToken);
-        cookieTokenProvider.set(response, tokenDto.getRefreshToken());
-        TokenResponse tokenResponse = new TokenResponse(tokenDto.getAccessToken());
+        TokenResponse tokenResponse = new TokenResponse(tokenDto.getAccessToken(), tokenDto.getRefreshToken());
         return ResponseEntity.ok(new BaseResponse<>(200, "토큰 재발급에 성공했습니다.", tokenResponse));
     }
 
-    // logout
     @DeleteMapping("/logout")
     public ResponseEntity<BaseResponse> logout(
             @CookieValue(value = "refreshToken", required = false) Cookie cookie) {

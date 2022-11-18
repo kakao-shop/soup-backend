@@ -1,6 +1,6 @@
 package com.kcs.soup.common.jwt;
 
-import com.kcs.soup.api.entity.mariadb.Member;
+import com.kcs.soup.entity.mysql.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,7 +1,7 @@
 package com.kcs.soup.api.member.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.kcs.soup.api.entity.constant.Role;
+import com.kcs.soup.entity.constant.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
