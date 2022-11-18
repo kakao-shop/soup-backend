@@ -35,7 +35,7 @@ public class WebSecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/members/mypage", "/members/mypage/*").hasRole("USER")
-                .antMatchers("/members/**", "/search/**", "/search").permitAll()
+                .antMatchers("/members/**", "/search/**", "/search","/bot/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)

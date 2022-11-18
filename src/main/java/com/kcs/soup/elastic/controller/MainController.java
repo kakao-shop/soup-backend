@@ -1,8 +1,8 @@
 package com.kcs.soup.elastic.controller;
 
 import com.kcs.soup.api.entity.mariadb.Theme;
-import com.kcs.soup.common.jwt.JwtTokenProvider;
 import com.kcs.soup.common.dto.BaseResponse;
+import com.kcs.soup.common.jwt.JwtTokenProvider;
 import com.kcs.soup.elastic.document.Product;
 import com.kcs.soup.elastic.dto.MainSearchRespsonse;
 import com.kcs.soup.elastic.service.CollectionService;
@@ -43,5 +43,12 @@ public class MainController {
         }
         MainSearchRespsonse result = new MainSearchRespsonse(themeList, isUserBest, prdList);
         return ResponseEntity.ok(new BaseResponse(200, "성공", result));
+    }
+
+    @GetMapping("/bot/collections")
+    public ResponseEntity<BaseResponse> findCollections() {
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("createdAt").descending());
+        List<Theme> themeList = collectionService.findThemeList(pageable);
+        return ResponseEntity.ok(new BaseResponse(200, "성공", themeList));
     }
 }
