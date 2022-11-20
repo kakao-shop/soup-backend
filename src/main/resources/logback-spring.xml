@@ -1,0 +1,41 @@
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml" />
+
+    <!-- appender는 출력을 담달. -->
+    <!--Tcp 통신하는 것 같고, 공식문서를 보니 비동기라고 함! -->
+    <appender name="FLUENT" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <!-- 목적지 host:port-->
+        <destination>127.0.0.1:24224</destination>
+        <!-- JSON 인코딩-->
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <mdc />
+                <pattern>
+                    <!-- 아래와 같은 키밸류 타입이 들어가면서 나중에 키바나에서 찾기 수월함-->
+                    <pattern>{"serviceID":"logging"}</pattern>
+                </pattern>
+                <timestamp />
+                <!--<version />-->
+                <context />
+                <logLevel />
+                <message />
+                <loggerName />
+                <logstashMarkers />
+                <stackTrace />
+                <callerData />
+            </providers>
+        </encoder>
+    </appender>
+
+    <!--kr.co.lsoft 는 패키지명 해당 패키지는 TRACE 레벨 이상이면, CONSOLE과 LOGSTASH 설정을 참고함. -->
+    <logger name="SOUP" level="DEBUG" additivity="false">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FLUENT" />
+    </logger>
+
+    <!-- TRACE > DEBUG > INFO > WARN > ERROR -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FLUENT" />
+    </root>
+</configuration>

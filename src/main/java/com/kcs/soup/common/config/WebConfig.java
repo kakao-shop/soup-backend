@@ -5,7 +5,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
@@ -15,7 +17,7 @@ import java.util.List;
 public class WebConfig implements WebMvcConfigurer {
 
     private final MemberIdxDecodeResolver memberIdxDecodeResolver;
-
+    private final HandlerInterceptor handlerInterceptor;
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
@@ -26,6 +28,11 @@ public class WebConfig implements WebMvcConfigurer {
                 .exposedHeaders(HttpHeaders.SET_COOKIE)
                 .allowedOrigins("*")
                 .maxAge(3600L);
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(handlerInterceptor).addPathPatterns("/**");
     }
 
     @Override
