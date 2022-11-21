@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
-import java.io.File;
 import java.io.IOException;
+import java.util.Base64;
 import java.util.UUID;
 
 @Entity
@@ -25,6 +25,7 @@ public class Banner {
 
     private String title;
 
+    @Column(length = 500000)
     private String path;
 
     private Long size;
@@ -38,25 +39,22 @@ public class Banner {
     private Theme theme;
 
     public static Banner of(MultipartFile image, Theme theme) throws IOException {
-        String absolutePath = new File("").getAbsolutePath() + File.separator;
         String idx = String.valueOf(UUID.randomUUID());
-        String extensionType = image.getContentType().split("image/")[1];
-        String path = absolutePath + "src" + File.separator + "main" + File.separator + "resources" + File.separator
-                + "images" + File.separator + image.getOriginalFilename() + "_" + idx + "." + extensionType;
-        File file = new File(path);
-        file.mkdirs();
-        image.transferTo(file);
+        String photoImg = null;
+        Base64.Encoder encoder = Base64.getEncoder();
+        byte[] photoEncode = encoder.encode(image.getBytes());
+        photoImg = new String(photoEncode, "UTF8");
         return Banner.builder()
                 .idx(idx)
                 .title(image.getOriginalFilename())
-                .path(path)
+                .path(photoImg)
                 .size(image.getSize())
                 .contentType(image.getContentType())
                 .theme(theme)
                 .build();
     }
 
-    public BannerDto toBannerDto(){
+    public BannerDto toBannerDto() {
         return BannerDto.builder()
                 .title(this.title)
                 .path(this.path)
