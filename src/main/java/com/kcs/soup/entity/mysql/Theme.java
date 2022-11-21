@@ -1,16 +1,17 @@
 package com.kcs.soup.entity.mysql;
 
-import com.kcs.soup.entity.BaseCreatedTimeEntity;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.kcs.soup.api.admin.dto.ThemeFindResponse;
 import com.kcs.soup.api.search.dto.BotThemeListResponse;
+import com.kcs.soup.entity.BaseCreatedTimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -22,7 +23,24 @@ public class Theme extends BaseCreatedTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idx;
 
+    @Column(length = 50)
     private String title;
+
+    @JsonBackReference
+    @OneToMany(
+            mappedBy = "theme",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<ThemeCategory> categories;
+
+    @JsonBackReference
+    @OneToOne(
+            mappedBy = "theme",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private Banner banner;
 
     public BotThemeListResponse toBotThemeListDto() {
         return BotThemeListResponse.builder()
@@ -32,4 +50,21 @@ public class Theme extends BaseCreatedTimeEntity {
                 .build();
     }
 
+    public static Theme from(String title){
+        return Theme.builder()
+                .title(title)
+                .build();
+    }
+
+    public ThemeFindResponse toDto() {
+        return ThemeFindResponse.builder()
+                .title(this.title)
+                .categoryList(
+                        this.categories
+                                .stream()
+                                .map(ThemeCategory::toThemeCategoryDto)
+                                .collect(Collectors.toList()))
+                .banner(this.banner.toBannerDto())
+                .build();
+    }
 }

@@ -1,4 +1,4 @@
-package com.kcs.soup.api.admin;
+package com.kcs.soup.api.admin.reporitory;
 
 import com.kcs.soup.entity.mysql.ThemeCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
