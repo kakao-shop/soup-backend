@@ -38,8 +38,7 @@ public class WebSecurityConfig {
                 .antMatchers("/members/**", "/search/**", "/search","/bot/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .addFilterBefore(new JwtFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new JwtExceptionFilter(jwtTokenProvider),JwtFilter.class);
+                .addFilterBefore(new JwtFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

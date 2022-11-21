@@ -1,6 +1,6 @@
 package com.kcs.soup.api.search.service;
 
-import com.kcs.soup.api.admin.ThemeRepository;
+import com.kcs.soup.api.admin.reporitory.ThemeRepository;
 import com.kcs.soup.api.search.document.Product;
 import com.kcs.soup.api.search.dto.BotThemeListResponse;
 import com.kcs.soup.api.search.repository.ProductRepository;

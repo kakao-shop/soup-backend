@@ -1,17 +1,14 @@
 package com.kcs.soup.api.admin.dto;
 
-import com.kcs.soup.entity.mysql.Theme;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
-import java.util.List;
-
+@Builder
 @Getter
 @AllArgsConstructor
-public class ThemeCreateRequest {
-
+public class BannerDto {
     private String title;
-
-    private List<ThemeCategoryDto> categoryList;
-
+    private String path;
+    private String contentType;
 }

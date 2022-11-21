@@ -26,9 +26,12 @@ public enum ErrorCode {
     NoSuchThemeExist(4003,"해당 테마를 찾을 수 없습니다."),
     ElasticSearch(4003,"검색어에 해당하는 상품을 찾을 수 없습니다."),
 
+    // admin error
+    FailToSaveBanner(4004, "배너 저장에 실패했습니다."),
+
     // database error
-    ElasticsearchStatus(4004,"Elasticsearch 연결 실패"),
-    RedisStatus(4004, "Redis 연결 실패");
+    ElasticsearchStatus(4005,"Elasticsearch 연결 실패"),
+    RedisStatus(4005, "Redis 연결 실패");
 
 
     private final int code;
