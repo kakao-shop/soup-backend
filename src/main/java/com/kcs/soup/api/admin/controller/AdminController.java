@@ -9,18 +9,11 @@ import com.kcs.soup.common.dto.BaseResponse;
 import com.kcs.soup.common.dto.ErrorCode;
 import com.kcs.soup.entity.mysql.Member;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 
 @RequestMapping("/admin")
@@ -59,12 +52,7 @@ public class AdminController {
     @GetMapping("/collections/{themeIdx}")
     public ResponseEntity findCollection(@PathVariable("themeIdx") Long themeIdx) throws IOException {
         ThemeFindResponse result = adminService.findByIdx(themeIdx);
-        Path path = new File(result.getBanner().getPath()).toPath();
-        FileSystemResource resource = new FileSystemResource(path);
-//        return ResponseEntity.ok()
-//                .contentType(MediaType.parseMediaType(Files.probeContentType(path)))
-//                .body();
-        return ResponseEntity.ok(new BaseResponse(200,"성공",result));
+        return ResponseEntity.ok(new BaseResponse(200, "성공", result));
     }
 
     @DeleteMapping("/collections/{themeIdx}")
