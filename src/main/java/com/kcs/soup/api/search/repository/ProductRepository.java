@@ -20,6 +20,6 @@ public interface ProductRepository
 
     Page<Product> findByCat(String maincat, Pageable pageable);
 
-    List<Product> findBySite(String site, Pageable pageable);
+    Page<Product> findBySite(String site, Pageable pageable);
 
 }
