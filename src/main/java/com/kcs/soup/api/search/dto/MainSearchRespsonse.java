@@ -1,7 +1,6 @@
 package com.kcs.soup.api.search.dto;
 
 import com.kcs.soup.api.search.document.Product;
-import com.kcs.soup.entity.mysql.Theme;
 import lombok.Getter;
 
 import java.time.LocalTime;
@@ -11,11 +10,11 @@ import java.util.List;
 @Getter
 public class MainSearchRespsonse {
     private String crawlingTime;
-    private List<Theme> themeList;
+    private List<MainThemeResponse> themeList;
     private boolean isUserBest;
     private List<Product> recommendResult;
 
-    public MainSearchRespsonse(List<Theme> themeList, boolean isUserBest, List<Product> recommendResult) {
+    public MainSearchRespsonse(List<MainThemeResponse> themeList, boolean isUserBest, List<Product> recommendResult) {
         LocalTime localTime = LocalTime.now();
         int min = localTime.getMinute();
         min -= (min % 30);

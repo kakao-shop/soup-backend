@@ -3,6 +3,7 @@ package com.kcs.soup.entity.mysql;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.kcs.soup.api.admin.dto.ThemeFindResponse;
 import com.kcs.soup.api.search.dto.BotThemeListResponse;
+import com.kcs.soup.api.search.dto.MainThemeResponse;
 import com.kcs.soup.entity.BaseCreatedTimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -50,13 +51,13 @@ public class Theme extends BaseCreatedTimeEntity {
                 .build();
     }
 
-    public static Theme from(String title){
+    public static Theme from(String title) {
         return Theme.builder()
                 .title(title)
                 .build();
     }
 
-    public ThemeFindResponse toDto() {
+    public ThemeFindResponse toThemeFindResDto() {
         return ThemeFindResponse.builder()
                 .title(this.title)
                 .categoryList(
@@ -65,6 +66,14 @@ public class Theme extends BaseCreatedTimeEntity {
                                 .map(ThemeCategory::toThemeCategoryDto)
                                 .collect(Collectors.toList()))
                 .banner(this.banner.toBannerDto())
+                .build();
+    }
+
+    public MainThemeResponse toMainThemeResDto() {
+        return MainThemeResponse.builder()
+                .idx(this.idx)
+                .title(this.title)
+                .banner(this.banner.getPath())
                 .build();
     }
 }

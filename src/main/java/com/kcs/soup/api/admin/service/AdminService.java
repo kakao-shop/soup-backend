@@ -19,7 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -55,13 +54,6 @@ public class AdminService {
         return themeRepository.findAll();
     }
 
-    public List<ThemeCategoryDto> findCollection(Long themeIdx) {
-        return themeCategoryRepository.findByThemeIdx(themeIdx)
-                .stream()
-                .map(ThemeCategoryDto::from)
-                .collect(Collectors.toList());
-    }
-
 
     @Transactional(readOnly = false)
     public void deleteCollection(Long themeIdx) {
@@ -71,6 +63,6 @@ public class AdminService {
     public ThemeFindResponse findByIdx(Long themeIdx) {
         return themeRepository.findById(themeIdx)
                 .orElseThrow(NoSuchThemeExistException::new)
-                .toDto();
+                .toThemeFindResDto();
     }
 }

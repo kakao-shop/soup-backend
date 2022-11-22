@@ -3,6 +3,7 @@ package com.kcs.soup.api.search.service;
 import com.kcs.soup.api.admin.reporitory.ThemeCategoryRepository;
 import com.kcs.soup.api.admin.reporitory.ThemeRepository;
 import com.kcs.soup.api.search.document.Product;
+import com.kcs.soup.api.search.dto.MainThemeResponse;
 import com.kcs.soup.api.search.repository.ProductRepository;
 import com.kcs.soup.common.exceptions.NoSuchThemeExistException;
 import com.kcs.soup.entity.mysql.Theme;
@@ -58,8 +59,12 @@ public class CollectionService {
         return productRepository.findByCat(maincat, pageable);
     }
 
-    public List<Theme> findThemeList(Pageable pageable) {
-        return themeRepository.findAll(pageable).toList();
+    public List<MainThemeResponse> findThemeList(Pageable pageable) {
+        return themeRepository.findAll(pageable)
+                .toList()
+                .stream()
+                .map(Theme::toMainThemeResDto)
+                .collect(Collectors.toList());
     }
 
 }

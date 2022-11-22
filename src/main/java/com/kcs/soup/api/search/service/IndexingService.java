@@ -90,6 +90,7 @@ public class IndexingService {
 
                         .endObject()
                         .endObject()
+                                .endObject()
                         .endObject()), XContentType.JSON)
         );
     }

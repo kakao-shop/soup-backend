@@ -2,11 +2,11 @@ package com.kcs.soup.api.search.controller;
 
 import com.kcs.soup.api.search.document.Product;
 import com.kcs.soup.api.search.dto.MainSearchRespsonse;
+import com.kcs.soup.api.search.dto.MainThemeResponse;
 import com.kcs.soup.api.search.service.CollectionService;
 import com.kcs.soup.api.search.service.SearchService;
 import com.kcs.soup.common.dto.BaseResponse;
 import com.kcs.soup.common.jwt.JwtTokenProvider;
-import com.kcs.soup.entity.mysql.Theme;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -31,7 +31,7 @@ public class MainController {
     @GetMapping("/search/main")
     public ResponseEntity<BaseResponse> searchMain() {
         Pageable pageable = PageRequest.of(0, 10, Sort.by("createdAt").descending());
-        List<Theme> themeList = collectionService.findThemeList(pageable);
+        List<MainThemeResponse> themeList = collectionService.findThemeList(pageable);
         boolean isUserBest = searchService.isUserDataExist();
         List<Product> prdList;
         if (isUserBest) {
