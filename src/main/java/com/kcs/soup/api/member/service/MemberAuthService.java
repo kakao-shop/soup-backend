@@ -1,16 +1,16 @@
 package com.kcs.soup.api.member.service;
 
-import com.kcs.soup.common.exceptions.InvalidTokenException;
-import com.kcs.soup.common.exceptions.NoRefreshTokenException;
-import com.kcs.soup.common.exceptions.NoSuchMemberExistException;
-import com.kcs.soup.entity.mysql.Member;
-import com.kcs.soup.entity.redis.MemberTokenInfo;
 import com.kcs.soup.api.member.dto.TokenDto;
 import com.kcs.soup.api.member.dto.request.LoginRequest;
 import com.kcs.soup.api.member.dto.response.LoginResponse;
-import com.kcs.soup.common.jwt.JwtTokenProvider;
 import com.kcs.soup.api.member.repository.MemberAuthRepository;
 import com.kcs.soup.api.member.repository.MemberRepository;
+import com.kcs.soup.common.exceptions.InvalidTokenException;
+import com.kcs.soup.common.exceptions.NoRefreshTokenException;
+import com.kcs.soup.common.exceptions.NoSuchMemberExistException;
+import com.kcs.soup.common.jwt.JwtTokenProvider;
+import com.kcs.soup.entity.mysql.Member;
+import com.kcs.soup.entity.redis.MemberTokenInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,6 +45,7 @@ public class MemberAuthService {
         String refreshToken = UUID.randomUUID().toString();
         MemberTokenInfo memberTokenInfo = findMember.toMemberTokenInfoEntity(accessToken, refreshToken);
         saveToken(memberTokenInfo);
+        findMember.updateAccessInfo();
         return memberTokenInfo.toLoginResponseDto();
     }
 

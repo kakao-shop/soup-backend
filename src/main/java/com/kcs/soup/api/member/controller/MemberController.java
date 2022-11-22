@@ -5,7 +5,6 @@ import com.kcs.soup.api.member.dto.request.LoginRequest;
 import com.kcs.soup.api.member.dto.request.MemberCreateRequest;
 import com.kcs.soup.api.member.dto.response.LoginResponse;
 import com.kcs.soup.api.member.dto.response.TokenResponse;
-import com.kcs.soup.api.member.service.CookieTokenProvider;
 import com.kcs.soup.api.member.service.MemberAuthService;
 import com.kcs.soup.api.member.service.MemberService;
 import com.kcs.soup.common.dto.BaseResponse;
@@ -24,7 +23,6 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class MemberController {
 
-    private final CookieTokenProvider cookieTokenProvider;
     private final MemberService memberService;
     private final MemberAuthService memberAuthService;
 

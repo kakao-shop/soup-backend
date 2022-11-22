@@ -2,10 +2,10 @@ package com.kcs.soup.api.member.dto.request;
 
 import com.kcs.soup.common.exceptions.PasswordConfirmException;
 import com.kcs.soup.entity.constant.Gender;
-import com.kcs.soup.entity.mysql.Member;
 import com.kcs.soup.entity.constant.Oauth;
 import com.kcs.soup.entity.constant.Role;
-import lombok.*;
+import com.kcs.soup.entity.mysql.Member;
+import lombok.Getter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.validation.constraints.Size;
@@ -54,6 +54,7 @@ public class MemberCreateRequest {
                 .gender(Gender.valueOf(gender))
                 .role(Role.valueOf(role))
                 .oauth(Oauth.valueOf(oauth))
+                .totalAccessCnt(0L)
                 .build();
     }
 

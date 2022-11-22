@@ -4,7 +4,6 @@ import com.kcs.soup.api.admin.dto.ThemeCreateRequest;
 import com.kcs.soup.api.admin.dto.ThemeFindResponse;
 import com.kcs.soup.api.admin.dto.ThemesFindResponse;
 import com.kcs.soup.api.admin.service.AdminService;
-import com.kcs.soup.api.search.service.CollectionService;
 import com.kcs.soup.common.dto.BaseResponse;
 import com.kcs.soup.common.dto.ErrorCode;
 import com.kcs.soup.entity.mysql.Member;
@@ -22,8 +21,6 @@ import java.util.List;
 public class AdminController {
 
     private final AdminService adminService;
-
-    private final CollectionService collectionService;
 
     @GetMapping("/members")
     public ResponseEntity<BaseResponse> findMembers() {
