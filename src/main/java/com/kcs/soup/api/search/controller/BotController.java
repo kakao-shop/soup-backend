@@ -5,6 +5,7 @@ import com.kcs.soup.api.search.dto.BotThemeListResponse;
 import com.kcs.soup.api.search.service.BotService;
 import com.kcs.soup.common.dto.BaseResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -36,7 +37,7 @@ public class BotController {
             @RequestParam(name = "site") String site,
             @PageableDefault(size = 10, sort = "purchase", direction = Sort.Direction.DESC) Pageable pageable
     ) {
-        List<Product> result = botService.findBySite(site, pageable);
+        Page<Product> result = botService.findBySite(site, pageable);
         return ResponseEntity.ok(new BaseResponse(200, "성공", result));
     }
 
