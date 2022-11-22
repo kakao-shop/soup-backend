@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.web.SortDefault;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,9 +34,9 @@ public class BotController {
     @GetMapping("/today-best")
     public ResponseEntity<BaseResponse> searchTodayBestBySite(
             @RequestParam(name = "site") String site,
-            @SortDefault(sort = "purchase", direction = Sort.Direction.DESC) Sort sort
+            @PageableDefault(size = 10, sort = "purchase", direction = Sort.Direction.DESC) Pageable pageable
     ) {
-        List<Product> result = botService.findTop10BySite(site, sort);
+        List<Product> result = botService.findBySite(site, pageable);
         return ResponseEntity.ok(new BaseResponse(200, "성공", result));
     }
 
