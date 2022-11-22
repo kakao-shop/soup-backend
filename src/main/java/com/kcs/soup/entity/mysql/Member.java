@@ -15,10 +15,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Entity
 @Getter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Member extends BaseTImeEntity {
@@ -48,21 +50,17 @@ public class Member extends BaseTImeEntity {
     @Enumerated(EnumType.STRING)
     private Oauth oauth;
 
-    @Builder
-    public Member(String id, String nickname, String password,
-                  LocalDate birthday, Gender gender, Role role, Oauth oauth) {
-        this.id = id;
-        this.nickname = nickname;
-        this.password = password;
-        this.birthday = birthday;
-        this.gender = gender;
-        this.role = role;
-        this.oauth = oauth;
-    }
+    private Long totalAccessCnt;
+
+    private LocalDateTime lastAccessTime;
 
     public void updateMember(MyInfoUpdateRequest myInfoUpdateRequest) {
         this.password = myInfoUpdateRequest.getPassword();
-        this.nickname = myInfoUpdateRequest.getNickname();
+    }
+
+    public void updateAccessInfo() {
+        this.totalAccessCnt += 1;
+        this.lastAccessTime = LocalDateTime.now();
     }
 
     public boolean isSamePassword(String password) {
