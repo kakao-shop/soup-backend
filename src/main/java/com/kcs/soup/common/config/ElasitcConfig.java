@@ -25,7 +25,7 @@ public class ElasitcConfig {
     @Bean
     public RestHighLevelClient client() {
         ClientConfiguration clientConfiguration = ClientConfiguration.builder()
-                .connectedTo(hostname + ":" + port)
+                .connectedTo("192.168.56.101:9200", "192.168.56.102:9200", "192.168.56.103:9200")
                 .build();
         return RestClients.create(clientConfiguration).rest();
     }

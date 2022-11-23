@@ -17,8 +17,8 @@ public class PreInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        log.info(request.getRequestURI().toLowerCase()+ " | " + request.getMethod() + " | " + request.getAuthType()
-                + " | " + request.getQueryString().getBytes(StandardCharsets.UTF_8) + " | "  + request.getRemoteAddr());
+//        log.info(request.getRequestURI().toLowerCase()+ " | " + request.getMethod() + " | " + request.getAuthType()
+//                + " | " + request.getQueryString().getBytes(StandardCharsets.UTF_8) + " | "  + request.getRemoteAddr());
         log.info("uri : " + request.getRequestURI().toLowerCase());
         return true;
     }

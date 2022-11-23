@@ -32,7 +32,7 @@ public class IndexingService {
     private static final String ALIAS_NAME = "product";
 
 
-    @Scheduled(cron = "0 */1 * * * *")
+    @Scheduled(cron = "0 */30 * * * *")
     public void indexingUserDate() throws InterruptedException {
         System.out.println("=============================start");
 
@@ -81,6 +81,7 @@ public class IndexingService {
                         .startObject("default")
                         .field("type", "custom")
                         .field("tokenizer", "nori_tokenizer")
+                        .field("filter", "synonym")
                         .endObject()
                         .endObject()
                         .startObject("filter")
@@ -89,6 +90,7 @@ public class IndexingService {
                                 .field("synonyms_path","analysis/synonyms.txt")
 
                         .endObject()
+                                .endObject()
                         .endObject()
                         .endObject()), XContentType.JSON)
         );
