@@ -69,12 +69,12 @@ public class SearchController {
     }
 
     @PostMapping("/select/item")
-    public void saveSelectItemController(@RequestBody SearchLog searchLog) {
+    public void saveSelectItemController(@RequestBody Product product) {
         boolean isUserBest = searchService.isUserLogin();
         Long memberidx;
         if (isUserBest) {
             memberidx = jwtTokenProvider.getMemberIdx();
-            searchService.updateSelectItemLog(searchLog.getUrl(), memberidx);
+            searchService.updateSelectItemLog(product, memberidx);
         }
 
 

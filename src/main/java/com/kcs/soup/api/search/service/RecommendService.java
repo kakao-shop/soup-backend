@@ -66,18 +66,24 @@ public class RecommendService {
         List<SelectItemLog> logList = selectItemLogRepository.findTop10ByMemberidx(memberidx, sort);
         // 사용자의 선택한 아이템들
         HashMap<String, Integer> subcatMap = getSubcat(logList);
-
-        if (subcatMap.size() == 0) {
+        System.out.println(logList.get(0).getClass());
+        if (logList.size() == 0) {
             return getRecommendWithoutLogs();
         }
-        // 가중치를 위한 count 수집
+        List<String> subCatList = new ArrayList<>();
         List<Integer> countList = new ArrayList<>();
-        for (String key : subcatMap.keySet()) {
-            countList.add(subcatMap.get(key));
+
+        for (SelectItemLog  log: logList) {
+            if (subCatList.contains(log.getSubcat())) {
+                Integer idx = subCatList.indexOf(log.getSubcat());
+                countList.set(idx, countList.get(idx) + 1);
+            } else {
+                subCatList.add(log.getSubcat());
+                countList.add(1);
+            }
         }
         // 가중치 계산
         List<Integer> weigthList = getWeight(countList);
-        HashMap<String, Integer> data = new HashMap<>();
         int cnt = 0;
         for (String key : subcatMap.keySet()) {
             subcatMap.replace(key, weigthList.get(cnt));
@@ -123,15 +129,6 @@ public class RecommendService {
         return productList;
     }
 
-    private List<String> getSubcat(String[] keyList) {
-        List<String> subCatList = new ArrayList<>();
-        for (String key : keyList) {
-            Pageable pageable = PageRequest.of(0, 1, Sort.by(Sort.Direction.DESC, "purchase"));
-            List<Product> productList = productRepository.findByPrdName(key, pageable).get().collect(Collectors.toList());
-            subCatList.add(productList.get(0).getSubcat());
-        }
-        return subCatList;
-    }
 
     private List<Integer> getWeight(List<Integer> countList) {
         Integer tmp = countList.stream().mapToInt(Integer::intValue).sum();

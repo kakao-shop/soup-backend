@@ -28,20 +28,29 @@ public class SearchService {
     private final KeywordRepository keywordRepository;
     private final SelectItemLogRepository selectItemLogRepository;
 
-    public void updateSelectItemLog(String url, Long memberidx) {
-        SelectItemLog selectItemLog = selectItemLogRepository.findByMemberidxAndItemurl(memberidx, url);
-        saveSelectItemLog(url, memberidx, selectItemLog);
+    public void updateSelectItemLog(Product product, Long memberidx) {
+        SelectItemLog selectItemLog = selectItemLogRepository.findByMemberidxAndItemurl(memberidx, product.getWebUrl());
+        saveSelectItemLog(product, memberidx, selectItemLog);
     }
 
 
-    private void saveSelectItemLog(String url, Long memberidx, SelectItemLog selectItemLog) {
+    private void saveSelectItemLog(Product product, Long memberidx, SelectItemLog selectItemLog) {
         if (selectItemLog != null) {
             selectItemLog.setCount(selectItemLog.getCount() + 1);
             selectItemLog.updateTime();
             selectItemLogRepository.save(selectItemLog);
         } else {
             selectItemLogRepository.save(SelectItemLog.builder()
-                    .itemurl(url)
+                            .itemurl(product.getWebUrl())
+                            .cat(product.getCat())
+                            .prdName(product.getPrdName())
+                            .imgSrc(product.getImgSrc())
+                            .score(product.getScore())
+                            .site(product.getSite())
+                            .subcat(product.getSubcat())
+                            .purchase(product.getPurchase())
+                            .price(product.getPrice())
+
                     .memberidx(memberidx)
                     .updateat(LocalDateTime.now())
                     .count(1)
