@@ -11,6 +11,8 @@ services:
     environment:
       - MYSQL_DATABASE=soup
       - MYSQL_ROOT_PASSWORD=pass123#
+    volumes:
+      - MysqlData:/var/lib/mysql
     command:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
@@ -50,7 +52,8 @@ services:
     restart: always
 
 volumes:
-  SampleDatabaseData:
+  MysqlData:
 
 networks:
-  backend-db: {}
+  backend-db:
+    name: backend-db
