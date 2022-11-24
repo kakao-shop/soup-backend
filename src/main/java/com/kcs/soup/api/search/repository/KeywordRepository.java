@@ -11,11 +11,7 @@ import java.util.List;
 public interface KeywordRepository extends
         ElasticsearchRepository<KeywordLog, String>,
         BaseElasticSearchRepository<KeywordLog> {
-    Boolean existsByMemberidxAndKeyword(Long memberidx, String keyword);
-
-    KeywordLog findByMemberidxAndKeyword(Long memberidx, String keyword);
-
-    boolean existsKeywordLogByMemberidx(Long memeberid);
 
     List<KeywordLog> findTop10ByMemberidx(Long memberidx, Sort sort);
+
 }

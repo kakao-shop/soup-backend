@@ -13,6 +13,7 @@ public interface ProductRepository
         extends ElasticsearchRepository<Product, String>,
         BaseElasticSearchRepository<Product> {
     Page<Product> findByPrdName(String name, Pageable pageable);
+    Page<Product> findByWebUrl(String webUrl, Pageable pageable);
 
     Page<Product> findBySubcat(String subcat, Pageable pageable);
 

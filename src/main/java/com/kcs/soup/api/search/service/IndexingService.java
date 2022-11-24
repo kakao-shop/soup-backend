@@ -81,16 +81,16 @@ public class IndexingService {
                         .startObject("default")
                         .field("type", "custom")
                         .field("tokenizer", "nori_tokenizer")
+                        .field("filter", "synonym")
                         .endObject()
                         .endObject()
                         .startObject("filter")
                         .startObject("synonym")
-                                .field("type","synonym")
-                                .field("synonyms_path","analysis/synonyms.txt")
-
+                        .field("type","synonym")
+                        .field("synonyms_path","analysis/synonyms.txt")
                         .endObject()
                         .endObject()
-                                .endObject()
+                        .endObject()
                         .endObject()), XContentType.JSON)
         );
     }

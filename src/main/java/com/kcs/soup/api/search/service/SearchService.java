@@ -3,8 +3,10 @@ package com.kcs.soup.api.search.service;
 
 import com.kcs.soup.api.search.document.KeywordLog;
 import com.kcs.soup.api.search.document.Product;
+import com.kcs.soup.api.search.document.SelectItemLog;
 import com.kcs.soup.api.search.repository.KeywordRepository;
 import com.kcs.soup.api.search.repository.ProductRepository;
+import com.kcs.soup.api.search.repository.SelectItemLogRepository;
 import com.kcs.soup.common.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -13,10 +15,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -26,18 +26,43 @@ public class SearchService {
     private final JwtTokenProvider jwtTokenProvider;
     private final ProductRepository productRepository;
     private final KeywordRepository keywordRepository;
+    private final SelectItemLogRepository selectItemLogRepository;
 
+    public void updateSelectItemLog(String url, Long memberidx) {
+        SelectItemLog selectItemLog = selectItemLogRepository.findByMemberidxAndItemurl(memberidx, url);
+        saveSelectItemLog(url, memberidx, selectItemLog);
+    }
+
+
+    private void saveSelectItemLog(String url, Long memberidx, SelectItemLog selectItemLog) {
+        if (selectItemLog != null) {
+            selectItemLog.setCount(selectItemLog.getCount() + 1);
+            selectItemLog.updateTime();
+            selectItemLogRepository.save(selectItemLog);
+        } else {
+            selectItemLogRepository.save(SelectItemLog.builder()
+                    .itemurl(url)
+                    .memberidx(memberidx)
+                    .updateat(LocalDateTime.now())
+                    .count(1)
+                    .build());
+        }
+    }
 
     public Page<Product> getProductPage(String prdname, Pageable pageable, Long memberidx) {
         if (memberidx != null) {
-            KeywordLog keywordObject = keywordRepository.findByMemberidxAndKeyword(memberidx, prdname);
-            saveKeywordLog(prdname, memberidx, keywordObject);
+            saveKeywordLog(prdname, memberidx);
+        } else {
+            saveKeywordLog(prdname, null);
         }
 
         return productRepository.findByPrdName(prdname, pageable);
     }
 
-    public List<Product> getRecommendItemByMemberid(Long memberidx) {
+
+
+
+    public List<Product> getRecommendItemByMemberidInKeywordLog(Long memberidx) {
         Sort sort = sortByCount();
         List<KeywordLog> logList = keywordRepository.findTop10ByMemberidx(memberidx, sort);
         List<KeywordLog> logListHaveSubcat = getKeywordLogHaveSubcat(logList);
@@ -136,14 +161,21 @@ public class SearchService {
         return Sort.by(Sort.Direction.DESC, "count");
     }
 
-    private void saveKeywordLog(String prdname, Long memberidx, KeywordLog keywordObject) {
-        if (keywordObject != null) {
-            keywordObject.setCount(keywordObject.getCount() + 1);
-            keywordRepository.save(keywordObject);
-        } else {
+
+    private void saveKeywordLog(String prdname, Long memberidx) {
+
+        if (memberidx != null) {
             KeywordLog keywordLog = KeywordLog.builder()
                     .keyword(prdname)
                     .count(1).memberidx(memberidx)
+                    .updateat(LocalDateTime.now())
+                    .build();
+            keywordRepository.save(keywordLog);
+        } else {
+            KeywordLog keywordLog = KeywordLog.builder()
+                    .keyword(prdname)
+                    .count(1).memberidx(null)
+                    .updateat(LocalDateTime.now())
                     .build();
             keywordRepository.save(keywordLog);
         }
@@ -156,7 +188,10 @@ public class SearchService {
 
     public boolean isUserDataExist() {
         Long memberIdx = jwtTokenProvider.getMemberIdxIfLogined();
-        return keywordRepository.existsKeywordLogByMemberidx(memberIdx);
+        if (memberIdx == null) {
+            return false;
+        }
+        return true;
     }
 
 }

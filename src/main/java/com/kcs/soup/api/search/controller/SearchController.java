@@ -1,9 +1,9 @@
 package com.kcs.soup.api.search.controller;
 
 import com.kcs.soup.api.search.document.Product;
-import com.kcs.soup.api.search.dto.RecommendResponse;
-import com.kcs.soup.api.search.dto.SearchResponse;
+import com.kcs.soup.api.search.dto.*;
 import com.kcs.soup.api.search.service.CollectionService;
+import com.kcs.soup.api.search.service.RecommendService;
 import com.kcs.soup.api.search.service.SearchService;
 import com.kcs.soup.common.dto.BaseResponse;
 import com.kcs.soup.common.jwt.JwtTokenProvider;
@@ -13,6 +13,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -25,7 +26,13 @@ public class SearchController {
     private final JwtTokenProvider jwtTokenProvider;
 
     private final CollectionService collectionService;
+    private final RecommendService recommendService;
 
+    @GetMapping("/rank")
+    public ResponseEntity<BaseResponse> test() throws IOException {
+        List<RankDto> top10KeywordRank = recommendService.getTop10KeywordRank();
+        return ResponseEntity.ok(new BaseResponse(200, "성공", new RankResponse("rank", top10KeywordRank)));
+    }
     @GetMapping("")
     public ResponseEntity<BaseResponse> searchQuery(
             @RequestParam(name = "q") String prdname,
@@ -34,26 +41,43 @@ public class SearchController {
         boolean isUserBest = searchService.isUserLogin();
         Long memberIDX;
         Page<Product> result;
+
         if (isUserBest) {
             memberIDX = jwtTokenProvider.getMemberIdx();
             result = searchService.getProductPage(prdname, pageable, memberIDX);
         } else {
             result = searchService.getProductPage(prdname, pageable, null);
         }
+
         return ResponseEntity.ok(new BaseResponse(200, "성공", new SearchResponse(prdname, result)));
     }
 
     @GetMapping("/collections/user-best")
     public ResponseEntity<BaseResponse> getRecommendItemList() {
-        List<Product> productList = searchService.getRecommendItemByMemberid(jwtTokenProvider.getMemberIdx());
+
+        List<Product> productList = recommendService.getRecommendItemByMemberidInItemAccessLog(jwtTokenProvider.getMemberIdx());
         return ResponseEntity.ok(new BaseResponse(200, "성공", new RecommendResponse("recommend", productList)));
     }
+
+
 
     @GetMapping("/maincat")
     public ResponseEntity<BaseResponse> searchByMaincat(@RequestParam(name = "category") String maincat,
                                                         @PageableDefault(size = 10, sort = "purchase", direction = Sort.Direction.DESC) Pageable pageable) {
         Page<Product> result = collectionService.searchByMaincat(maincat, pageable);
         return ResponseEntity.ok(new BaseResponse(200, "성공", new SearchResponse(maincat, result)));
+    }
+
+    @PostMapping("/select/item")
+    public void saveSelectItemController(@RequestBody SearchLog searchLog) {
+        boolean isUserBest = searchService.isUserLogin();
+        Long memberidx;
+        if (isUserBest) {
+            memberidx = jwtTokenProvider.getMemberIdx();
+            searchService.updateSelectItemLog(searchLog.getUrl(), memberidx);
+        }
+
+
     }
 
     @GetMapping("/subcat")

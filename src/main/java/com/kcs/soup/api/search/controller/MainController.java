@@ -4,6 +4,7 @@ import com.kcs.soup.api.search.document.Product;
 import com.kcs.soup.api.search.dto.MainSearchRespsonse;
 import com.kcs.soup.api.search.dto.MainThemeResponse;
 import com.kcs.soup.api.search.service.CollectionService;
+import com.kcs.soup.api.search.service.RecommendService;
 import com.kcs.soup.api.search.service.SearchService;
 import com.kcs.soup.common.dto.BaseResponse;
 import com.kcs.soup.common.jwt.JwtTokenProvider;
@@ -24,7 +25,7 @@ public class MainController {
     private final JwtTokenProvider jwtTokenProvider;
 
     private final CollectionService collectionService;
-
+    private final RecommendService recommendService;
     private final SearchService searchService;
 
 
@@ -34,9 +35,10 @@ public class MainController {
         List<MainThemeResponse> themeList = collectionService.findThemeList(pageable);
         boolean isUserBest = searchService.isUserDataExist();
         List<Product> prdList;
+        System.out.println(isUserBest);
         if (isUserBest) {
             Long memberIdx = jwtTokenProvider.getMemberIdx();
-            prdList = searchService.getRecommendItemByMemberid(memberIdx);
+            prdList = recommendService.getRecommendItemByMemberidInItemAccessLog(memberIdx);
         } else {
             pageable = PageRequest.of(0, 10, Sort.by("score").descending());
             prdList = collectionService.findAll(pageable);
