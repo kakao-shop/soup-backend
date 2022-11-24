@@ -41,6 +41,7 @@ public class SearchService {
             selectItemLogRepository.save(selectItemLog);
         } else {
             selectItemLogRepository.save(SelectItemLog.builder()
+                            .pid(product.getId())
                             .itemurl(product.getWebUrl())
                             .cat(product.getCat())
                             .prdName(product.getPrdName())

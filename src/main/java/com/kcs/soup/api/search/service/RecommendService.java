@@ -31,9 +31,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class RecommendService {
-    private final JwtTokenProvider jwtTokenProvider;
     private final ProductRepository productRepository;
-    private final KeywordRepository keywordRepository;
     private final SelectItemLogRepository selectItemLogRepository;
     private final ElasitcConfig elasitcConfig;
 
@@ -48,7 +46,6 @@ public class RecommendService {
                 .source(searchSourceBuilder);
 
         SearchResponse searchResponse = elasitcConfig.client().search(searchRequest, RequestOptions.DEFAULT);
-        Iterator<Aggregation> iterator = searchResponse.getAggregations().iterator();
         Terms terms = searchResponse.getAggregations().get("test");
         List<RankDto> rankDtoList = new ArrayList<>();
         for (Terms.Bucket bucket : terms.getBuckets()) {
@@ -112,7 +109,7 @@ public class RecommendService {
         HashMap<String, Integer> map = new HashMap<>();
         for (SelectItemLog key : logList) {
             Pageable pageable = PageRequest.of(0, 1, Sort.by(Sort.Direction.DESC, "purchase"));
-            List<Product> productList = productRepository.findByWebUrl(key.getItemurl(), pageable).get().collect(Collectors.toList());
+            List<Product> productList = productRepository.findByPid(key.getPid(), pageable).get().collect(Collectors.toList());
             String subcat = productList.get(0).getSubcat();
             if (productList.size() > 0) {
                 if (map.containsKey(subcat)) {

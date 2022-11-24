@@ -23,6 +23,7 @@ public class SelectItemLog {
     @Id
     @GeneratedValue
     private String id;
+    private String pid;
     private Long memberidx;
     private String itemurl;
     private int count;
