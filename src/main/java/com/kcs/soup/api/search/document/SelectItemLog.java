@@ -4,31 +4,35 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.DateFormat;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import java.time.LocalDateTime;
 
-import static javax.persistence.GenerationType.IDENTITY;
-
-@Document(indexName = "keywordlogs", createIndex = true)
+@Document(indexName = "selectitemlog", createIndex = true, replicas = 2)
 @Setter
 @Getter
-@Builder
 @AllArgsConstructor
-public class KeywordLog {
+@Builder
+
+public class SelectItemLog {
     @Id
-    @GeneratedValue(strategy = IDENTITY)
+    @GeneratedValue
     private String id;
     private Long memberidx;
-    private String keyword;
+    private String itemurl;
     private int count;
-    @Field(type = FieldType.Date, store = true, format = DateFormat.custom, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
-
+    @Field(type = FieldType.Date, format = DateFormat.date_hour_minute_second_millis)
     private LocalDateTime updateat;
+
+    public void updateTime() {
+        this.updateat = LocalDateTime.now();
+    }
+
+
 
 }
