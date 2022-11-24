@@ -1,6 +1,8 @@
 package com.kcs.soup.api.search.controller;
 
+import com.kcs.soup.api.member.support.TokenMemberIdx;
 import com.kcs.soup.api.search.document.Product;
+import com.kcs.soup.api.search.document.SelectItemLog;
 import com.kcs.soup.api.search.dto.*;
 import com.kcs.soup.api.search.service.CollectionService;
 import com.kcs.soup.api.search.service.RecommendService;
@@ -27,9 +29,14 @@ public class SearchController {
 
     private final CollectionService collectionService;
     private final RecommendService recommendService;
+    @GetMapping("/item/recent")
+    public ResponseEntity<BaseResponse> getRecentlySearchItem(@TokenMemberIdx Long memberidx) {
+        List<SelectItemLog> result = recommendService.getSelectItemTop10RecentlyByMemberidx(memberidx);
+        return ResponseEntity.ok(new BaseResponse(200, "성공", new SelectItemResponse("recently", result)));
 
+    }
     @GetMapping("/rank")
-    public ResponseEntity<BaseResponse> test() throws IOException {
+    public ResponseEntity<BaseResponse> getTop10RealtimeSearchTerm() throws IOException {
         List<RankDto> top10KeywordRank = recommendService.getTop10KeywordRank();
         return ResponseEntity.ok(new BaseResponse(200, "성공", new RankResponse("rank", top10KeywordRank)));
     }
@@ -67,6 +74,8 @@ public class SearchController {
         Page<Product> result = collectionService.searchByMaincat(maincat, pageable);
         return ResponseEntity.ok(new BaseResponse(200, "성공", new SearchResponse(maincat, result)));
     }
+
+
 
     @PostMapping("/select/item")
     public void saveSelectItemController(@RequestBody Product product) {

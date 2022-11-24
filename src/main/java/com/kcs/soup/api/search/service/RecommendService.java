@@ -62,11 +62,11 @@ public class RecommendService {
 
 
     public List<Product> getRecommendItemByMemberidInItemAccessLog(Long memberidx) {
-        Sort sort = sortByRecent();
-        List<SelectItemLog> logList = selectItemLogRepository.findTop10ByMemberidx(memberidx, sort);
+
+        List<SelectItemLog> logList = getSelectItemTop10RecentlyByMemberidx(memberidx);
         // 사용자의 선택한 아이템들
         HashMap<String, Integer> subcatMap = getSubcat(logList);
-        System.out.println(logList.get(0).getClass());
+        System.out.println(logList + " | " + logList.size());
         if (logList.size() == 0) {
             return getRecommendWithoutLogs();
         }
@@ -92,6 +92,15 @@ public class RecommendService {
         // 서브 카테고리 / 개수 검색
         List<Product> productList = getProductList(subcatMap);
         return productList;
+    }
+
+    public List<SelectItemLog> getSelectItemTop10RecentlyByMemberidx(Long memberidx) {
+        Sort sort = sortByRecent();
+        List<SelectItemLog> logList = selectItemLogRepository.findTop10ByMemberidx(memberidx, sort);
+        if (logList == null) {
+            return null;
+        }
+        return logList;
     }
 
     private List<Product> getRecommendWithoutLogs() {

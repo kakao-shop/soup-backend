@@ -8,6 +8,6 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 public class RankResponse {
-    private String recommend;
+    private String rank;
     private List<RankDto> result;
 }
