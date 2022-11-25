@@ -28,7 +28,6 @@ public class SelectItemLog {
 
     private String pid;
     private Long memberidx;
-    private String itemurl;
     private int count;
 
     private String prdName;

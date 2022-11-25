@@ -24,10 +24,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.elasticsearch.annotations.DateFormat;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -38,13 +40,16 @@ public class RecommendService {
     private final SelectItemLogRepository selectItemLogRepository;
     private final ElasitcConfig elasitcConfig;
 
+
     public List<RankDto> getTop10KeywordRank() throws IOException {
-        LocalDateTime startTime = LocalDateTime.now().minusHours(24);
+        String startTime = LocalDateTime.now().minusHours(24).format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS"));
         TermsAggregationBuilder aggregation = AggregationBuilders
                 .terms("rank")
-                .field("keyword.keyword").size(10);
+                .field("keyword.keyword")
+                .size(10);
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery()
-                .filter(QueryBuilders.rangeQuery("updateat").gte(startTime));
+                .filter(QueryBuilders.rangeQuery("updateat")
+                        .gte(startTime));
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder()
                 .query(boolQueryBuilder)
                 .aggregation(aggregation)
@@ -70,7 +75,6 @@ public class RecommendService {
         List<SelectItemLog> logList = getSelectItemTop10RecentlyByMemberidx(memberidx);
         // 사용자의 선택한 아이템들
         HashMap<String, Integer> subcatMap = getSubcat(logList);
-        System.out.println(logList + " | " + logList.size());
         if (logList.size() == 0) {
             return getRecommendWithoutLogs();
         }
@@ -115,14 +119,13 @@ public class RecommendService {
     private HashMap<String, Integer> getSubcat(List<SelectItemLog> logList) {
         HashMap<String, Integer> map = new HashMap<>();
         for (SelectItemLog key : logList) {
-            Product product = productRepository.findById(key.getPid()).get();
 
-            String subcat = product.getSubcat();
+            String subcat = key.getSubcat();;
 
             if (map.containsKey(subcat)) {
                 map.replace(subcat, map.get(subcat) +1 );
             } else {
-                map.put(product.getSubcat(),1);
+                map.put(key.getSubcat(),1);
             }
         }
         return map;

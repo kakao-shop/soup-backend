@@ -11,7 +11,7 @@ import java.util.List;
 public interface SelectItemLogRepository extends
         ElasticsearchRepository<SelectItemLog, String>,
         BaseElasticSearchRepository<SelectItemLog> {
-    SelectItemLog findByMemberidxAndItemurl(Long memberidx, String itemurl);
+    SelectItemLog findByMemberidxAndWebUrl(Long memberidx, String itemurl);
 
     List<SelectItemLog> findTop10ByMemberidx(Long memberidx, Sort sort);
 }

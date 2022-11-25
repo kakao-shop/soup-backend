@@ -29,7 +29,7 @@ public class SearchController {
 
     private final CollectionService collectionService;
     private final RecommendService recommendService;
-    @GetMapping("/item/recent")
+    @GetMapping("/recent")
     public ResponseEntity<BaseResponse> getRecentlySearchItem(@TokenMemberIdx Long memberidx) {
         List<SelectItemLog> result = recommendService.getSelectItemTop10RecentlyByMemberidx(memberidx);
         return ResponseEntity.ok(new BaseResponse(200, "성공", new SelectItemResponse("recently", result)));
