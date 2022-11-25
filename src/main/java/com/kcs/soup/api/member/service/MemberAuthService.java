@@ -5,6 +5,7 @@ import com.kcs.soup.api.member.dto.request.LoginRequest;
 import com.kcs.soup.api.member.dto.response.LoginResponse;
 import com.kcs.soup.api.member.repository.MemberAuthRepository;
 import com.kcs.soup.api.member.repository.MemberRepository;
+import com.kcs.soup.common.exceptions.ExpiredRefreshTokenException;
 import com.kcs.soup.common.exceptions.InvalidTokenException;
 import com.kcs.soup.common.exceptions.NoRefreshTokenException;
 import com.kcs.soup.common.exceptions.NoSuchMemberExistException;
@@ -58,7 +59,7 @@ public class MemberAuthService {
     public TokenDto createToken(Cookie cookie, String accessToken) {
         String refreshToken = getRefreshToken(cookie);
         MemberTokenInfo memberTokenInfo = memberAuthRepository.findById(refreshToken)
-                .orElseThrow(InvalidTokenException::new);
+                .orElseThrow(ExpiredRefreshTokenException::new);
         validateMemberAuthInfo(memberTokenInfo, refreshToken, accessToken);
         memberAuthRepository.delete(memberTokenInfo);
         MemberTokenInfo newMemberTokenInfo = createNewToken(memberTokenInfo);

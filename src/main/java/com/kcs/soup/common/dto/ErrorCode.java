@@ -19,8 +19,9 @@ public enum ErrorCode {
     // jwt error
     NoAccessToken(4002,"jwt access token 값이 없습니다."),
     NoRefreshToken(4002, "jwt refresh token 값이 없습니다."),
-    JwtValidation(4002, "jwt token이 유효하지 않습니다."),
-    ExpiredJwt(4002,"jwt access token이 만료되었습니다." ),
+    JwtValidation(4002, "jwt access token이 유효하지 않습니다."),
+    ExpiredAccessJwt(4002,"jwt access token이 만료되었습니다." ),
+    ExpiredRefreshJwt(4002, "jwt refresh token이 만료되었습니다."),
 
     // search error
     NoSuchThemeExist(4003,"해당 테마를 찾을 수 없습니다."),
