@@ -7,6 +7,7 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 
 import java.util.List;
+import java.util.Optional;
 
 @EnableElasticsearchRepositories
 public interface ProductRepository
@@ -14,7 +15,7 @@ public interface ProductRepository
         BaseElasticSearchRepository<Product> {
 
     Page<Product> findByPrdName(String name, Pageable pageable);
-    Page<Product> findByPid(String pid, Pageable pageable);
+    Optional<Product> findById(String id);
 
     Page<Product> findBySubcat(String subcat, Pageable pageable);
 

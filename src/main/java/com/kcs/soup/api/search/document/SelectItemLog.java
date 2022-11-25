@@ -13,6 +13,8 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 import javax.persistence.GeneratedValue;
 import java.time.LocalDateTime;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 @Document(indexName = "selectitemlog", createIndex = true, replicas = 2)
 @Setter
 @Getter
@@ -21,8 +23,9 @@ import java.time.LocalDateTime;
 
 public class SelectItemLog {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = IDENTITY)
     private String id;
+
     private String pid;
     private Long memberidx;
     private String itemurl;
