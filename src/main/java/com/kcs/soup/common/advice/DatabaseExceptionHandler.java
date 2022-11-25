@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class DatabaseExceptionHandler {
 
-    @ExceptionHandler(ElasticsearchStatusException.class)
-    public ResponseEntity<BaseResponse> handleEsStatus(Exception e) {
-        log.error(ErrorCode.ElasticsearchStatus.getMessage());
-        log.error(e.getMessage());
-        return ResponseEntity.badRequest().body(new BaseResponse(ErrorCode.ElasticsearchStatus));
-    }
+//    @ExceptionHandler(ElasticsearchStatusException.class)
+//    public ResponseEntity<BaseResponse> handleEsStatus(Exception e) {
+//        log.error(ErrorCode.ElasticsearchStatus.getMessage());
+//        log.error(e.getMessage());
+//        return ResponseEntity.badRequest().body(new BaseResponse(ErrorCode.ElasticsearchStatus));
+//    }
 
     @ExceptionHandler(RedisConnectionFailureException.class)
     public ResponseEntity<BaseResponse> handleRedisStatus(Exception e) {
