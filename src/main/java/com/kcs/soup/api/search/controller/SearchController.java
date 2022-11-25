@@ -38,7 +38,7 @@ public class SearchController {
     @GetMapping("/rank")
     public ResponseEntity<BaseResponse> getTop10RealtimeSearchTerm() throws IOException {
         List<RankDto> top10KeywordRank = recommendService.getTop10KeywordRank();
-        return ResponseEntity.ok(new BaseResponse(200, "성공", new RankResponse("rank", top10KeywordRank)));
+        return ResponseEntity.ok(new BaseResponse(200, "성공", new RankResponse(top10KeywordRank, "rank")));
     }
     @GetMapping("")
     public ResponseEntity<BaseResponse> searchQuery(
