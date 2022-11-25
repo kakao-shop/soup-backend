@@ -9,6 +9,7 @@ import com.kcs.soup.api.search.repository.SelectItemLogRepository;
 import com.kcs.soup.common.config.ElasitcConfig;
 import com.kcs.soup.common.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
+import org.elasticsearch.ElasticsearchException;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
@@ -56,8 +57,13 @@ public class RecommendService {
                 .sort("count",SortOrder.DESC);
         SearchRequest searchRequest = new SearchRequest("keywordlogs")
                 .source(searchSourceBuilder);
+        SearchResponse searchResponse;
+        try {
+            searchResponse = elasitcConfig.client().search(searchRequest, RequestOptions.DEFAULT);
+        } catch (ElasticsearchException e) {
+            return new ArrayList<RankDto>();
+        }
 
-        SearchResponse searchResponse = elasitcConfig.client().search(searchRequest, RequestOptions.DEFAULT);
         Terms terms = searchResponse.getAggregations().get("rank");
         List<RankDto> rankDtoList = new ArrayList<>();
         for (Terms.Bucket bucket : terms.getBuckets()) {
