@@ -27,13 +27,13 @@ public class JwtFilter extends GenericFilterBean {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         try {
             String token = jwtTokenProvider.getJwt();
-            if (token != null && jwtTokenProvider.validateToken(token)) {
+            if (token != null && !token.isBlank() && jwtTokenProvider.validateToken(token)) {
                 Authentication authentication = jwtTokenProvider.getAuthentication();
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
             chain.doFilter(request, response);
         } catch (ExpiredAccessTokenException | ExpiredJwtException e) {
-            BaseResponse.error((HttpServletResponse) response, ErrorCode.ExpiredJwt, HttpServletResponse.SC_BAD_REQUEST);
+            BaseResponse.error((HttpServletResponse) response, ErrorCode.ExpiredAccessJwt, HttpServletResponse.SC_BAD_REQUEST);
         } catch (JwtException | InvalidTokenException | NoSuchMemberExistException e) {
             BaseResponse.error((HttpServletResponse) response, ErrorCode.JwtValidation, HttpServletResponse.SC_BAD_REQUEST);
         }
