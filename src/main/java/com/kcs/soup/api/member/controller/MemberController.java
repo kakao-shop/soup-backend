@@ -55,8 +55,7 @@ public class MemberController {
 
     @GetMapping("/refresh-token")
     public ResponseEntity<BaseResponse> generateToken(
-            @CookieValue(value = "refreshToken", required = false) Cookie cookie,
-            HttpServletResponse response) {
+            @CookieValue(value = "refreshToken", required = false) Cookie cookie) {
         String accessToken = jwtTokenProvider.getJwt();
         if (accessToken == null)
             throw new NoAccessTokenException();

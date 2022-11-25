@@ -2,10 +2,7 @@ package com.kcs.soup.common.advice;
 
 import com.kcs.soup.common.dto.BaseResponse;
 import com.kcs.soup.common.dto.ErrorCode;
-import com.kcs.soup.common.exceptions.ExpiredAccessTokenException;
-import com.kcs.soup.common.exceptions.InvalidTokenException;
-import com.kcs.soup.common.exceptions.NoAccessTokenException;
-import com.kcs.soup.common.exceptions.NoRefreshTokenException;
+import com.kcs.soup.common.exceptions.*;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import lombok.extern.slf4j.Slf4j;
@@ -30,9 +27,9 @@ public class JWTExceptionHandler {
     }
 
     @ExceptionHandler({ExpiredJwtException.class, ExpiredAccessTokenException.class})
-    public ResponseEntity<BaseResponse> handleExpiredJwt() {
-        log.info(ErrorCode.ExpiredJwt.getMessage());
-        return ResponseEntity.badRequest().body(new BaseResponse(ErrorCode.ExpiredJwt));
+    public ResponseEntity<BaseResponse> handleExpiredAccessJwt() {
+        log.info(ErrorCode.ExpiredAccessJwt.getMessage());
+        return ResponseEntity.badRequest().body(new BaseResponse(ErrorCode.ExpiredAccessJwt));
     }
 
     @ExceptionHandler({JwtException.class, InvalidTokenException.class})
@@ -41,5 +38,10 @@ public class JWTExceptionHandler {
         return ResponseEntity.badRequest().body(new BaseResponse(ErrorCode.JwtValidation));
     }
 
+    @ExceptionHandler(ExpiredRefreshTokenException.class)
+    public ResponseEntity<BaseResponse> handleExpiredRefreshJwt() {
+        log.info(ErrorCode.ExpiredRefreshJwt.getMessage());
+        return ResponseEntity.badRequest().body(new BaseResponse(ErrorCode.ExpiredRefreshJwt));
+    }
 
 }
