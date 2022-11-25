@@ -29,7 +29,7 @@ public class SearchService {
     private final SelectItemLogRepository selectItemLogRepository;
 
     public void updateSelectItemLog(Product product, Long memberidx) {
-        SelectItemLog selectItemLog = selectItemLogRepository.findByMemberidxAndItemurl(memberidx, product.getWebUrl());
+        SelectItemLog selectItemLog = selectItemLogRepository.findByMemberidxAndWebUrl(memberidx, product.getWebUrl());
         saveSelectItemLog(product, memberidx, selectItemLog);
     }
 
@@ -42,7 +42,7 @@ public class SearchService {
         } else {
             selectItemLogRepository.save(SelectItemLog.builder()
                             .pid(product.getId())
-                            .itemurl(product.getWebUrl())
+                            .webUrl(product.getWebUrl())
                             .cat(product.getCat())
                             .prdName(product.getPrdName())
                             .imgSrc(product.getImgSrc())

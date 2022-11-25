@@ -28,7 +28,6 @@ public class KeywordLog {
     private String keyword;
     private int count;
     @Field(type = FieldType.Date, store = true, format = DateFormat.custom, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
-
     private LocalDateTime updateat;
 
 }
