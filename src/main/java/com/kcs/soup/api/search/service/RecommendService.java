@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.aggregations.Aggregation;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
@@ -25,6 +27,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -36,17 +39,21 @@ public class RecommendService {
     private final ElasitcConfig elasitcConfig;
 
     public List<RankDto> getTop10KeywordRank() throws IOException {
+        LocalDateTime startTime = LocalDateTime.now().minusHours(24);
         TermsAggregationBuilder aggregation = AggregationBuilders
-                .terms("test")
+                .terms("rank")
                 .field("keyword.keyword").size(10);
+        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery()
+                .filter(QueryBuilders.rangeQuery("updateat").gte(startTime));
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder()
+                .query(boolQueryBuilder)
                 .aggregation(aggregation)
                 .sort("count",SortOrder.DESC);
         SearchRequest searchRequest = new SearchRequest("keywordlogs")
                 .source(searchSourceBuilder);
 
         SearchResponse searchResponse = elasitcConfig.client().search(searchRequest, RequestOptions.DEFAULT);
-        Terms terms = searchResponse.getAggregations().get("test");
+        Terms terms = searchResponse.getAggregations().get("rank");
         List<RankDto> rankDtoList = new ArrayList<>();
         for (Terms.Bucket bucket : terms.getBuckets()) {
             String key = bucket.getKey().toString();
@@ -108,15 +115,14 @@ public class RecommendService {
     private HashMap<String, Integer> getSubcat(List<SelectItemLog> logList) {
         HashMap<String, Integer> map = new HashMap<>();
         for (SelectItemLog key : logList) {
-            Pageable pageable = PageRequest.of(0, 1, Sort.by(Sort.Direction.DESC, "purchase"));
-            List<Product> productList = productRepository.findByPid(key.getPid(), pageable).get().collect(Collectors.toList());
-            String subcat = productList.get(0).getSubcat();
-            if (productList.size() > 0) {
-                if (map.containsKey(subcat)) {
-                    map.replace(subcat, map.get(subcat) +1 );
-                } else {
-                    map.put(productList.get(0).getSubcat(),1);
-                }
+            Product product = productRepository.findById(key.getPid()).get();
+
+            String subcat = product.getSubcat();
+
+            if (map.containsKey(subcat)) {
+                map.replace(subcat, map.get(subcat) +1 );
+            } else {
+                map.put(product.getSubcat(),1);
             }
         }
         return map;
