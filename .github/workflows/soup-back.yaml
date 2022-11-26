@@ -49,7 +49,7 @@ jobs:
         run: |
           cd manifest
           dir
-          sed -i "24 c\        image: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }}" soup-backend.yaml
+          sed -i "24 c\          image: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }}" soup-backend.yaml
           git config --global user.email "myjjy6190@gmail.com"
           git config --global user.name "jy_9922"
           git add .
