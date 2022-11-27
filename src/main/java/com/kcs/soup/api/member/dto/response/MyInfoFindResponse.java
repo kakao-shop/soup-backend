@@ -1,6 +1,6 @@
 package com.kcs.soup.api.member.dto.response;
 
-import com.kcs.soup.entity.constant.Gender;
+import com.kcs.soup.common.entity.constant.Gender;
 import lombok.*;
 
 @Builder

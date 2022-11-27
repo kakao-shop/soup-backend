@@ -4,7 +4,7 @@ import com.kcs.soup.api.admin.reporitory.ThemeRepository;
 import com.kcs.soup.api.search.document.Product;
 import com.kcs.soup.api.search.dto.BotThemeListResponse;
 import com.kcs.soup.api.search.repository.ProductRepository;
-import com.kcs.soup.entity.mysql.Theme;
+import com.kcs.soup.common.entity.mysql.Theme;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

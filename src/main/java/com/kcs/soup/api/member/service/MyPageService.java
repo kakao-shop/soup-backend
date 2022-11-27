@@ -2,7 +2,7 @@ package com.kcs.soup.api.member.service;
 
 import com.kcs.soup.common.exceptions.NoSuchMemberExistException;
 import com.kcs.soup.common.exceptions.PasswordConfirmException;
-import com.kcs.soup.entity.mysql.Member;
+import com.kcs.soup.common.entity.mysql.Member;
 import com.kcs.soup.api.member.dto.request.MyInfoUpdateRequest;
 import com.kcs.soup.api.member.dto.response.MyInfoFindResponse;
 import com.kcs.soup.api.member.repository.MemberRepository;

@@ -1,12 +1,12 @@
-package com.kcs.soup.entity.mysql;
+package com.kcs.soup.common.entity.mysql;
 
 import com.kcs.soup.api.member.dto.request.MyInfoUpdateRequest;
 import com.kcs.soup.api.member.dto.response.MyInfoFindResponse;
-import com.kcs.soup.entity.BaseTImeEntity;
-import com.kcs.soup.entity.constant.Gender;
-import com.kcs.soup.entity.constant.Oauth;
-import com.kcs.soup.entity.constant.Role;
-import com.kcs.soup.entity.redis.MemberTokenInfo;
+import com.kcs.soup.common.entity.BaseTImeEntity;
+import com.kcs.soup.common.entity.constant.Role;
+import com.kcs.soup.common.entity.constant.Gender;
+import com.kcs.soup.common.entity.constant.Oauth;
+import com.kcs.soup.common.entity.redis.MemberTokenInfo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

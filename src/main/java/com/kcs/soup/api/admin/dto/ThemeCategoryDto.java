@@ -1,6 +1,6 @@
 package com.kcs.soup.api.admin.dto;
 
-import com.kcs.soup.entity.mysql.ThemeCategory;
+import com.kcs.soup.common.entity.mysql.ThemeCategory;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

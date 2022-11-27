@@ -196,12 +196,4 @@ public class SearchService {
         return memberIdx != null;
     }
 
-    public boolean isUserDataExist() {
-        Long memberIdx = jwtTokenProvider.getMemberIdxIfLogined();
-        if (memberIdx == null) {
-            return false;
-        }
-        return true;
-    }
-
 }

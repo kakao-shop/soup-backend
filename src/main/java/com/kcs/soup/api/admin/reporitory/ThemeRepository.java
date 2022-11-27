@@ -1,6 +1,6 @@
 package com.kcs.soup.api.admin.reporitory;
 
-import com.kcs.soup.entity.mysql.Theme;
+import com.kcs.soup.common.entity.mysql.Theme;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

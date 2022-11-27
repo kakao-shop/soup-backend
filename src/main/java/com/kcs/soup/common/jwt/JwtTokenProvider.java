@@ -1,6 +1,6 @@
 package com.kcs.soup.common.jwt;
 
-import com.kcs.soup.entity.mysql.Member;
+import com.kcs.soup.common.entity.mysql.Member;
 import com.kcs.soup.api.member.repository.MemberRepository;
 import com.kcs.soup.common.exceptions.NoAccessTokenException;
 import com.kcs.soup.common.exceptions.NoSuchMemberExistException;
@@ -99,8 +99,6 @@ public class JwtTokenProvider {
     public boolean validateToken(String token) {
         Claims claims = getClaims(token);
         boolean isValid = !claims.getExpiration().before(new Date());
-        System.out.println("expire: " + claims.getExpiration());
-        System.out.println("Date: " + new Date());
         return isValid;
     }
 

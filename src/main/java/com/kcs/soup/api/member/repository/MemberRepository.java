@@ -1,6 +1,6 @@
 package com.kcs.soup.api.member.repository;
 
-import com.kcs.soup.entity.mysql.Member;
+import com.kcs.soup.common.entity.mysql.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

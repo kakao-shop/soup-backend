@@ -1,6 +1,6 @@
-package com.kcs.soup.entity.redis;
+package com.kcs.soup.common.entity.redis;
 
-import com.kcs.soup.entity.constant.Role;
+import com.kcs.soup.common.entity.constant.Role;
 import com.kcs.soup.api.member.dto.TokenDto;
 import com.kcs.soup.api.member.dto.response.LoginResponse;
 import lombok.AllArgsConstructor;

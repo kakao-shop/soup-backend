@@ -1,10 +1,10 @@
-package com.kcs.soup.entity.mysql;
+package com.kcs.soup.common.entity.mysql;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.kcs.soup.api.admin.dto.ThemeFindResponse;
 import com.kcs.soup.api.search.dto.BotThemeListResponse;
 import com.kcs.soup.api.search.dto.MainThemeResponse;
-import com.kcs.soup.entity.BaseCreatedTimeEntity;
+import com.kcs.soup.common.entity.BaseCreatedTimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

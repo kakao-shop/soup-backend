@@ -33,9 +33,8 @@ public class MainController {
     public ResponseEntity<BaseResponse> searchMain() {
         Pageable pageable = PageRequest.of(0, 10, Sort.by("createdAt").descending());
         List<MainThemeResponse> themeList = collectionService.findThemeList(pageable);
-        boolean isUserBest = searchService.isUserDataExist();
+        boolean isUserBest = searchService.isUserLogin();
         List<Product> prdList;
-        System.out.println(isUserBest);
         if (isUserBest) {
             Long memberIdx = jwtTokenProvider.getMemberIdx();
             prdList = recommendService.getRecommendItemByMemberidInItemAccessLog(memberIdx);

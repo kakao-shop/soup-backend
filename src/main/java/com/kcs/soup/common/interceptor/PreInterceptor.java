@@ -1,7 +1,6 @@
 package com.kcs.soup.common.interceptor;
 
 
-
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -13,7 +12,6 @@ public class PreInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-
         System.out.println(request.getRequestURI());
         return true;
     }

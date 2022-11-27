@@ -6,7 +6,7 @@ import com.kcs.soup.api.admin.dto.ThemesFindResponse;
 import com.kcs.soup.api.admin.service.AdminService;
 import com.kcs.soup.common.dto.BaseResponse;
 import com.kcs.soup.common.dto.ErrorCode;
-import com.kcs.soup.entity.mysql.Member;
+import com.kcs.soup.common.entity.mysql.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

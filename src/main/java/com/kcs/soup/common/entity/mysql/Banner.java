@@ -1,4 +1,4 @@
-package com.kcs.soup.entity.mysql;
+package com.kcs.soup.common.entity.mysql;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.kcs.soup.api.admin.dto.BannerDto;
