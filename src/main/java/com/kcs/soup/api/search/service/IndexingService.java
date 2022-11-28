@@ -32,7 +32,7 @@ public class IndexingService {
     private static final String ALIAS_NAME = "product";
 
 
-//    @Scheduled(cron = "0 */30 * * * *")
+    @Scheduled(cron = "0 */30 * * * *")
     public void indexingUserDate() throws InterruptedException {
         System.out.println("=============================start");
 
@@ -76,6 +76,7 @@ public class IndexingService {
                 .put("index.number_of_replicas", 0)
                 .loadFromSource(Strings.toString(jsonBuilder()
                         .startObject()
+                        .field("merge.policy.max_merged_segment","2g")
                         .startObject("analysis")
                         .startObject("analyzer")
                         .startObject("default")
