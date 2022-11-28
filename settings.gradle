@@ -1,1 +1,7 @@
 rootProject.name = 'soup'
+
+include 'soup-common'
+include 'soup-admin-service'
+include 'soup-member-service'
+include 'soup-search-service'
+
