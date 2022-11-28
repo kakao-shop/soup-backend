@@ -1,8 +1,8 @@
 package com.kcs.member.dto.response;
 
 
-import common.entity.constant.Gender;
-import common.entity.mysql.Member;
+import com.kcs.common.entity.constant.Gender;
+import com.kcs.common.entity.mysql.Member;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

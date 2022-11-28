@@ -3,7 +3,7 @@ package com.kcs.admin.dto.response;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.kcs.admin.dto.BannerDto;
 import com.kcs.admin.dto.ThemeCategoryDto;
-import common.entity.mysql.Theme;
+import com.kcs.common.entity.mysql.Theme;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

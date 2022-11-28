@@ -2,8 +2,8 @@ package com.kcs.member.service;
 
 import com.kcs.member.dto.request.MemberCreateRequest;
 import com.kcs.member.repository.MemberRepository;
-import common.entity.mysql.Member;
-import common.exception.IdAlreadyExistException;
+import com.kcs.common.entity.mysql.Member;
+import com.kcs.common.exception.IdAlreadyExistException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

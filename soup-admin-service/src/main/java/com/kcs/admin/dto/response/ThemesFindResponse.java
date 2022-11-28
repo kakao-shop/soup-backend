@@ -1,6 +1,6 @@
 package com.kcs.admin.dto.response;
 
-import common.entity.mysql.Theme;
+import com.kcs.common.entity.mysql.Theme;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

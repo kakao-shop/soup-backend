@@ -1,7 +1,7 @@
 package com.kcs.admin.dto;
 
 
-import common.entity.mysql.ThemeCategory;
+import com.kcs.common.entity.mysql.ThemeCategory;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

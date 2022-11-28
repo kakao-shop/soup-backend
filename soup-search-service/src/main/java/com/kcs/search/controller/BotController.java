@@ -3,7 +3,7 @@ package com.kcs.search.controller;
 import com.kcs.search.document.Product;
 import com.kcs.search.dto.response.BotThemeListResponse;
 import com.kcs.search.service.BotService;
-import common.dto.BaseResponse;
+import com.kcs.common.dto.BaseResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

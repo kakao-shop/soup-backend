@@ -1,10 +1,10 @@
 package com.kcs.member.dto.request;
 
-import common.entity.constant.Gender;
-import common.entity.constant.Oauth;
-import common.entity.constant.Role;
-import common.entity.mysql.Member;
-import common.exception.PasswordConfirmException;
+import com.kcs.common.entity.constant.Gender;
+import com.kcs.common.entity.constant.Oauth;
+import com.kcs.common.entity.constant.Role;
+import com.kcs.common.entity.mysql.Member;
+import com.kcs.common.exception.PasswordConfirmException;
 import lombok.Getter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
