@@ -1,6 +1,6 @@
 package com.kcs.admin.reporitory;
 
-import common.entity.mysql.ThemeCategory;
+import com.kcs.common.entity.mysql.ThemeCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,6 +1,6 @@
 package com.kcs.search.dto.response;
 
-import common.entity.mysql.Theme;
+import com.kcs.common.entity.mysql.Theme;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

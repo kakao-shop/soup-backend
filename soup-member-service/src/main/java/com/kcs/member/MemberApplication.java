@@ -12,7 +12,7 @@ import java.util.TimeZone;
 
 @SpringBootApplication(scanBasePackages = {"com.kcs.member", "common"})
 @EnableJpaRepositories(basePackages = {"com.kcs.member", "common"})
-@EntityScan(basePackages = {"common"})
+@EntityScan(basePackages = {"com/kcs/common"})
 public class MemberApplication {
 
     @PostConstruct

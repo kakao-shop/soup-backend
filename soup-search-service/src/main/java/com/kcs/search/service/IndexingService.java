@@ -12,6 +12,7 @@ import org.elasticsearch.common.Strings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.xcontent.XContentType;
 import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -31,7 +32,7 @@ public class IndexingService {
     private static final String ALIAS_NAME = "product";
 
 
-    //    @Scheduled(cron = "0 */30 * * * *")
+    @Scheduled(cron = "0 */30 * * * *")
     public void indexingUserDate() throws InterruptedException {
         System.out.println("=============================start");
 
@@ -65,7 +66,6 @@ public class IndexingService {
 
     }
 
-
     private CreateIndexRequest indexSetting(CreateIndexRequest request) throws IOException {
         return request.settings(Settings.builder()
                 .put("index.max_inner_result_window", 1000)
@@ -75,6 +75,7 @@ public class IndexingService {
                 .put("index.number_of_replicas", 0)
                 .loadFromSource(Strings.toString(jsonBuilder()
                         .startObject()
+                        .field("merge.policy.max_merged_segment", "2g")
                         .startObject("analysis")
                         .startObject("analyzer")
                         .startObject("default")

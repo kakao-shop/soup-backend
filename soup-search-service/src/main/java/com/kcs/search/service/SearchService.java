@@ -7,7 +7,7 @@ import com.kcs.search.document.SelectItemLog;
 import com.kcs.search.repository.KeywordRepository;
 import com.kcs.search.repository.ProductRepository;
 import com.kcs.search.repository.SelectItemLogRepository;
-import common.jwt.JwtTokenProvider;
+import com.kcs.common.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

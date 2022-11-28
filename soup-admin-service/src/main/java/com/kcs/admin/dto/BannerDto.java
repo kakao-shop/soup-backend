@@ -1,6 +1,6 @@
 package com.kcs.admin.dto;
 
-import common.entity.mysql.Banner;
+import com.kcs.common.entity.mysql.Banner;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

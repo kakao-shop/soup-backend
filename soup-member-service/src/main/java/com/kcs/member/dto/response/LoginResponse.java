@@ -1,8 +1,8 @@
 package com.kcs.member.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import common.entity.constant.Role;
-import common.entity.redis.MemberTokenInfo;
+import com.kcs.common.entity.constant.Role;
+import com.kcs.common.entity.redis.MemberTokenInfo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
