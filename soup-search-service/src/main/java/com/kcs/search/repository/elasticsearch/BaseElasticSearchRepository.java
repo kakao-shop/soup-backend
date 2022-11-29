@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Set;
 
-@Repository
 public interface BaseElasticSearchRepository<T> {
 
     <S extends T> S save(S entity, IndexCoordinates indexName);

@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Set;
 
-@Repository
 @RequiredArgsConstructor
 public class BaseElasticSearchRepositoryImpl<T> implements BaseElasticSearchRepository<T> {
 
