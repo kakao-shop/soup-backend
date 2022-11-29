@@ -3,7 +3,6 @@ package com.kcs.common.advice;
 import com.kcs.common.dto.BaseResponse;
 import com.kcs.common.dto.ErrorCode;
 import com.kcs.common.exception.*;
-import common.exception.*;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import lombok.extern.slf4j.Slf4j;

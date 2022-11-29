@@ -10,9 +10,9 @@ import javax.annotation.PostConstruct;
 import java.util.TimeZone;
 
 
-@SpringBootApplication(scanBasePackages = {"com.kcs.member", "common"})
-@EnableJpaRepositories(basePackages = {"com.kcs.member", "common"})
-@EntityScan(basePackages = {"com/kcs/common"})
+@SpringBootApplication(scanBasePackages = {"com.kcs.member", "com.kcs.common"})
+@EnableJpaRepositories(basePackages = {"com.kcs.member", "com.kcs.common"})
+@EntityScan(basePackages = {"com.kcs.common"})
 public class MemberApplication {
 
     @PostConstruct

@@ -1,6 +1,7 @@
 package com.kcs.common.entity.redis;
 
 import com.kcs.common.entity.constant.Role;
+import com.kcs.common.entity.mysql.Member;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,10 +22,13 @@ public class MemberTokenInfo {
     private String nickname;
     private Role role;
 
-    public static MemberTokenInfo of(String accessToken, String refreshToken) {
+    public static MemberTokenInfo of(String accessToken, String refreshToken, Member member) {
         return MemberTokenInfo.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
+                .memberIdx(member.getMemberIdx())
+                .nickname(member.getNickname())
+                .role(member.getRole())
                 .build();
     }
 

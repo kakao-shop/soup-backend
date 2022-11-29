@@ -44,7 +44,7 @@ public class MemberAuthService {
         Map<String, Object> claims = Map.of("memberIdx", findMember.getMemberIdx(), "role", findMember.getRole());
         String accessToken = jwtTokenProvider.createToken(claims);
         String refreshToken = UUID.randomUUID().toString();
-        MemberTokenInfo memberTokenInfo = MemberTokenInfo.of(accessToken, refreshToken);
+        MemberTokenInfo memberTokenInfo = MemberTokenInfo.of(accessToken, refreshToken, findMember);
         saveToken(memberTokenInfo);
         findMember.updateAccessInfo();
         return LoginResponse.from(memberTokenInfo);
