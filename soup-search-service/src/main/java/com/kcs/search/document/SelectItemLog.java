@@ -11,9 +11,8 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import java.time.LocalDateTime;
-
-import static javax.persistence.GenerationType.IDENTITY;
 
 @Document(indexName = "selectitemlog", createIndex = true, replicas = 2)
 @Setter
@@ -23,7 +22,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 public class SelectItemLog {
     @Id
-    @GeneratedValue(strategy = IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     private String pid;
@@ -46,7 +45,6 @@ public class SelectItemLog {
     public void updateTime() {
         this.updateat = LocalDateTime.now();
     }
-
 
 
 }
