@@ -3,11 +3,9 @@ package com.kcs.search.repository.elasticsearch;
 import com.kcs.search.document.SelectItemLog;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
-import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 
 import java.util.List;
 
-@EnableElasticsearchRepositories
 public interface SelectItemLogRepository extends
         ElasticsearchRepository<SelectItemLog, String>,
         BaseElasticSearchRepository<SelectItemLog> {

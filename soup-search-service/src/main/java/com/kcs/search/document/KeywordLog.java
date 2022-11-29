@@ -10,10 +10,9 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
-
-import static javax.persistence.GenerationType.IDENTITY;
 
 @Document(indexName = "keywordlogs", createIndex = true)
 @Setter
@@ -22,7 +21,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @AllArgsConstructor
 public class KeywordLog {
     @Id
-    @GeneratedValue(strategy = IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
     private Long memberidx;
     private String keyword;

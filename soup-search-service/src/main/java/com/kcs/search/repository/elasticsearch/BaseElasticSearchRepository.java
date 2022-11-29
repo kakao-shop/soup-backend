@@ -1,7 +1,6 @@
 package com.kcs.search.repository.elasticsearch;
 
 import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
-import org.springframework.stereotype.Repository;
 
 import java.util.Set;
 

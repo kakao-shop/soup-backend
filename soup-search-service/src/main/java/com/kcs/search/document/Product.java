@@ -7,9 +7,8 @@ import lombok.Setter;
 import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-import static javax.persistence.GenerationType.IDENTITY;
 
 @Document(indexName = "product", createIndex = false)
 @Setter
@@ -18,7 +17,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Builder
 public class Product implements Comparable<Product> {
     @Id
-    @GeneratedValue(strategy = IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
     private String prdName;
     private Long price;
