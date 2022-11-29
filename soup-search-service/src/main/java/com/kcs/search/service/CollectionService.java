@@ -2,8 +2,8 @@ package com.kcs.search.service;
 
 import com.kcs.search.document.Product;
 import com.kcs.search.dto.response.MainThemeResponse;
-import com.kcs.search.repository.ProductRepository;
-import com.kcs.search.repository.ThemeRepository;
+import com.kcs.search.repository.elasticsearch.ProductRepository;
+import com.kcs.search.repository.jpa.ThemeRepository;
 import com.kcs.common.entity.mysql.Theme;
 import com.kcs.common.exception.NoSuchThemeExistException;
 import lombok.RequiredArgsConstructor;

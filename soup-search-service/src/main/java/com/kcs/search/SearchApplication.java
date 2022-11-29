@@ -12,7 +12,7 @@ import java.util.TimeZone;
 
 
 @SpringBootApplication(scanBasePackages = {"com.kcs.search", "com.kcs.common"})
-@EnableJpaRepositories(basePackages = {"com.kcs.search", "com.kcs.common"})
+@EnableJpaRepositories(basePackages = {"com.kcs.common", "com.kcs.search.repository.jpa"})
 @EntityScan(basePackages = {"com.kcs.common"})
 @EnableScheduling
 public class SearchApplication {

@@ -1,4 +1,4 @@
-package com.kcs.search.repository;
+package com.kcs.search.repository.elasticsearch;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;

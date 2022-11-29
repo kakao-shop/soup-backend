@@ -1,4 +1,4 @@
-package com.kcs.search.repository;
+package com.kcs.search.repository.jpa;
 
 import com.kcs.common.entity.mysql.Theme;
 import org.springframework.data.domain.Page;

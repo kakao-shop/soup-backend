@@ -1,7 +1,7 @@
 package com.kcs.search.service;
 
 import com.kcs.search.config.ElasitcConfig;
-import com.kcs.search.repository.ProductRepository;
+import com.kcs.search.repository.elasticsearch.ProductRepository;
 import com.kcs.search.utils.IndexUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

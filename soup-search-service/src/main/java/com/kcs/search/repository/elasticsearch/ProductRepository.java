@@ -1,4 +1,4 @@
-package com.kcs.search.repository;
+package com.kcs.search.repository.elasticsearch;
 
 import com.kcs.search.document.Product;
 import org.springframework.data.domain.Page;
