@@ -11,9 +11,9 @@ import javax.annotation.PostConstruct;
 import java.util.TimeZone;
 
 
-@SpringBootApplication(scanBasePackages = {"com.kcs.search", "common"})
-@EnableJpaRepositories(basePackages = {"com.kcs.search", "common"})
-@EntityScan(basePackages = {"com/kcs/common"})
+@SpringBootApplication(scanBasePackages = {"com.kcs.search", "com.kcs.common"})
+@EnableJpaRepositories(basePackages = {"com.kcs.search", "com.kcs.common"})
+@EntityScan(basePackages = {"com.kcs.common"})
 @EnableScheduling
 public class SearchApplication {
 

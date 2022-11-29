@@ -3,6 +3,13 @@ plugins {
     id 'java'
 }
 
+bootJar {
+    enabled = false
+}
+jar {
+    enabled = true
+}
+
 
 allprojects {
     group 'com.kcs'
