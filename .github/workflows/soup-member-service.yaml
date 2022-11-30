@@ -8,7 +8,7 @@ on:
       - "soup-search-service/**"
 env:
   AWS_REGION: ap-northeast-2
-  ECR_REPOSITORY: soup-member-service  # ECR 생성 필요
+  ECR_REPOSITORY: soup-backend  # ECR 생성 필요
 jobs:
   build-and-push-image:
     runs-on: ubuntu-20.04
