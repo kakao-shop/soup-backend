@@ -6,6 +6,8 @@ on:
     paths-ignore:  # 다른 폴더가 수정되었을 때는 무시
       - "soup-member-service/**"
       - "soup-admin-service/**"
+      - "./github/workflows/soup-member-service.yaml"
+      - "./github/workflows/soup-admin-service.yaml"
 env:
   AWS_REGION: ap-northeast-2
   ECR_REPOSITORY: soup-search-service  # ECR 생성 필요
