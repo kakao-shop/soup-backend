@@ -34,7 +34,7 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v3
         with:
-          context: .
+          context: ./soup-member-service
           file: ./soup-member-service/Dockerfile   # soup-admin-service 폴더 내의 Dockerfile
           push: true
           tags: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }}
