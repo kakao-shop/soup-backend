@@ -1,0 +1,60 @@
+name: soup-admin-service - CI CD  # soup-admin-service CICD
+on:
+  push:
+    branches:
+      - yeji
+    paths-ignore:  # 다른 폴더가 수정되었을 때는 무시
+      - "soup-member-service/**"
+      - "soup-search-service/**"
+env:
+  AWS_REGION: ap-northeast-2
+  ECR_REPOSITORY: soup-admin-service  # ECR 생성 필요
+jobs:
+  build-and-push-image:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Docker Build and ECR push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./soup-admin-service/Dockerfile   # soup-admin-service 폴더 내의 Dockerfile
+          push: true
+          tags: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Move Repository
+        uses: actions/checkout@master
+        with:
+          repository: kakao-shop/manifest
+          token: ${{ secrets.ACTION_TOKEN }}
+          path: manifest
+
+      - name: Edit Manifest Image  # soup-admin-backend.yaml의 이미지 명을 수정하도록
+        run: |
+          cd manifest/ser-mgt/backend
+          dir
+          sed -i "24 c\          image: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }}" soup-admin-backend.yaml
+          git config --global user.email "myjjy6190@gmail.com"
+          git config --global user.name "jy_9922"
+          git add .
+          git commit -m "Edit back image"
+          git push -f --set-upstream origin main
