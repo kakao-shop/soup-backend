@@ -2,7 +2,7 @@ name: soup-search-service - CI CD  # soup-search-service CICD
 on:
   push:
     branches:
-      - yeji
+      - jiyooncicd
     paths-ignore:  # 다른 폴더가 수정되었을 때는 무시
       - "soup-member-service/**"
       - "soup-admin-service/**"
