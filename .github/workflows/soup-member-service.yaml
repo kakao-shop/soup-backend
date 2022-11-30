@@ -32,7 +32,7 @@ jobs:
 
       - name: Docker Build and ECR push
         id: docker_build
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           context: .
           file: ./soup-member-service/Dockerfile   # soup-admin-service 폴더 내의 Dockerfile
