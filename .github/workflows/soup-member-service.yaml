@@ -42,20 +42,20 @@ jobs:
 #          cache-to: type=gha,mode=max
 
       - name: soup-member-service Build, tag, and push image to Amazon ECR
-          id: soup-member-service_build
-          env:
-            ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-            ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
-            IMAGE_TAG: ${{ github.sha }}
-          run: |
-            # Build a docker container and
-            # push it to ECR
-            ./gradlew clean
-            ./gradlew build
-            cd soup-admin-service
-            docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-            docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-            echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+        id: soup-member-service_build
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          # Build a docker container and
+          # push it to ECR
+          ./gradlew clean
+          ./gradlew build
+          cd soup-admin-service
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
       - name: Move Repository
         uses: actions/checkout@master
