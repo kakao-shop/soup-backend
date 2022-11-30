@@ -2,13 +2,15 @@ name: soup-admin-service - CI CD  # soup-admin-service CICD
 on:
   push:
     branches:
-      - yeji
+      - develop
     paths-ignore:  # 다른 폴더가 수정되었을 때는 무시
       - "soup-member-service/**"
       - "soup-search-service/**"
+      - "./github/workflows/soup-member-service.yaml"
+      - "./github/workflows/soup-search-service.yaml"
 env:
   AWS_REGION: ap-northeast-2
-  ECR_REPOSITORY: soup-admin-service  # ECR 생성 필요
+  ECR_REPOSITORY: soup-admin-backend  # ECR 생성 필요
 jobs:
   build-and-push-image:
     runs-on: ubuntu-20.04
@@ -30,16 +32,29 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Docker Build and ECR push
-        id: docker_build
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: ./soup-admin-service/Dockerfile   # soup-admin-service 폴더 내의 Dockerfile
-          push: true
-          tags: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+      #      - name: Docker Build and ECR push
+      #        id: docker_build
+      #        uses: docker/build-push-action@v3
+      #        with:
+      #          context: ./soup-admin-service
+      #          file: ./Dockerfile   # soup-admin-service 폴더 내의 Dockerfile
+      #          push: true
+      #          tags: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }}
+      #          cache-from: type=gha
+      #          cache-to: type=gha,mode=max
+      - name: Docker and push image to Amazon ECR
+        id: soup-member-service_build
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
+          IMAGE_TAG: ${{ github.sha }}
+          run: |
+            ./gradlew :soup-admin-service:clean
+            ./gradlew :soup-admin-service:build 
+            cd soup-admin-service
+            docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+            docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+            echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
       - name: Move Repository
         uses: actions/checkout@master
@@ -52,7 +67,7 @@ jobs:
         run: |
           cd manifest/ser-mgt/backend
           dir
-          sed -i "24 c\          image: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }}" soup-admin-backend.yaml
+          sed -i "26 c\          image: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }}" soup-admin-backend.yaml
           git config --global user.email "myjjy6190@gmail.com"
           git config --global user.name "jy_9922"
           git add .
