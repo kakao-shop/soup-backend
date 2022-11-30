@@ -43,15 +43,15 @@ jobs:
         id: soup-member-service_build
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-            ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
-            IMAGE_TAG: ${{ github.sha }}
-          run: |
-            ./gradlew :soup-search-service:clean
-            ./gradlew :soup-search-service:build 
-            cd soup-search-service
-            docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-            docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-            echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+          ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          ./gradlew :soup-search-service:clean
+          ./gradlew :soup-search-service:build 
+          cd soup-search-service
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
       - name: Edit Manifest Image  # soup-admin-backend.yaml의 이미지 명을 수정하도록
         run: |
