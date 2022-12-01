@@ -32,8 +32,15 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
+      - name: Move Repository
+        uses: actions/checkout@master
+        with:
+          repository: kakao-shop/manifest
+          token: ${{ secrets.ACTION_TOKEN }}
+          path: manifest
+
       - name: Docker and push image to Amazon ECR
-        id: soup-member-service_build
+        id: soup-admin-service_build
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
@@ -46,13 +53,6 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
-      - name: Move Repository
-        uses: actions/checkout@master
-        with:
-          repository: kakao-shop/manifest
-          token: ${{ secrets.ACTION_TOKEN }}
-          path: manifest
-
       - name: Edit Manifest Image  # soup-admin-backend.yaml의 이미지 명을 수정하도록
         run: |
           cd manifest/ser-mgt/backend
@@ -61,5 +61,5 @@ jobs:
           git config --global user.email "myjjy6190@gmail.com"
           git config --global user.name "jy_9922"
           git add .
-          git commit -m "Edit back image"
+          git commit -m "Edit soup-admin-service image"
           git push -f --set-upstream origin main
