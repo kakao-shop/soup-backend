@@ -14,7 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import java.time.LocalDateTime;
 
-@Document(indexName = "selectitemlog", createIndex = true, replicas = 2)
+@Document(indexName = "selectitemlog", createIndex = true)
 @Setter
 @Getter
 @AllArgsConstructor
