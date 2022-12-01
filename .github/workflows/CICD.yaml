@@ -1,4 +1,4 @@
-name: soup-admin-service - CI CD  # soup-admin-service CICD
+name: soup-msa-service - CI CD  # soup-msa-service CICD
 on:
   push:
     branches:
