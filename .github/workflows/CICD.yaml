@@ -51,6 +51,7 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
+
       - name: BUILD soup-member-service image and push image to Amazon ECR
         id: soup-member-service_build
         env:
