@@ -37,48 +37,29 @@ jobs:
           token: ${{ secrets.ACTION_TOKEN }}
           path: manifest
 
-      - name: BUILD soup-admin-service image and push image to Amazon ECR
-        id: soup-admin-service_build
+      - name: BUILD soup-msa-service images and push image to Amazon ECR
+        id: soup-msa-service_build
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: ${{ env.ECR_ADMIN_REPOSITORY }}
+          ECR_ADMIN_REPOSITORY: ${{ env.ECR_ADMIN_REPOSITORY }}
+          ECR_MEMBER_REPOSITORY: ${{ env.ECR_MEMBER_REPOSITORY }}
+          ECR_SEARCH_REPOSITORY: ${{ env.ECR_SEARCH_REPOSITORY }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          ./gradlew :soup-admin-service:clean
-          ./gradlew :soup-admin-service:build 
+          ./gradlew clean
+          ./gradlew build 
           cd soup-admin-service
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-
-
-      - name: BUILD soup-member-service image and push image to Amazon ECR
-        id: soup-member-service_build
-        env:
-           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-           ECR_REPOSITORY: ${{ env.ECR_MEMBER_REPOSITORY }}
-           IMAGE_TAG: ${{ github.sha }}
-         run: |
-           ./gradlew :soup-member-service:clean
-           ./gradlew :soup-member-service:build 
-           cd soup-member-service
-           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-
-      - name: BUILD soup-search-service image and push image to Amazon ECR
-        id: soup-search-service_build
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: ${{ env.ECR_SEARCH_REPOSITORY }}
-           IMAGE_TAG: ${{ github.sha }}
-        run: |
-          ./gradlew :soup-search-service:clean
-          ./gradlew :soup-search-service:build 
-          cd soup-search-service
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+          docker build -t $ECR_REGISTRY/$ECR_ADMIN_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_ADMIN_REPOSITORY:$IMAGE_TAG
+          cd ../soup-member-service
+          docker build -t $ECR_REGISTRY/$ECR_MEMBER_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_MEMBER_REPOSITORY:$IMAGE_TAG
+          cd ../soup-search-service
+          docker build -t $ECR_REGISTRY/$ECR_SEARCH_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_SEARCH_REPOSITORY:$IMAGE_TAG
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_ADMIN_REPOSITORY:$IMAGE_TAG"
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_MEMBER_REPOSITORY:$IMAGE_TAG"
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_SEARCH_REPOSITORY:$IMAGE_TAG"
 
       - name: Edit Manifest Image  # soup-admin-backend.yaml의 이미지 명을 수정하도록
         run: |
