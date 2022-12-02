@@ -17,10 +17,8 @@ public class PreInterceptor implements HandlerInterceptor {
     private final Logger logger = LoggerFactory.getLogger("Interceptor logger");
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        Map<String,String> data = new HashMap<>();
-        data.put("URI",request.getRequestURI());
-        data.put("RemoteIP",request.getRemoteHost());
-        logger.info("{}",data);
+
+        logger.info("{'URI':'"+request.getRequestURI() +"','"+  "RemoteIP':'"+  request.getRemoteHost()+ "'}");
 
         return true;
     }

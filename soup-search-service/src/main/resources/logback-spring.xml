@@ -17,20 +17,21 @@
             <providers>
                 <mdc />
                 <pattern>
-                    <pattern>{"serviceID":"Spring-search-service"}</pattern>
+                    <pattern>{"serviceID":"Spring-search-service"}, %msg</pattern>
                 </pattern>
                 <timestamp />
                 <!--<version />-->
                 <logLevel />
                 <!-- 로그 레벨-->
-                <message />
-                <!-- 사용자 지정 메시지 -->
+                    <message />
+                    <!-- 사용자 지정 메시지 -->
                 <loggerName />
                 <!-- 누가 로깅했는지-->
                 <stackTrace />
                 <!-- 호출 목록 -->
                 <callerData />
                 <!-- 클래스이름, 파일이름, 발생한 line, caller method name -->
+
             </providers>
         </encoder>
     </appender>
