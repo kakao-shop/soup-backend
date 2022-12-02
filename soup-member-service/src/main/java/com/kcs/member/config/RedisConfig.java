@@ -1,6 +1,9 @@
 package com.kcs.member.config;
 
 
+import io.lettuce.core.RedisClient;
+import io.lettuce.core.RedisURI;
+import io.lettuce.core.resource.ClientResources;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
@@ -8,7 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.*;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
@@ -32,6 +35,21 @@ public class RedisConfig {
     public RedisConnectionFactory redisConnectionFactory() {
         return new LettuceConnectionFactory(host, port);
     }
+
+//    @Bean
+//    public RedisConnectionFactory redisConnectionFactory() {
+//        RedisClusterConfiguration clusterConfiguration = new RedisClusterConfiguration();
+//        clusterConfiguration.clusterNode(RedisNode.fromString("localhost:80"));
+//        return new LettuceConnectionFactory(clusterConfiguration);
+//    }
+
+//    @Bean
+//    public RedisConnectionFactory redisConnectionFactory() {
+//        RedisStandaloneConfiguration clusterConfiguration = new RedisStandaloneConfiguration();
+//        clusterConfiguration.setHostName(host);
+//        clusterConfiguration.setPort(port);
+//        return new LettuceConnectionFactory(clusterConfiguration);
+//    }
 
     @Bean
     public RedisTemplate<?, ?> redisTemplate() {

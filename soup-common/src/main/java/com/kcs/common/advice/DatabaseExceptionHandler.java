@@ -20,10 +20,10 @@ public class DatabaseExceptionHandler {
         return ResponseEntity.badRequest().body(new BaseResponse(ErrorCode.ElasticsearchStatus));
     }
 
-    @ExceptionHandler(RedisConnectionFailureException.class)
-    public ResponseEntity<BaseResponse> handleRedisStatus(Exception e) {
-        log.error(ErrorCode.RedisStatus.getMessage());
-        log.error(e.getMessage());
-        return ResponseEntity.badRequest().body(new BaseResponse(ErrorCode.RedisStatus));
-    }
+//    @ExceptionHandler(RedisConnectionFailureException.class)
+//    public ResponseEntity<BaseResponse> handleRedisStatus(Exception e) {
+//        log.error(ErrorCode.RedisStatus.getMessage());
+//        log.error(e.getMessage());
+//        return ResponseEntity.badRequest().body(new BaseResponse(ErrorCode.RedisStatus));
+//    }
 }

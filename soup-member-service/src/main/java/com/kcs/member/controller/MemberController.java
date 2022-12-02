@@ -1,5 +1,8 @@
 package com.kcs.member.controller;
 
+import com.kcs.common.dto.BaseResponse;
+import com.kcs.common.exception.NoAccessTokenException;
+import com.kcs.common.jwt.JwtTokenProvider;
 import com.kcs.member.dto.TokenDto;
 import com.kcs.member.dto.request.LoginRequest;
 import com.kcs.member.dto.request.MemberCreateRequest;
@@ -7,9 +10,6 @@ import com.kcs.member.dto.response.LoginResponse;
 import com.kcs.member.dto.response.TokenResponse;
 import com.kcs.member.service.MemberAuthService;
 import com.kcs.member.service.MemberService;
-import com.kcs.common.dto.BaseResponse;
-import com.kcs.common.exception.NoAccessTokenException;
-import com.kcs.common.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -48,9 +48,15 @@ public class MemberController {
     @PostMapping("/login")
     public ResponseEntity<BaseResponse> login(@Valid @RequestBody LoginRequest request,
                                               HttpServletResponse response) {
-        LoginResponse loginResponse = memberAuthService.login(request);
-        loginResponse.setRefreshToken(loginResponse.getRefreshToken());
+        try {
+            LoginResponse loginResponse = memberAuthService.login(request);
+            loginResponse.setRefreshToken(loginResponse.getRefreshToken());
+
         return ResponseEntity.ok(new BaseResponse<>(200, "로그인에 성공했습니다.", loginResponse));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @GetMapping("/refresh-token")
