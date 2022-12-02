@@ -27,7 +27,7 @@ public class BotController {
 
     @GetMapping("/collections")
     public ResponseEntity<BaseResponse> searchCollections() {
-        Pageable pageable = PageRequest.of(0, 10, Sort.by("createdAt").descending());
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("idx").descending());
         List<BotThemeListResponse> themeList = botService.findThemeList(pageable);
         return ResponseEntity.ok(new BaseResponse(200, "성공", themeList));
     }
