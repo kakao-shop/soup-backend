@@ -68,11 +68,10 @@ public class IndexingService {
 
     private CreateIndexRequest indexSetting(CreateIndexRequest request) throws IOException {
         return request.settings(Settings.builder()
-                .put("index.max_inner_result_window", 1000)
                 .put("index.write.wait_for_active_shards", 1)
                 .put("index.query.default_field", "prdName")
                 .put("index.number_of_shards", 1)
-                .put("index.number_of_replicas", 0)
+                .put("index.number_of_replicas", 1)
                 .loadFromSource(Strings.toString(jsonBuilder()
                         .startObject()
                         .field("merge.policy.max_merged_segment", "2g")
@@ -81,15 +80,6 @@ public class IndexingService {
                         .startObject("default")
                         .field("type", "custom")
                         .field("tokenizer", "nori_tokenizer")
-                        .field("filter", "synonym")
-                        .endObject()
-                        .endObject()
-                        .startObject("filter")
-                        .startObject("synonym")
-                        .field("type", "synonym")
-                        .field("synonyms_path", "analysis/synonyms.txt")
-                        .endObject()
-                        .endObject()
                         .endObject()
                         .endObject()), XContentType.JSON)
         );
