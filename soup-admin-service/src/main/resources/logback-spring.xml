@@ -17,7 +17,7 @@
             <providers>
                 <mdc />
                 <pattern>
-                    <pattern>{"serviceID":"Spring-search-service"}</pattern>
+                    <pattern>{"serviceID":"Spring-admin-service"}</pattern>
                 </pattern>
                 <timestamp />
                 <!--<version />-->

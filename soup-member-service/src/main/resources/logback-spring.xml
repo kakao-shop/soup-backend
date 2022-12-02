@@ -16,8 +16,9 @@
         <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
             <providers>
                 <mdc />
+                <!-- mdc field -->
                 <pattern>
-                    <pattern>{"serviceID":"Spring-search-service"}</pattern>
+                    <pattern>{"serviceID":"Spring-member-service"}</pattern>
                 </pattern>
                 <timestamp />
                 <!--<version />-->

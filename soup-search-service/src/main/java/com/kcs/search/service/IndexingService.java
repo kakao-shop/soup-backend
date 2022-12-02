@@ -11,6 +11,8 @@ import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.common.Strings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.xcontent.XContentType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -30,34 +32,32 @@ public class IndexingService {
     private final ElasitcConfig elasitcConfig;
     private static final String INDEX_PREFIX_NAME = "product";
     private static final String ALIAS_NAME = "product";
+    private final Logger logger = LoggerFactory.getLogger("Index logger");
 
-
-//    @Scheduled(cron = "0 */30 * * * *")
+    @Scheduled(cron = "0 */30 * * * *")
     public void indexingUserDate() throws InterruptedException {
-        System.out.println("=============================start");
 
         Thread.sleep(2000);
         Date now = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
 
         String formatedNow = formatter.format(now);
-        System.out.println("formatedNow : " + formatedNow);
         String indexName = "product-" + formatedNow;
         CreateIndexRequest request = new CreateIndexRequest(indexName);
 
         try {
             request = indexSetting(request);
         } catch (IOException e) {
-            log.error("fail index settings");
+            logger.error(String.valueOf(e));
         }
 
 
         System.out.println("?");
         try {
             CreateIndexResponse createIndexResponse = elasitcConfig.client().indices().create(request, RequestOptions.DEFAULT);
-            log.info("create index : " + createIndexResponse.index());
+            logger.info("create index : " + createIndexResponse.index());
         } catch (Exception e) {
-            System.out.println(e);
+            logger.error(String.valueOf(e));
         }
 
         IndexCoordinates indexNameWrapper = IndexUtil.createIndexNameWithPostFixWrapper(INDEX_PREFIX_NAME);

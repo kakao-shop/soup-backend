@@ -9,6 +9,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -30,7 +32,6 @@ public class JwtTokenProvider {
     private final long validityInMilliseconds;
 
     private final JwtRepository jwtRepository;
-
     public JwtTokenProvider(@Value("${jwt.secret}") String secretKey,
                             @Value("${jwt.access-token.expire-length}") long validityInMilliseconds,
                             JwtRepository jwtRepository) {
@@ -58,6 +59,7 @@ public class JwtTokenProvider {
         if (token == null) {
             throw new NoAccessTokenException();
         }
+
         Claims claims = Jwts.parserBuilder().setSigningKey(key).build()
                 .parseClaimsJws(token)
                 .getBody();

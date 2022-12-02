@@ -167,7 +167,6 @@ public class RecommendService {
             }
             cnt += 1;
         }
-        weightList.stream().forEach(System.out::println);
 
         return weightList;
     }

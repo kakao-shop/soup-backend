@@ -4,10 +4,7 @@
     <property name="LOG_PATH" value="${log.config.path}"/>
     <property name="LOG_FILE_NAME" value="${log.config.filename}"/>
 
-    <!-- appender는 출력을 담달. -->
-    <!--Tcp 통신하는 것 같고, 공식문서를 보니 비동기라고 함! -->
     <appender name="FLUENT" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <!-- 목적지 host:port-->
         <file>/var/log/containers/spring.log</file>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -20,24 +17,25 @@
             <providers>
                 <mdc />
                 <pattern>
-                    <!-- 아래와 같은 키밸류 타입이 들어가면서 나중에 키바나에서 찾기 수월함-->
-                    <pattern>{"serviceID":"logging"}</pattern>
+                    <pattern>{"serviceID":"Spring-search-service"}</pattern>
                 </pattern>
                 <timestamp />
                 <!--<version />-->
-                <context />
                 <logLevel />
+                <!-- 로그 레벨-->
                 <message />
+                <!-- 사용자 지정 메시지 -->
                 <loggerName />
-                <logstashMarkers />
+                <!-- 누가 로깅했는지-->
                 <stackTrace />
+                <!-- 호출 목록 -->
                 <callerData />
+                <!-- 클래스이름, 파일이름, 발생한 line, caller method name -->
             </providers>
         </encoder>
     </appender>
 
-    <!--kr.co.lsoft 는 패키지명 해당 패키지는 TRACE 레벨 이상이면, CONSOLE과 LOGSTASH 설정을 참고함. -->
-    <logger name="SOUP" level="DEBUG" additivity="false">
+    <logger name="SOUP" level="INFO" additivity="false">
         <appender-ref ref="CONSOLE" />
         <appender-ref ref="FLUENT" />
     </logger>
