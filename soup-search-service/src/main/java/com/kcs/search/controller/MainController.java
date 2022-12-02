@@ -31,7 +31,7 @@ public class MainController {
 
     @GetMapping("/search/main")
     public ResponseEntity<BaseResponse> searchMain() {
-        Pageable pageable = PageRequest.of(0, 10, Sort.by("createdAt").descending());
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("idx").descending());
         List<MainThemeResponse> themeList = collectionService.findThemeList(pageable);
         boolean isUserBest = searchService.isUserDataExist();
         List<Product> prdList;
