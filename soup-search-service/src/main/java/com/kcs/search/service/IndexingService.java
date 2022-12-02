@@ -81,7 +81,10 @@ public class IndexingService {
                         .field("type", "custom")
                         .field("tokenizer", "nori_tokenizer")
                         .endObject()
+                        .endObject()
+                        .endObject()
                         .endObject()), XContentType.JSON)
+
         );
     }
 }
