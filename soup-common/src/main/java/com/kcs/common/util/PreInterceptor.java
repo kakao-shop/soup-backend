@@ -9,16 +9,15 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.Map;
 
 @Component
+@Slf4j
 public class PreInterceptor implements HandlerInterceptor {
     private final Logger logger = LoggerFactory.getLogger("Interceptor logger");
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-        logger.info("{'URI':'"+request.getRequestURI() +"','"+  "RemoteIP':'"+  request.getRemoteHost()+ "'}");
+        log.info("{'URI':'"+request.getRequestURI() +"','"+  "RemoteIP':'"+  request.getRemoteHost()+ "'}");
 
         return true;
     }
