@@ -1,14 +1,13 @@
 <configuration>
 
     <include resource="org/springframework/boot/logging/logback/base.xml" />
-    <property name="LOG_PATH" value="${log.config.path}"/>
-    <property name="LOG_FILE_NAME" value="${log.config.filename}"/>
+
 
     <appender name="FLUENT" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>/var/log/containers/spring.log</file>
+        <file>./logs/spring3.log</file>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>application-%d{yyyy-MM-dd HH:mm}.log</fileNamePattern>
+            <fileNamePattern>application3-%d{yyyy-MM-dd HH:mm}.log</fileNamePattern>
             <totalSizeCap>1MB</totalSizeCap>
         </rollingPolicy>
 
@@ -35,10 +34,12 @@
         </encoder>
     </appender>
 
-    <logger name="SOUP" level="INFO" additivity="false">
+    <logger name="SOUP" level="INFO" >
         <appender-ref ref="CONSOLE" />
         <appender-ref ref="FLUENT" />
     </logger>
+
+
 
     <!-- TRACE > DEBUG > INFO > WARN > ERROR -->
     <root level="INFO">

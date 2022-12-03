@@ -5,7 +5,7 @@
     <property name="LOG_FILE_NAME" value="${log.config.filename}"/>
 
     <appender name="FLUENT" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>/var/log/containers/spring.log</file>
+        <file>./logs/spring.log</file>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>application-%d{yyyy-MM-dd HH:mm}.log</fileNamePattern>
@@ -36,7 +36,7 @@
         </encoder>
     </appender>
 
-    <logger name="SOUP" level="INFO" additivity="false">
+    <logger name="SOUP" level="INFO">
         <appender-ref ref="CONSOLE" />
         <appender-ref ref="FLUENT" />
     </logger>
