@@ -6,6 +6,7 @@ import com.kcs.common.entity.constant.Role;
 import com.kcs.common.entity.mysql.Member;
 import com.kcs.common.exception.PasswordConfirmException;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.validation.constraints.Size;
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 @Getter
+@Slf4j
 public class MemberCreateRequest {
 
     @Size(min = 5, max = 12, message = "ID 입력(5~12자)")
@@ -46,6 +48,7 @@ public class MemberCreateRequest {
 
     public Member toEntity() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        log.info("input to database: " + LocalDate.parse(birthday, formatter));
         return Member.builder()
                 .id(id)
                 .nickname(nickname)
