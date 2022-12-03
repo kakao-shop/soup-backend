@@ -1,0 +1,49 @@
+<configuration>
+
+    <include resource="org/springframework/boot/logging/logback/base.xml" />
+    <property name="LOG_PATH" value="${log.config.path}"/>
+    <property name="LOG_FILE_NAME" value="${log.config.filename}"/>
+
+    <appender name="FLUENT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/var/log/containers/spring.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>application-%d{yyyy-MM-dd HH:mm}.log</fileNamePattern>
+            <totalSizeCap>1MB</totalSizeCap>
+        </rollingPolicy>
+
+        <!-- JSON 인코딩-->
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <mdc />
+                <!-- mdc field -->
+                <pattern>
+                    <pattern>{"serviceID":"Spring-member-service"}</pattern>
+                </pattern>
+                <timestamp />
+                <!--<version />-->
+                <logLevel />
+                <!-- 로그 레벨-->
+                <message />
+                <!-- 사용자 지정 메시지 -->
+                <loggerName />
+                <!-- 누가 로깅했는지-->
+                <stackTrace />
+                <!-- 호출 목록 -->
+                <callerData />
+                <!-- 클래스이름, 파일이름, 발생한 line, caller method name -->
+            </providers>
+        </encoder>
+    </appender>
+
+    <logger name="SOUP" level="INFO" additivity="false">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FLUENT" />
+    </logger>
+
+    <!-- TRACE > DEBUG > INFO > WARN > ERROR -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FLUENT" />
+    </root>
+</configuration>
