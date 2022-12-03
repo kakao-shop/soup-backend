@@ -17,7 +17,7 @@ public class PreInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-        log.info("{'URI':'"+request.getRequestURI() +"','"+  "RemoteIP':'"+  request.getRemoteHost()+ "'}");
+        logger.info("{'URI':'"+request.getRequestURI() +"','"+  "RemoteIP':'"+  request.getRemoteHost()+ "'}");
 
         return true;
     }

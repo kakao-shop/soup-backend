@@ -39,6 +39,8 @@
         <appender-ref ref="FLUENT" />
     </logger>
 
+
+
     <!-- TRACE > DEBUG > INFO > WARN > ERROR -->
     <root level="INFO">
         <appender-ref ref="CONSOLE" />
