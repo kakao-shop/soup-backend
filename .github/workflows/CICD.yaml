@@ -48,9 +48,9 @@ jobs:
         run: |
           ./gradlew clean
           ./gradlew build 
-          ./gradlew :soup-admin-service:bootBuildImage --imageName $REGISTRY/$ADMIN_REPOSITORY:$IMAGE_TAG
-          ./gradlew :soup-member-service:bootBuildImage --imageName $REGISTRY/$MEMBER_REPOSITORY:$IMAGE_TAG
-          ./gradlew :soup-search-service:bootBuildImage --imageName $REGISTRY/$SEARCH_REPOSITORY:$IMAGE_TAG
+          ./gradlew :soup-admin-service:bootBuildImage --imageName $ECR_REGISTRY/$ECR_ADMIN_REPOSITORY:$IMAGE_TAG
+          ./gradlew :soup-member-service:bootBuildImage --imageName $ECR_REGISTRY/$ECR_MEMBER_REPOSITORY:$IMAGE_TAG
+          ./gradlew :soup-search-service:bootBuildImage --imageName $ECR_REGISTRY/$ECR_SEARCH_REPOSITORY:$IMAGE_TAG
           docker push $ECR_REGISTRY/$ECR_ADMIN_REPOSITORY:$IMAGE_TAG
           docker push $ECR_REGISTRY/$ECR_MEMBER_REPOSITORY:$IMAGE_TAG
           docker push $ECR_REGISTRY/$ECR_SEARCH_REPOSITORY:$IMAGE_TAG
