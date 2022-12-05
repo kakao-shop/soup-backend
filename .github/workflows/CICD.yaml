@@ -28,7 +28,7 @@ jobs:
       - name: BUILD soup-msa-service images and push image to dockerhub
         id: soup-msa-service_build
         env:
-          REGISTRY: 2214yj
+          REGISTRY: ${{ secrets.DOCKERHUB_USERNAME }}
           ADMIN_REPOSITORY: ${{ env.ADMIN_REPOSITORY }}
           MEMBER_REPOSITORY: ${{ env.MEMBER_REPOSITORY }}
           SEARCH_REPOSITORY: ${{ env.SEARCH_REPOSITORY }}
@@ -36,8 +36,11 @@ jobs:
           ./gradlew clean
           ./gradlew build 
           cd soup-admin-service
+          echo "1 step finished"
           docker build -t $REGISTRY/$ADMIN_REPOSITORY:$(date +%s) .
+          echo "1 step finished"
           docker push $REGISTRY/$ADMIN_REPOSITORY:$(date +%s)
+          echo "1 step finished"
           cd ../soup-member-service
           docker build -t $REGISTRY/$MEMBER_REPOSITORY:$(date +%s) .
           docker push $REGISTRY/$MEMBER_REPOSITORY:$(date +%s)
