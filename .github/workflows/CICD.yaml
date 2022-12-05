@@ -2,7 +2,7 @@ name: docker-light-images - test  # soup-msa-service CICD
 on:
   push:
     branches:
-      - test/docker-light-image
+      - test/docker-light-image-no-log
 
 env:
   ADMIN_REPOSITORY: soup-admin-service-no-log
