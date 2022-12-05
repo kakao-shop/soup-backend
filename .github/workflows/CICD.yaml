@@ -5,9 +5,9 @@ on:
       - test/docker-light-image
 
 env:
-  ADMIN_REPOSITORY: soup-admin-backend  # ECR 생성 필요
-  MEMBER_REPOSITORY: soup-member-backend  # ECR 생성 필요
-  SEARCH_REPOSITORY: soup-search-backend  # ECR 생성 필요
+  ADMIN_REPOSITORY: soup-admin-service
+  MEMBER_REPOSITORY: soup-member-service
+  SEARCH_REPOSITORY: soup-search-service
 jobs:
   build-and-push-image:
     runs-on: ubuntu-20.04
@@ -32,19 +32,18 @@ jobs:
           ADMIN_REPOSITORY: ${{ env.ADMIN_REPOSITORY }}
           MEMBER_REPOSITORY: ${{ env.MEMBER_REPOSITORY }}
           SEARCH_REPOSITORY: ${{ env.SEARCH_REPOSITORY }}
-          IMAGE_TAG: ${{ github.sha }}
         run: |
           ./gradlew clean
           ./gradlew build 
           cd soup-admin-service
-          docker build -t $REGISTRY/$ADMIN_REPOSITORY:$IMAGE_TAG .
-          docker push $REGISTRY/$ADMIN_REPOSITORY:$IMAGE_TAG
+          docker build -t $REGISTRY/$ADMIN_REPOSITORY:$(date +%s) .
+          docker push $REGISTRY/$ADMIN_REPOSITORY:$(date +%s)
           cd ../soup-member-service
-          docker build -t $REGISTRY/$MEMBER_REPOSITORY:$IMAGE_TAG .
-          docker push $REGISTRY/$MEMBER_REPOSITORY:$IMAGE_TAG
+          docker build -t $REGISTRY/$MEMBER_REPOSITORY:$(date +%s) .
+          docker push $REGISTRY/$MEMBER_REPOSITORY:$(date +%s)
           cd ../soup-search-service
-          docker build -t $REGISTRY/$SEARCH_REPOSITORY:$IMAGE_TAG .
-          docker push $REGISTRY/$SEARCH_REPOSITORY:$IMAGE_TAG
-          echo "::set-output name=image::$REGISTRY/$ADMIN_REPOSITORY:$IMAGE_TAG"
-          echo "::set-output name=image::$REGISTRY/$MEMBER_REPOSITORY:$IMAGE_TAG"
-          echo "::set-output name=image::$REGISTRY/$SEARCH_REPOSITORY:$IMAGE_TAG"
+          docker build -t $REGISTRY/$SEARCH_REPOSITORY:$(date +%s) .
+          docker push $REGISTRY/$SEARCH_REPOSITORY:$(date +%s)
+          echo "::set-output name=image::$REGISTRY/$ADMIN_REPOSITORY:$(date +%s)"
+          echo "::set-output name=image::$REGISTRY/$MEMBER_REPOSITORY:$(date +%s)"
+          echo "::set-output name=image::$REGISTRY/$SEARCH_REPOSITORY:$(date +%s)"
