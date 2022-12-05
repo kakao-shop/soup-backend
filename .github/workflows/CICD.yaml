@@ -1,14 +1,13 @@
-name: soup-msa-service - CI CD  # soup-msa-service CICD
+name: docker-light-images - test  # soup-msa-service CICD
 on:
   push:
     branches:
-      - develop
+      - test/docker-light-image
 
 env:
-  AWS_REGION: ap-northeast-2
-  ECR_ADMIN_REPOSITORY: soup-admin-backend  # ECR 생성 필요
-  ECR_MEMBER_REPOSITORY: soup-member-backend  # ECR 생성 필요
-  ECR_SEARCH_REPOSITORY: soup-search-backend  # ECR 생성 필요
+  ADMIN_REPOSITORY: soup-admin-backend  # ECR 생성 필요
+  MEMBER_REPOSITORY: soup-member-backend  # ECR 생성 필요
+  SEARCH_REPOSITORY: soup-search-backend  # ECR 생성 필요
 jobs:
   build-and-push-image:
     runs-on: ubuntu-20.04
@@ -19,57 +18,33 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+      - name: Login to DockerHub
+        id: login-dockerhub
+        uses: docker/login-action@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
-
-      - name: Move Repository
-        uses: actions/checkout@master
-        with:
-          repository: kakao-shop/manifest
-          token: ${{ secrets.ACTION_TOKEN }}
-          path: manifest
-
-      - name: BUILD soup-msa-service images and push image to Amazon ECR
+      - name: BUILD soup-msa-service images and push image to dockerhub
         id: soup-msa-service_build
         env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_ADMIN_REPOSITORY: ${{ env.ECR_ADMIN_REPOSITORY }}
-          ECR_MEMBER_REPOSITORY: ${{ env.ECR_MEMBER_REPOSITORY }}
-          ECR_SEARCH_REPOSITORY: ${{ env.ECR_SEARCH_REPOSITORY }}
+          REGISTRY: ${{ steps.login-dockerhub.outputs.registry }}
+          ADMIN_REPOSITORY: ${{ env.ADMIN_REPOSITORY }}
+          MEMBER_REPOSITORY: ${{ env.MEMBER_REPOSITORY }}
+          SEARCH_REPOSITORY: ${{ env.SEARCH_REPOSITORY }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
           ./gradlew clean
           ./gradlew build 
           cd soup-admin-service
-          docker build -t $ECR_REGISTRY/$ECR_ADMIN_REPOSITORY:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_ADMIN_REPOSITORY:$IMAGE_TAG
+          docker build -t $REGISTRY/$ADMIN_REPOSITORY:$IMAGE_TAG .
+          docker push $REGISTRY/$ADMIN_REPOSITORY:$IMAGE_TAG
           cd ../soup-member-service
-          docker build -t $ECR_REGISTRY/$ECR_MEMBER_REPOSITORY:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_MEMBER_REPOSITORY:$IMAGE_TAG
+          docker build -t $REGISTRY/$MEMBER_REPOSITORY:$IMAGE_TAG .
+          docker push $REGISTRY/$MEMBER_REPOSITORY:$IMAGE_TAG
           cd ../soup-search-service
-          docker build -t $ECR_REGISTRY/$ECR_SEARCH_REPOSITORY:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_SEARCH_REPOSITORY:$IMAGE_TAG
-          echo "::set-output name=image::$ECR_REGISTRY/$ECR_ADMIN_REPOSITORY:$IMAGE_TAG"
-          echo "::set-output name=image::$ECR_REGISTRY/$ECR_MEMBER_REPOSITORY:$IMAGE_TAG"
-          echo "::set-output name=image::$ECR_REGISTRY/$ECR_SEARCH_REPOSITORY:$IMAGE_TAG"
-
-      - name: Edit Manifest Image  # soup-admin-backend.yaml의 이미지 명을 수정하도록
-        run: |
-          cd manifest/ser-mgt/backend
-          dir
-          sed -i "26 c\          image: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_ADMIN_REPOSITORY }}:${{ github.sha }}" soup-admin-backend.yaml
-          sed -i "26 c\          image: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_MEMBER_REPOSITORY }}:${{ github.sha }}" soup-member-backend.yaml
-          sed -i "26 c\          image: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_SEARCH_REPOSITORY }}:${{ github.sha }}" soup-search-backend.yaml
-          git config --global user.email "myjjy6190@gmail.com"
-          git config --global user.name "jy_9922"
-          git add .
-          git commit -m "Edit soup msa services images"
-          git push -f --set-upstream origin main
+          docker build -t $REGISTRY/$SEARCH_REPOSITORY:$IMAGE_TAG .
+          docker push $REGISTRY/$SEARCH_REPOSITORY:$IMAGE_TAG
+          echo "::set-output name=image::$REGISTRY/$ADMIN_REPOSITORY:$IMAGE_TAG"
+          echo "::set-output name=image::$REGISTRY/$MEMBER_REPOSITORY:$IMAGE_TAG"
+          echo "::set-output name=image::$REGISTRY/$SEARCH_REPOSITORY:$IMAGE_TAG"
