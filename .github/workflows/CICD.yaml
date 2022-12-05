@@ -32,7 +32,7 @@ jobs:
           ADMIN_REPOSITORY: ${{ env.ADMIN_REPOSITORY }}
           MEMBER_REPOSITORY: ${{ env.MEMBER_REPOSITORY }}
           SEARCH_REPOSITORY: ${{ env.SEARCH_REPOSITORY }}
-          IMAGE_TAG: $IMAGE_TAG
+          IMAGE_TAG: $(date +%s)
         run: |
           ./gradlew clean
           ./gradlew build 
