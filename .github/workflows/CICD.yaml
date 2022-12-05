@@ -35,32 +35,18 @@ jobs:
         run: |
           ./gradlew clean
           ./gradlew build 
-#          cd soup-admin-service
-#          echo "1 step finished"
-#          docker build -t $REGISTRY/$ADMIN_REPOSITORY:$(date +%s) .
-#          echo "2 step finished"
-#          docker push $REGISTRY/$ADMIN_REPOSITORY:$(date +%s)
-#          echo "3 step finished"
-#          cd ../soup-member-service
-#          docker build -t $REGISTRY/$MEMBER_REPOSITORY:$(date +%s) .
-#          docker push $REGISTRY/$MEMBER_REPOSITORY:$(date +%s)
-#          cd ../soup-search-service
-#          docker build -t $REGISTRY/$SEARCH_REPOSITORY:$(date +%s) .
-#          docker push $REGISTRY/$SEARCH_REPOSITORY:$(date +%s)
-#          echo "::set-output name=image::$REGISTRY/$ADMIN_REPOSITORY:$(date +%s)"
-#          echo "::set-output name=image::$REGISTRY/$MEMBER_REPOSITORY:$(date +%s)"
-#          echo "::set-output name=image::$REGISTRY/$SEARCH_REPOSITORY:$(date +%s)"
-
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v1
-        with:
-          images: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.ADMIN_REPOSITORY }}
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v1
-        with:
-          context: ./soup-admin-service
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          cd soup-admin-service
+          echo "1 step finished"
+          docker build -t $REGISTRY/$ADMIN_REPOSITORY:$(date +%s) .
+          echo "2 step finished"
+          docker push $REGISTRY/$ADMIN_REPOSITORY:$(date +%s)
+          echo "3 step finished"
+          cd ../soup-member-service
+          docker build -t $REGISTRY/$MEMBER_REPOSITORY:$(date +%s) .
+          docker push $REGISTRY/$MEMBER_REPOSITORY:$(date +%s)
+          cd ../soup-search-service
+          docker build -t $REGISTRY/$SEARCH_REPOSITORY:$(date +%s) .
+          docker push $REGISTRY/$SEARCH_REPOSITORY:$(date +%s)
+          echo "::set-output name=image::$REGISTRY/$ADMIN_REPOSITORY:$(date +%s)"
+          echo "::set-output name=image::$REGISTRY/$MEMBER_REPOSITORY:$(date +%s)"
+          echo "::set-output name=image::$REGISTRY/$SEARCH_REPOSITORY:$(date +%s)"
