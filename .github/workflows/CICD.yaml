@@ -5,9 +5,9 @@ on:
       - test/docker-light-image
 
 env:
-  ADMIN_REPOSITORY: soup-admin-service
-  MEMBER_REPOSITORY: soup-member-service
-  SEARCH_REPOSITORY: soup-search-service
+  ADMIN_REPOSITORY: soup-admin-service-no-log
+  MEMBER_REPOSITORY: soup-member-service-no-log
+  SEARCH_REPOSITORY: soup-search-service-no-log
 jobs:
   build-and-push-image:
     runs-on: ubuntu-20.04
