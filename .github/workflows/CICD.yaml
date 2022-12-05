@@ -28,7 +28,7 @@ jobs:
       - name: BUILD soup-msa-service images and push image to dockerhub
         id: soup-msa-service_build
         env:
-          REGISTRY: ${{ steps.login-dockerhub.outputs.registry }}
+          REGISTRY: 2214yj
           ADMIN_REPOSITORY: ${{ env.ADMIN_REPOSITORY }}
           MEMBER_REPOSITORY: ${{ env.MEMBER_REPOSITORY }}
           SEARCH_REPOSITORY: ${{ env.SEARCH_REPOSITORY }}
