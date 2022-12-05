@@ -32,10 +32,11 @@ jobs:
           ADMIN_REPOSITORY: ${{ env.ADMIN_REPOSITORY }}
           MEMBER_REPOSITORY: ${{ env.MEMBER_REPOSITORY }}
           SEARCH_REPOSITORY: ${{ env.SEARCH_REPOSITORY }}
-          IMAGE_TAG: ${{ $(date +%s) }}
         run: |
           ./gradlew clean
           ./gradlew build 
+          IMAGE_TAG=$(date +%s)
+          echo $IMAGE_TAG
           cd soup-admin-service
           echo "1 step finished"
           docker build -t $REGISTRY/$ADMIN_REPOSITORY:$IMAGE_TAG .
