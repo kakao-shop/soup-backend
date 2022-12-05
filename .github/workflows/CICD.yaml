@@ -48,14 +48,11 @@ jobs:
         run: |
           ./gradlew clean
           ./gradlew build 
-          cd soup-admin-service
-          docker build -t $ECR_REGISTRY/$ECR_ADMIN_REPOSITORY:$IMAGE_TAG .
+          ./gradlew :soup-admin-service:bootBuildImage --imageName $REGISTRY/$ADMIN_REPOSITORY:$IMAGE_TAG
+          ./gradlew :soup-member-service:bootBuildImage --imageName $REGISTRY/$MEMBER_REPOSITORY:$IMAGE_TAG
+          ./gradlew :soup-search-service:bootBuildImage --imageName $REGISTRY/$SEARCH_REPOSITORY:$IMAGE_TAG
           docker push $ECR_REGISTRY/$ECR_ADMIN_REPOSITORY:$IMAGE_TAG
-          cd ../soup-member-service
-          docker build -t $ECR_REGISTRY/$ECR_MEMBER_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_MEMBER_REPOSITORY:$IMAGE_TAG
-          cd ../soup-search-service
-          docker build -t $ECR_REGISTRY/$ECR_SEARCH_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_SEARCH_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_ADMIN_REPOSITORY:$IMAGE_TAG"
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_MEMBER_REPOSITORY:$IMAGE_TAG"
