@@ -43,7 +43,7 @@ jobs:
           docker tag $REGISTRY/$ADMIN_REPOSITORY:$IMAGE_TAG $REGISTRY/$ADMIN_REPOSITORY:latest
           docker tag $REGISTRY/$MEMBER_REPOSITORY:$IMAGE_TAG $REGISTRY/$MEMBER_REPOSITORY:latest
           docker tag $REGISTRY/$SEARCH_REPOSITORY:$IMAGE_TAG $REGISTRY/$SEARCH_REPOSITORY:latest
-          docker push $REGISTRY/$ADMIN_REPOSITORY:$IMAGE_TAG
-          docker push $REGISTRY/$MEMBER_REPOSITORY:$IMAGE_TAG
-          docker push $REGISTRY/$SEARCH_REPOSITORY:$IMAGE_TAG
+          docker push $REGISTRY/$ADMIN_REPOSITORY:latest
+          docker push $REGISTRY/$MEMBER_REPOSITORY:latest
+          docker push $REGISTRY/$SEARCH_REPOSITORY:latest
 
