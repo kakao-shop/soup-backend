@@ -4,7 +4,7 @@
 
 
     <appender name="FLUENT" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>./logs/spring3.log</file>
+        <file>/var/log/containers/spring3.log</file>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>application3-%d{yyyy-MM-dd HH:mm}.log</fileNamePattern>

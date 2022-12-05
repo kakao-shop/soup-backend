@@ -36,19 +36,22 @@ jobs:
           ./gradlew clean
           ./gradlew build 
           IMAGE_TAG=$(date +%s)
-          echo $IMAGE_TAG
-          cd soup-admin-service
-          echo "1 step finished"
-          docker build -t $REGISTRY/$ADMIN_REPOSITORY:$IMAGE_TAG .
-          echo "2 step finished"
+          echo "new tag: ${IMAGE_TAG}"
+          ./gradlew :soup-admin-service:bootBuildImage --imageName $REGISTRY/$ADMIN_REPOSITORY:$IMAGE_TAG
+          ./gradlew :soup-member-service:bootBuildImage --imageName $REGISTRY/$MEMBER_REPOSITORY:$IMAGE_TAG
+          ./gradlew :soup-search-service:bootBuildImage --imageName $REGISTRY/$SEARCH_REPOSITORY:$IMAGE_TAG
           docker push $REGISTRY/$ADMIN_REPOSITORY:$IMAGE_TAG
-          echo "3 step finished"
-          cd ../soup-member-service
-          docker build -t $REGISTRY/$MEMBER_REPOSITORY:$IMAGE_TAG .
           docker push $REGISTRY/$MEMBER_REPOSITORY:$IMAGE_TAG
-          cd ../soup-search-service
-          docker build -t $REGISTRY/$SEARCH_REPOSITORY:$IMAGE_TAG .
           docker push $REGISTRY/$SEARCH_REPOSITORY:$IMAGE_TAG
-          echo "::set-output name=image::$REGISTRY/$ADMIN_REPOSITORY:$IMAGE_TAG"
-          echo "::set-output name=image::$REGISTRY/$MEMBER_REPOSITORY:$IMAGE_TAG"
-          echo "::set-output name=image::$REGISTRY/$SEARCH_REPOSITORY:$IMAGE_TAG"
+#          cd soup-admin-service
+#          docker build -t $REGISTRY/$ADMIN_REPOSITORY:$IMAGE_TAG .
+#          docker push $REGISTRY/$ADMIN_REPOSITORY:$IMAGE_TAG
+#          cd ../soup-member-service
+#          docker build -t $REGISTRY/$MEMBER_REPOSITORY:$IMAGE_TAG .
+#          docker push $REGISTRY/$MEMBER_REPOSITORY:$IMAGE_TAG
+#          cd ../soup-search-service
+#          docker build -t $REGISTRY/$SEARCH_REPOSITORY:$IMAGE_TAG .
+#          docker push $REGISTRY/$SEARCH_REPOSITORY:$IMAGE_TAG
+#          echo "::set-output name=image::$REGISTRY/$ADMIN_REPOSITORY:$IMAGE_TAG"
+#          echo "::set-output name=image::$REGISTRY/$MEMBER_REPOSITORY:$IMAGE_TAG"
+#          echo "::set-output name=image::$REGISTRY/$SEARCH_REPOSITORY:$IMAGE_TAG"
