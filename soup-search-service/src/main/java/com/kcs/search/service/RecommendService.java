@@ -102,8 +102,47 @@ public class RecommendService {
         }
         // 서브 카테고리 / 개수 검색
         List<Product> productList = getProductList(subcatMap);
+        if (productList.size() < 10) {
+            int rest = 10 - productList.size();
+            productList = getRestItem(productList,rest);
+        }
+
+
         return productList;
     }
+
+    private List<Product> getRestItem(List<Product> productList, int rest) {
+        System.out.println("rest item");
+        Pageable pageable = PageRequest.of(0, rest, Sort.by("score").descending());
+        List<Product> restList = productRepository.findAll(pageable).toList();
+        int cnt =0;
+        for (Product newProduct : restList) {
+            for (Product product : productList) {
+                if (newProduct.getWebUrl() == product.getWebUrl()) {
+                    cnt +=1;
+                    break;
+                }
+
+            }
+            productList.add(newProduct);
+        }
+
+        getRestDuplicate(productList, cnt);
+        return productList;
+
+    }
+
+    private void getRestDuplicate(List<Product> productList, int cnt) {
+        if (cnt != 0) {
+            List<Product> restList2;
+            Pageable pageable2 = PageRequest.of(0, cnt, Sort.by("score").descending());
+            restList2 = productRepository.findAll(pageable2).toList();
+            for (Product product : restList2) {
+                productList.add(product);
+            }
+        }
+    }
+
 
     public List<SelectItemLog> getSelectItemTop10RecentlyByMemberidx(Long memberidx) {
         Sort sort = sortByRecent();
