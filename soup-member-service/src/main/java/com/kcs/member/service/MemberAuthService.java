@@ -37,19 +37,15 @@ public class MemberAuthService {
     @Transactional
     public LoginResponse login(LoginRequest request) {
         Member findMember = validateMemberExist(request.getId());
-        System.out.println("1: birthday is "+findMember.getBirthday());
         if (findMember.isSamePassword(request.getPassword())) {
             throw new NoSuchMemberExistException();
         }
-        System.out.println("2: birthday is "+findMember.getBirthday());
         Map<String, Object> claims = Map.of("memberIdx", findMember.getMemberIdx(), "role", findMember.getRole());
         String accessToken = jwtTokenProvider.createToken(claims);
         String refreshToken = UUID.randomUUID().toString();
-        System.out.println("3: birthday is "+findMember.getBirthday());
         MemberTokenInfo memberTokenInfo = MemberTokenInfo.of(accessToken, refreshToken, findMember);
         saveToken(memberTokenInfo);
         findMember.updateAccessInfo();
-        System.out.println("4: birthday is "+findMember.getBirthday());
         return LoginResponse.from(memberTokenInfo);
     }
 

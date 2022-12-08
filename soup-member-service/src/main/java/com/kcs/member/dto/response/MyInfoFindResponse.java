@@ -21,7 +21,6 @@ public class MyInfoFindResponse {
     private Gender gender;
 
     public static MyInfoFindResponse from(Member member) {
-        log.info("input from database: " + String.valueOf(member.getBirthday()));
         return MyInfoFindResponse.builder()
                 .id(member.getId())
                 .nickname(member.getNickname())

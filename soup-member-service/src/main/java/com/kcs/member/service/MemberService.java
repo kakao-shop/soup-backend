@@ -18,7 +18,6 @@ public class MemberService {
 
     @Transactional
     public void createMember(MemberCreateRequest memberCreateRequest) {
-        System.out.println("입력받은 생일: "+ memberCreateRequest.getBirthday());
         validateDuplicatedId(memberCreateRequest.getId());
         memberCreateRequest.encryptPassword(memberCreateRequest.getPassword());
         memberRepository.save(memberCreateRequest.toEntity());

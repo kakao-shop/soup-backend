@@ -57,8 +57,6 @@ public class Member extends BaseTImeEntity {
     }
 
     public void updateAccessInfo() {
-        System.out.println("update 실행됨.");
-        System.out.println("birthday: "+this.birthday);
         this.totalAccessCnt += 1;
         this.lastAccessTime = LocalDateTime.now();
     }
