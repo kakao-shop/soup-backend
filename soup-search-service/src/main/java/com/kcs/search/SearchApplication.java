@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 import javax.annotation.PostConstruct;
+import java.util.Date;
 import java.util.TimeZone;
 
 
@@ -18,8 +19,9 @@ import java.util.TimeZone;
 public class SearchApplication {
 
     @PostConstruct
-    void started() {
+    public void started() {
         TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
+        System.out.println("현재 시간: "+ new Date());
     }
 
     public static void main(String[] args) {
