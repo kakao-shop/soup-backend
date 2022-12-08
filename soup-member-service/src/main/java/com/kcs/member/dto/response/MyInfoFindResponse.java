@@ -25,7 +25,7 @@ public class MyInfoFindResponse {
         return MyInfoFindResponse.builder()
                 .id(member.getId())
                 .nickname(member.getNickname())
-                .birthday(String.valueOf(member.getBirthday()))
+                .birthday(member.getBirthday())
                 .gender(member.getGender())
                 .build();
     }

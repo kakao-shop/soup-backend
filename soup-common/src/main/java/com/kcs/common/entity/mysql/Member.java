@@ -33,7 +33,8 @@ public class Member extends BaseTImeEntity {
 
     private String password;
 
-    private LocalDate birthday;
+    @Column(length = 10)
+    private String birthday;
 
     @Column(length = 2)
     @Enumerated(EnumType.STRING)

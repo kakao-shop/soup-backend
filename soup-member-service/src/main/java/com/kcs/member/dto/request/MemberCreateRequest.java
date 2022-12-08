@@ -53,7 +53,7 @@ public class MemberCreateRequest {
                 .id(id)
                 .nickname(nickname)
                 .password(password)
-                .birthday(LocalDate.parse(birthday, formatter))
+                .birthday(String.valueOf(LocalDate.parse(birthday, formatter)))
                 .gender(Gender.valueOf(gender))
                 .role(Role.valueOf(role))
                 .oauth(Oauth.valueOf(oauth))

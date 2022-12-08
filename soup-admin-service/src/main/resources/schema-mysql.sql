@@ -5,7 +5,7 @@ create table if not exists member
     id               varchar(20)  not null,
     password         varchar(255) not null,
     nickname         varchar(10)  not null,
-    birthday         date         not null,
+    birthday         varchar(10)  not null,
     gender           varchar(2)   not null,
     role             varchar(10)  not null default 'USER',
     oauth            varchar(10)  not null default 'ORIGIN',

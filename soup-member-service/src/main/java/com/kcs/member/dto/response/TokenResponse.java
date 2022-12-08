@@ -8,8 +8,4 @@ import lombok.Getter;
 public class TokenResponse {
     private String accessToken;
     private String refreshToken;
-
-    public void setRefreshToken(String refreshToken) {
-        this.refreshToken = refreshToken;
-    }
 }
