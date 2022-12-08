@@ -51,8 +51,6 @@ public class IndexingService {
             logger.error(String.valueOf(e));
         }
 
-
-        System.out.println("?");
         try {
             CreateIndexResponse createIndexResponse = elasitcConfig.client().indices().create(request, RequestOptions.DEFAULT);
             logger.info("create index : " + createIndexResponse.index());
